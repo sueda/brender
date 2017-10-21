@@ -1,5 +1,4 @@
 #include "ObjExportManager.h"
-
 #include "ObjExportable.h"
 
 using namespace std;
@@ -57,7 +56,7 @@ namespace brender {
 			//obj name
 			//if object has not been given name
 			if (strcmp(checkname, "") == 0) {
-				outfile << "# name Object" + to_string(objNum) + " \n";
+				outfile << "# name Object " + to_string(objNum) + " \n";
 			}
 			//if object has been given specific name
 			else {
