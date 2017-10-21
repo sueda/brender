@@ -1,3 +1,9 @@
+/*
+ * @author: Gustavo Lopez 10-21-17
+ *
+ * @version: 2.2.0
+ */
+
 #pragma once
 #include <fstream>
 #include <string>
