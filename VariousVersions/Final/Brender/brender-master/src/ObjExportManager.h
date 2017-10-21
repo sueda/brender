@@ -16,7 +16,7 @@ namespace brender {
 	public:
 		static ObjExportManager* getInstance();
 		///Ask about this
-		///void setExportDir(std::string export_dir);
+		void setExportDir(std::string export_dir);
 		int getFrame();
 		void exportObjs();									//does not require/use timestamp
 		void exportObjs(double time);
@@ -31,7 +31,7 @@ namespace brender {
 		static ObjExportManager *manager;
 		int frame;
 		///ASK SENSEI ABOUT CREATING THIS AND ITS FUNCTION
-		//std::string EXPORT_DIR = "";				
+		std::string EXPORT_DIR = ".";				
 
 		std::vector<std::shared_ptr<ObjExportable>> objExportables;
 		ObjExportManager()

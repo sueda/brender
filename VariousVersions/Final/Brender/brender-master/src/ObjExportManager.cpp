@@ -1,50 +1,18 @@
-#pragma once
+#include "ObjExportManager.h"
 
-#ifndef OBJEXPORTMANAGER_H
-#define OBJEXPORTMANAGER_H
+#include "ObjExportable.h"
 
-#include <fstream>
-#include <chrono>
-#include <vector>
-#include <memory>
-#include <string>
-#include <iostream>
+using namespace std;
 
-namespace Brender {
+namespace brender {
 
-	class ObjExportable;
-
-	class ObjExportManager {
-	public:
-		static ObjExportManager* getInstance();
-		int getFrame();
-		void exportObjs(); //does not use timestamp
-		void exportObjs(double time);
-		void add(std::shared_ptr<ObjExportable> exportable);
-		~ObjExportManager()
-		{
-			instanceFlag = false;
-		}
-	private:
-		static bool instanceFlag;
-		static ObjExportManager *manager;
-		int frame;
-		std::vector<std::shared_ptr<ObjExportable>> objexportables;
-		ObjExportManager()
-		{
-			//private constructor
-			frame = 0;
-		}
-	}
 	bool ObjExportManager::instanceFlag = false;
 	ObjExportManager* ObjExportManager::manager = NULL;
-
 	ObjExportManager* ObjExportManager::getInstance()
 	{
 		if (!instanceFlag)
 		{
 			manager = new ObjExportManager();
-			//manager = make_shared<ObjExportManager>();
 			instanceFlag = true;
 			return manager;
 		}
@@ -60,23 +28,25 @@ namespace Brender {
 	}
 
 	void ObjExportManager::exportObjs()
-	{	
+	{
 		int objNum = 1;
 		for (auto objExportable : objExportables) {
 			ofstream outfile;
-			
+
 			char filename[50];
 			const char* checkname = objExportable->getObjName().c_str();
 			//if object has not been given name
 			if (strcmp(checkname, "") == 0) {
-				sprintf(filename, "../resources/testfolder3/%06d_Object%d.obj", frame, objNum);
+				sprintf(filename, "../resources/testfolder/%06d_Object%d.obj", frame, objNum);
+				//sprintf(filename, "../%06d_Object%d.obj", frame, objNum);
 			}
 			//if object has been given specific name
 			else {
 				std::string objname_str = objExportable->getObjName();
 				char* objname_char = new char[objname_str.length() + 1];
 				strcpy(objname_char, objname_str.c_str());
-				sprintf(filename, "../resources/testfolder3/%06d_%s.obj", frame, objname_char);
+				sprintf(filename, "../resources/testfolder/%06d_%s.obj", frame, objname_char);
+				//sprintf(filename, "../%06d_%s.obj", frame, objname_char);
 			}
 			//open file
 			outfile.open(filename);
@@ -108,11 +78,14 @@ namespace Brender {
 			ofstream outfile;
 
 			char filename[100];
-			
+
 			const char* checkname = objExportable->getObjName().c_str();
 			//if object has not been given name
-			if (strcmp(checkname, "") == 0 ){	
+			if (strcmp(checkname, "") == 0) {
 				sprintf(filename, "../resources/testfolder3/%06d_Object%d.obj", frame, objNum);
+				//sprintf(filename, "../%06d_Object%d.obj", frame, objNum);
+				//sprintf(filename, "C:/Users/glope/OneDrive/__ProjectX/Demo10 - 19 - 17/L18/resources/testfolder3/%06d_Object%d.obj", frame, objNum);
+			
 			}
 			//if object has been given specific name
 			else {
@@ -120,7 +93,7 @@ namespace Brender {
 				char* objname_char = new char[objname_str.length() + 1];
 				strcpy(objname_char, objname_str.c_str());
 				sprintf(filename, "../resources/testfolder3/%06d_%s.obj", frame, objname_char);
-			}
+				}
 			//open file
 			outfile.open(filename);
 			//frame string
@@ -153,6 +126,9 @@ namespace Brender {
 		objExportables.push_back(exportable);
 	}
 
+	void ObjExportManager::setExportDir(std::string export_dir) 
+	{
+		EXPORT_DIR = export_dir;
+	}
 }
 
-#endif	// OBJEXPORTABLE_H
