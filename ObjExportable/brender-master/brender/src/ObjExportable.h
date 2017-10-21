@@ -2,19 +2,16 @@
 #include <fstream>
 #include <string>
 #include <memory>
-//#include "ObjExportManager.h"
+#include "ObjExportManager.h"
 
-namespace brender
+
+class ObjExportable
 {
-	class ObjExportable
-	{
-	public:
-		ObjExportable() {};
-		virtual ~ObjExportable() {}
-		virtual void exportObj(std::ofstream& outfile) = 0;	//=0 makes method pure virtual
-															//also makes this class abstract
-		virtual std::string getObjName() { return ""; }
-	private:
+public:
+	ObjExportable() {};
+	virtual ~ObjExportable() {}
+	virtual void exportObj(std::ofstream& outfile) = 0;	//pure virtual (must be overwritten)
+	virtual std::string getObjName() { return ""; }
+private:
 
-	};
-}
+};

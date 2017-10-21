@@ -8,11 +8,7 @@
 #define EIGEN_DONT_ALIGN_STATICALLY
 #include <Eigen/Dense>
 
-//#include <brender/ObjExportManager.h>
 #include <ObjExportManager.h>
-//#include <brender/instance.h>
-//#include <brender/ObjExportManager.h>
-
 
 class Cloth;
 class Particle;
@@ -48,9 +44,7 @@ private:
 	std::shared_ptr<Cloth> cloth;
 	std::vector< std::shared_ptr<Particle> > spheres;
 
-	//Brender::ObjExportManager *exportables;
-	///std::shared_ptr<Brender::ObjExportManager> exportables;
-	brender::ObjExportManager exportables;
+	ObjExportManager *exportables;
 };
 
 #endif

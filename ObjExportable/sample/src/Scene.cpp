@@ -7,8 +7,6 @@
 #include "Shape.h"
 #include "Program.h"
 
-//#include <Brender/ObjExportManager.h>
-
 using namespace std;
 using namespace Eigen;
 
@@ -50,16 +48,19 @@ void Scene::load(const string &RESOURCE_DIR)
 	sphere->r = 0.1;
 	sphere->x = Vector3d(0.0, 0.2, 0.0);
 
-	//exportables = make_shared<Brender::ObjExportManager>();
 }
 
 void Scene::init()
 {
 	sphereShape->init();
 	cloth->init();
-	///-------------------------------------------------------
-	///exportables->getInstance();
-	///exportables->add(cloth);
+	exportables = ObjExportManager::getInstance();
+	/*
+	 * Edit the following commented line to choose a specific
+	 * file path for the exported obj files
+	 */
+	//exportables->setExportDir("EXPORT/PATH/FOLDER NAME");
+	exportables->add(cloth);
 }
 
 void Scene::tare()
