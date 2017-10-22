@@ -45,7 +45,7 @@ How to setup the Brender package to be used with the sample.
 
 ### Understanding and Using ObjExportables
 
-The Brender package includes two special classes called **ObjExportables** and **ObjExportManagers**. `ObjExportable.h` is a parent class with a set of functions that must be overwritten by the inheriting class to function. *ObjExportables* are how we refer to the objects we want to export. In the sample code, we are exporting a cloth (defined in `Cloth.h`). *ObjExportManagers* are how we refer to and manipulate our objects in a given scene we wish to export. `ObjExportManager.h` is a singleton class that manages the exports throughout your project animation.
+   The Brender package includes two special classes called **ObjExportables** and **ObjExportManager**. `ObjExportable.h` is a parent class with a set of functions that must be overwritten by the inheriting class to function. *ObjExportables* are how we refer to the objects we want to export. In the sample code, we are exporting a cloth (defined in `Cloth.h`). *ObjExportManagers* are how we refer to and manipulate our objects in a given scene we wish to export. `ObjExportManager.h` is a singleton class that manages the exports throughout your project animation.
 
 #### ObjExportable 
 
@@ -55,7 +55,7 @@ ObjExportable consists of two main functions.
 
 ##### In our Sample Code
 
-1. Cloth.h
+1. **Cloth.h**
 	Because Cloth is the object we want to export, we start by setting the Cloth class to inherit the ObjExportable class
 	```cpp
 	19	class Cloth : public ObjExportable
@@ -65,7 +65,7 @@ ObjExportable consists of two main functions.
 	45	void exportObj(std::ofstream& outfile);
 	46	std::string getObjName();
 	```
-2. Cloth.cpp
+2. **Cloth.cpp**
 	In the function `exportObj`(lines 438-473) the user defines how thier OpenGl Object is translated into an .obj format. Note: ObjExportManager handles the file naming and exporting.
 	In the function `getObjName` the user is simply defining a desired object name as a string and returning the value.
 
@@ -79,12 +79,12 @@ ObjExportManager consists of a few functions that somplify the process of export
 
 ##### In our Sample Code
 
-1. Scene.h
+1. **Scene.h**
 	* In scene, we add the private variable pointer "exportables"
 	```cpp
 	47	ObjExportManager *exportables;
 	```
-2. Scene.cpp
+2. **Scene.cpp**
   * In the `init()` function, we initiate the manager singleton by getting the instance
 	```cpp
 	57	exportables = ObjExportManager::getInstance();
