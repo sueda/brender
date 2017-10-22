@@ -3,6 +3,14 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 # Name of the project
 PROJECT(sample)
 
+# FOR LAB MACHINES ONLY!
+# DO NOT EDIT
+SET(DEF_DIR_GLM "C:\\c++\\glm")
+SET(DEF_DIR_GLFW "C:\\c++\\glfw-3.2.1")
+SET(DEF_DIR_GLEW "C:\\c++\\glew-2.0.0")
+SET(DEF_DIR_EIGEN "C:\\c++\\eigen-eigen-f562a193118d")
+SET(DEF_DIR_BRENDER "C:\\c++\\brender-2.1.0\ObjExportable")
+
 # Use glob to get the list of all source files.
 # We don't really need to include header and resource files to build, but it's
 # nice to have them also show up in IDEs.

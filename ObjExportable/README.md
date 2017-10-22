@@ -4,83 +4,101 @@ Author: Gustavo Lopez
 Date:	10-21-2017
 Version: 2.2.0
 ```
-project description
+----project description--UnderConstruction------
+Brender is a c++ and python package that works in conjunction with OpenGL. The goal is to provide a simple library to export OpenGL animations as .obj files and then import this set into Blender(an open source 3D creation suite) as an editable animation.
 
 ## Getting Started
 
-These instructions will help you get a copy of the Brender package on your machine for development and testing.
-The following assumes that you already have OpenGL, GLM, GLFW, and GLEW libraries installed.
+These instructions will help you get a copy of the Brender package on your machine for development and testing your OpenGL animations.
 
-### Setup
+### Prerequisites
 
-A step by step series of examples that tell you have to get a development env running
+What things you will need installed on your system before using Brender and its sample code.
 
-Set Environment Variable
+1. The following Libraries are used in the sample code. Get the source code for each.
 
-```
-Variable Name: BRENDER_DIR
-Variable Value: /<path to package download>/ObjExportable/brender-master/brender
-```
+GLM (http://glm.g-truc.net)
+GLFW (http://www.glfw.org)
+GLEW (http://glew.sourceforge.net): (for windows: get the windows binaries)
+EIGEN (http://eigen.tuxfamily.org)
 
-And repeat
+2. Set up the Environment Variables. (This ensures that the sample code will be made properly)
 
-```
-until finished
-```
+Set `GLM_INCLUDE_DIR` to `/path/to/GLM`
+Set `GLFW_DIR` to `/path/to/GLFW`
+Set `GLEW_DIR` to `/path/to/GLEW`
+Set `EIGEN3_INCLUDE_DIR` to `/path/to/EIGEN`
 
-End with an example of getting some data out of the system or using it for a little demo
+3. Cmake is used to build the projects using the included CMakeLists.txt file.
 
-## Running the tests
+### Brender Setup and Sample Run
 
-Explain how to run the automated tests for this system
+How to setup the Brender package to be used with the sample.
 
-### Break down into end to end tests
+1. Set Environment Variable
 
-Explain what these tests test and why
+Set `BRENDER_DIR` to `path/to/ObjExportable/brender-master/brender`
 
-```
-Give an example
-```
+2. Run Cmake and set where the source code is to the `/path/to/sample` folder. Set where to build the binaries to `/path/to/sample/build`. This will create a build folder in the sample directory to store the binaries.
 
-### And coding style tests
+3. You can now run build and run the project.
 
-Explain what these tests test and why
+### Understanding and Using ObjExportables
 
-```
-Give an example
-```
+The Brender package includes two special classes called ObjExportables and ObjExportManagers. ObjExportable.h is a parent class with a set of functions that must be overwritten by the inheriting class to function. ObjExportables are how we refer to the objects we want to export. In the sample code, we are exporting a cloth (defined in cloth.h). ObjExportManagers are how we refer to and manipulate our objects in a given scene we wish to export. ObjExportManager.h is a singleton class that manages the exports throughout your project animation.
 
-## Deployment
+#### ObjExportable 
 
-Add additional notes about how to deploy this on a live system
+ObjExportable consists of two main functions.
+   `exportObj(std::ofstream& outfile)` is a pure virtual function and must be overwritten by the user's inherited class. This should be a user defined function that exports the user-defined object as an .obj file.
+   `getObjName()` If this function is not overwritten, each object that is exported will have a default name Object1, Object2, etc. You can overwrite this function in the inherited class to return a custom object name.
 
-## Built With
+##### In our Sample Code
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+1. Cloth.h
+	Because Cloth is the object we want to export, we start by setting the Cloth class to inherit the ObjExportable class
+	```
+	19	class Cloth : public ObjExportable
+	```
+	Within the Cloth Class, we will add our derived functions that we are overwriting
+	```
+	45	void exportObj(std::ofstream& outfile);
+	46	std::string getObjName();
+	```
+2. Cloth.cpp
+	In the function `exportObj`(lines 438-473) the user defines how thier OpenGl Object is translated into an .obj format. Note: ObjExportManager handles the file naming and exporting.
+	In the function `getObjName` the user is simply defining a desired object name as a string and returning the value.
 
-## Contributing
+#### ObjExportManager
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+ObjExportManager consists of a few functions that somplify the process of exporting our objects. ObjExportManager is a singleton class and can contain multiple objects to export.
+	`setExportDir(std::string export_dir)` This function takes a string as an input to set the export path you'd like for your files. The default export path is "."
+	`add(shared_ptr<ObjExportable exportable>)` This function adds an object to the manager to later be exported using the manager's functions.
+	`exportObjs(double time)` This function iterates through all objects added to the manager and exports the according .obj file. The file name is the frame number followed by the object's name. The header of each file contains the commented information: object name, frame time, and frame number.
+	`exportObjs()` This function does the same as the above, however it does not utilize or export the frame time (defined by the user's scene).
 
-## Versioning
+##### In our Sample Code
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc
+1. Scene.h
+	In scene, we add the private variable pointer "exportables"
+	```
+	47	ObjExportManager *exportables;
+	```
+2. Scene.cpp
+	*In the `init()` function, we initiate the manager singleton by getting the instance
+	```
+	57	exportables = ObjExportManager::getInstance();
+	```
+	We also can set the export directory if we choose to here (commented out in sample)
+	```
+	62	//exportables->setExportDir("EXPORT/PATH/FOLDER NAME");
+	```
+	Lastly, in the `init()` function, we add the object we wish to export (cloth) into the manager
+	```
+	63	exportables->add(cloth);
+	```
+	*In the `step()` function (the function where the frame steps), we export our objects using the manager
+	```
+	101	exportables->exportObjs(t);
+	```
 
