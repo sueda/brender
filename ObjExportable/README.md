@@ -17,19 +17,19 @@ What things you will need installed on your system before using Brender and its 
 
 1. The following Libraries are used in the sample code. Get the source code for each.
 
-GLM (http://glm.g-truc.net)
-GLFW (http://www.glfw.org)
-GLEW (http://glew.sourceforge.net): (for windows: get the windows binaries)
-EIGEN (http://eigen.tuxfamily.org)
+  * **GLM** (http://glm.g-truc.net)
+  * **GLFW** (http://www.glfw.org)
+  * **GLEW** (http://glew.sourceforge.net): (for windows: get the windows binaries)
+  * **EIGEN** (http://eigen.tuxfamily.org)
 
 2. Set up the Environment Variables. (This ensures that the sample code will be made properly)
 
-Set `GLM_INCLUDE_DIR` to `/path/to/GLM`
-Set `GLFW_DIR` to `/path/to/GLFW`
-Set `GLEW_DIR` to `/path/to/GLEW`
-Set `EIGEN3_INCLUDE_DIR` to `/path/to/EIGEN`
+  * Set `GLM_INCLUDE_DIR` to `/path/to/GLM`
+  * Set `GLFW_DIR` to `/path/to/GLFW`
+  * Set `GLEW_DIR` to `/path/to/GLEW`
+  * Set `EIGEN3_INCLUDE_DIR` to `/path/to/EIGEN`
 
-3. Cmake is used to build the projects using the included CMakeLists.txt file.
+3. **Cmake** (https://cmake.org/download/) is used to build the projects using the included `CMakeLists.txt` file.
 
 ### Brender Setup and Sample Run
 
@@ -37,7 +37,7 @@ How to setup the Brender package to be used with the sample.
 
 1. Set Environment Variable
 
-Set `BRENDER_DIR` to `path/to/ObjExportable/brender-master/brender`
+   Set `BRENDER_DIR` to `path/to/ObjExportable/brender-master/brender`
 
 2. Run Cmake and set where the source code is to the `/path/to/sample` folder. Set where to build the binaries to `/path/to/sample/build`. This will create a build folder in the sample directory to store the binaries.
 
@@ -45,7 +45,7 @@ Set `BRENDER_DIR` to `path/to/ObjExportable/brender-master/brender`
 
 ### Understanding and Using ObjExportables
 
-The Brender package includes two special classes called ObjExportables and ObjExportManagers. ObjExportable.h is a parent class with a set of functions that must be overwritten by the inheriting class to function. ObjExportables are how we refer to the objects we want to export. In the sample code, we are exporting a cloth (defined in cloth.h). ObjExportManagers are how we refer to and manipulate our objects in a given scene we wish to export. ObjExportManager.h is a singleton class that manages the exports throughout your project animation.
+The Brender package includes two special classes called **ObjExportables** and **ObjExportManagers**. `ObjExportable.h` is a parent class with a set of functions that must be overwritten by the inheriting class to function. *ObjExportables* are how we refer to the objects we want to export. In the sample code, we are exporting a cloth (defined in `Cloth.h`). *ObjExportManagers* are how we refer to and manipulate our objects in a given scene we wish to export. `ObjExportManager.h` is a singleton class that manages the exports throughout your project animation.
 
 #### ObjExportable 
 
@@ -57,11 +57,11 @@ ObjExportable consists of two main functions.
 
 1. Cloth.h
 	Because Cloth is the object we want to export, we start by setting the Cloth class to inherit the ObjExportable class
-	```
+	```cpp
 	19	class Cloth : public ObjExportable
 	```
 	Within the Cloth Class, we will add our derived functions that we are overwriting
-	```
+	```cpp
 	45	void exportObj(std::ofstream& outfile);
 	46	std::string getObjName();
 	```
@@ -80,24 +80,24 @@ ObjExportManager consists of a few functions that somplify the process of export
 ##### In our Sample Code
 
 1. Scene.h
-	In scene, we add the private variable pointer "exportables"
-	```
+	* In scene, we add the private variable pointer "exportables"
+	```cpp
 	47	ObjExportManager *exportables;
 	```
 2. Scene.cpp
-  *In the `init()` function, we initiate the manager singleton by getting the instance
-	```
+  * In the `init()` function, we initiate the manager singleton by getting the instance
+	```cpp
 	57	exportables = ObjExportManager::getInstance();
 	```
 	We also can set the export directory if we choose to here (commented out in sample)
-	```
+	```cpp
 	62	//exportables->setExportDir("EXPORT/PATH/FOLDER NAME");
 	```
 	Lastly, in the `init()` function, we add the object we wish to export (cloth) into the manager
-	```
+	```cpp
 	63	exportables->add(cloth);
 	```
-  *In the `step()` function (the function where the frame steps), we export our objects using the manager
-	```
+  * In the `step()` function (the function where the frame steps), we export our objects using the manager
+	```cpp
 	101	exportables->exportObjs(t);
 	```
