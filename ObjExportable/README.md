@@ -85,7 +85,7 @@ ObjExportManager consists of a few functions that somplify the process of export
 	47	ObjExportManager *exportables;
 	```
 2. Scene.cpp
-	*In the `init()` function, we initiate the manager singleton by getting the instance
+  *In the `init()` function, we initiate the manager singleton by getting the instance
 	```
 	57	exportables = ObjExportManager::getInstance();
 	```
@@ -97,8 +97,7 @@ ObjExportManager consists of a few functions that somplify the process of export
 	```
 	63	exportables->add(cloth);
 	```
-	*In the `step()` function (the function where the frame steps), we export our objects using the manager
+  *In the `step()` function (the function where the frame steps), we export our objects using the manager
 	```
 	101	exportables->exportObjs(t);
 	```
-
