@@ -50,8 +50,8 @@ How to setup the Brender package to be used with the sample.
 #### ObjExportable 
 
 ObjExportable consists of two main functions.
-   `exportObj(std::ofstream& outfile)` is a pure virtual function and must be overwritten by the user's inherited class. This should be a user defined function that exports the user-defined object as an .obj file.
-   `getObjName()` If this function is not overwritten, each object that is exported will have a default name Object1, Object2, etc. You can overwrite this function in the inherited class to return a custom object name.
+   - `exportObj(std::ofstream& outfile)` is a pure virtual function and must be overwritten by the user's inherited class. This should be a user defined function that exports the user-defined object as an .obj file.
+   - `getObjName()` If this function is not overwritten, each object that is exported will have a default name Object1, Object2, etc. You can overwrite this function in the inherited class to return a custom object name.
 
 ##### In our Sample Code
 
@@ -71,11 +71,11 @@ ObjExportable consists of two main functions.
 
 #### ObjExportManager
 
-ObjExportManager consists of a few functions that somplify the process of exporting our objects. ObjExportManager is a singleton class and can contain multiple objects to export.
-	`setExportDir(std::string export_dir)` This function takes a string as an input to set the export path you'd like for your files. The default export path is "."
-	`add(shared_ptr<ObjExportable exportable>)` This function adds an object to the manager to later be exported using the manager's functions.
-	`exportObjs(double time)` This function iterates through all objects added to the manager and exports the according .obj file. The file name is the frame number followed by the object's name. The header of each file contains the commented information: object name, frame time, and frame number.
-	`exportObjs()` This function does the same as the above, however it does not utilize or export the frame time (defined by the user's scene).
+ObjExportManager consists of a few functions that simplify the process of exporting our objects. ObjExportManager is a singleton class and can contain multiple objects to export.  
+   - `setExportDir(std::string export_dir)` This function takes a string as an input to set the export path you'd like for your files. The default export path is "."  
+   - `add(shared_ptr<ObjExportable exportable>)` This function adds an object to the manager to later be exported using the manager's functions.
+   - `exportObjs(double time)` This function iterates through all objects added to the manager and exports the according .obj file. The file name is the frame number followed by the object's name. The header of each file contains the commented information: object name, frame time, and frame number.  
+   - `exportObjs()` This function does the same as the above, however it does not utilize or export the frame time (defined by the user's scene).  
 
 ##### In our Sample Code
 
