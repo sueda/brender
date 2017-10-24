@@ -4,6 +4,12 @@
 #include <chrono>
 #include <vector>
 #include <memory>
+/*
+ * @author: Gustavo Lopez 10-21-17
+ *
+ * @version: 2.2.0
+ */
+
 #include <string>
 #include <iostream>
 

@@ -1,10 +1,6 @@
 /*
- * ObjExportManager.cpp
- *
- * This file defines the functions of ObjExportManager.h
- *
- * @author: Gustavo Lopez under instruction of Dr. Shinjiro Sueda 
- *			at Texas A&M University 
+ * @author: Gustavo Lopez 10-21-17
+ * 
  * @version: 2.2.0
  */
 
