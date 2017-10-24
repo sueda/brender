@@ -128,7 +128,7 @@ The following gives simple instructions on how to import the exported files from
 
 1. Open Blender. (Delete default cube)
 2. Change environment (at the top) from **Default** to **Scripting**.
-3. In the Scripting window, Select **Open** and navigate to /path/to/Brender/`ImportObj/blender_import_obj_anim.py` and hit the `enter` key or click **Open Text Block**.
+3. In the Scripting window, Select **Open** and navigate to /path/to/brender/`python/blender_import_obj_anim.py` and hit the `enter` key or click **Open Text Block**.
 4. Once the code is open in the scripting panel, click **Run Script**.
 
    Note: This added a new option to the import menu.
