@@ -9,11 +9,11 @@ Version: 2.2.0
 
 ## Getting Started
 
-These instructions will help you get a copy of the Brender package on your machine for development and testing your OpenGL animations.
+These instructions will help you get a copy of the Brender package on your machine for developing and testing your OpenGL animations.
 
 ### Prerequisites
 
-What things you will need installed on your system before using Brender and its sample code.
+What you will need installed on your system before using Brender and its sample code.
 
 1. The following Libraries are used in the sample code. Get the source code for each.
 
@@ -37,19 +37,19 @@ How to setup the Brender package to be used with the sample.
 
 1. Set Environment Variable
 
-   Set `BRENDER_DIR` to *path/to*`/brender`
+   Set `BRENDER_DIR` to *path/to* `/brender`
 
    NOTE: Make sure to use forward slashes (/) for the Brender environment variable.
 
-2. Run Cmake and set "Where is the source code:" to the */path/to/*`brender/sample` folder. Set "Where to build the binaries" to */path/to*`/sample/build`. This will create a build folder in the sample directory to store the binaries.
+2. Run Cmake and set "Where is the source code:" to the */path/to/* `brender/sample` folder. Set "Where to build the binaries" to */path/to* `/sample/build`. This will create a build folder in the sample directory to store the binaries.
 
 3. Now navigate to the `build` directory and open the project file (`sample.sln` in Visual Studio).
 
 4. Set the project to "Set as startup Project"
 
-5. Open the project properties and navigate to the "Configureation Properties>Debugging" tab. In the Debugging window, set `Command Arguments` to `../resources`. **NOTE:** It is suggested that you run the sample code in Release mode. *There are currently issues with the sample code running in debug mode on some machines.* (Note that if you run in release mode, you must apply the same setting to the "Release" configuration)
+5. Open the project properties and navigate to the "Configuration Properties>Debugging" tab. In the Debugging window, set `Command Arguments` to `../resources`. **NOTE:** It is suggested that you run the sample code in Release mode. *There are currently issues with the sample code running in debug mode on some machines.* (Note that if you run in release mode, you must apply the same setting to the "Release" configuration)
 
-6. You may now build and run the code. Press spacebar to plat the animation and export frames. Press the spacebar again to stop. **Note:** exported will be, by default, in the build folder. See Understanding and Using ObjExportables section for details.
+6. You may now build and run the code. Press spacebar to play the animation and export frames. Press the spacebar again to stop. **Note:** exported files will be, by default, in the build folder. See **Understanding and Using ObjExportables** section for details.
 
 ### Understanding and Using ObjExportables
 
@@ -58,32 +58,42 @@ How to setup the Brender package to be used with the sample.
 #### ObjExportable 
 
 ObjExportable consists of two main functions.
+
    `exportObj(std::ofstream& outfile)` is a pure virtual function and must be overwritten by the user's inherited class. This should be a user defined function that exports the user-defined object as an .obj file.
-   `getObjName()` If this function is not overwritten, each object that is exported will have a default name Object1, Object2, etc. You can overwrite this function in the inherited class to return a custom object name.
+
+   `getObjName()` If this function is not overwritten, each object that is exported will have a default name: Object1, Object2, etc. You can overwrite this function in the inherited class to return a custom object name.
 
 ##### In our Sample Code
 
 1. **Cloth.h**
-	Because Cloth is the object we want to export, we start by setting the Cloth class to inherit the ObjExportable class
+
+   * Because Cloth is the object we want to export, we start by setting the Cloth class to inherit the ObjExportable class
 	```cpp
 	19	class Cloth : public ObjExportable
 	```
-	Within the Cloth Class, we will add our derived functions that we are overwriting
+   * Within the Cloth Class, we will add our derived functions that we are overwriting
 	```cpp
 	45	void exportObj(std::ofstream& outfile);
 	46	std::string getObjName();
 	```
+
 2. **Cloth.cpp**
-	In the function `exportObj`(lines 438-473) the user defines how thier OpenGl Object is translated into an .obj format. Note: ObjExportManager handles the file naming and exporting.
-	In the function `getObjName` the user is simply defining a desired object name as a string and returning the value.
+
+   * In the function `exportObj`(lines 438-473) the user defines how thier OpenGl Object is translated into an .obj format. Note: ObjExportManager handles the file naming and exporting.
+
+   * In the function `getObjName` the user is simply defining a desired object name as a string and returning the value.
 
 #### ObjExportManager
 
-ObjExportManager consists of a few functions that somplify the process of exporting our objects. ObjExportManager is a singleton class and can contain multiple objects to export.
-	`setExportDir(std::string export_dir)` This function takes a string as an input to set the export path you'd like for your files. The default export path is "."
-	`add(shared_ptr<ObjExportable exportable>)` This function adds an object to the manager to later be exported using the manager's functions.
-	`exportObjs(double time)` This function iterates through all objects added to the manager and exports the according .obj file. The file name is the frame number followed by the object's name. The header of each file contains the commented information: object name, frame time, and frame number.
-	`exportObjs()` This function does the same as the above, however it does not utilize or export the frame time (defined by the user's scene).
+ObjExportManager consists of a few functions that simplify the process of exporting our objects. ObjExportManager is a singleton class and can contain multiple objects to export.
+
+   `setExportDir(std::string export_dir)` This function takes a string as an input to set the export path you'd like for your files. The default export path is "."
+
+   `add(shared_ptr<ObjExportable exportable>)` This function adds an object to the manager to later be exported using the manager's functions.
+
+   `exportObjs(double time)` This function iterates through all objects added to the manager and exports the according .obj file. The file name is the frame number followed by the object's name. The header of each file contains the commented information: object name, frame time, and frame number.
+
+   `exportObjs()` This function does the same as the above, however it does not utilize or export the frame time (defined by the user's scene).
 
 ##### In our Sample Code
 
