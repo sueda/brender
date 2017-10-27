@@ -34,18 +34,18 @@ int BrenderManager::getFrame()
 void BrenderManager::export()
 {
 	int objNum = 1;
-	for (auto objExportable : objExportables) {
+	for (auto brenderable : brenderables) {
 		ofstream outfile;
 
 		char filename[50];
-		const char* checkname = objExportable->getObjName().c_str();
+		const char* checkname = brenderable->getObjName().c_str();
 		//if object has not been given name
 		if (strcmp(checkname, "") == 0) {
 			sprintf(filename, "%s/%06d_Object%d.obj", EXPORT_DIR, frame, objNum);
 		}
 		//if object has been given specific name
 		else {
-			std::string objname_str = objExportable->getObjName();
+			std::string objname_str = brenderable->getObjName();
 			char* objname_char = new char[objname_str.length() + 1];
 			strcpy(objname_char, objname_str.c_str());
 			sprintf(filename, "%s/%06d_%s.obj", EXPORT_DIR, frame, objname_char);
@@ -63,9 +63,9 @@ void BrenderManager::export()
 		}
 		//if object has been given specific name
 		else {
-			outfile << "# name " + objExportable->getObjName() + " \n";
+			outfile << "# name " + brenderable->getObjName() + " \n";
 		}
-		objExportable->exportObj(outfile);
+		brenderable->exportObj(outfile);
 		outfile.close();
 		objNum++;
 	}
@@ -76,19 +76,19 @@ void BrenderManager::export()
 void BrenderManager::export(double time)
 {
 	int objNum = 1;
-	for (auto objExportable : objExportables) {
+	for (auto brenderable : brenderables) {
 		ofstream outfile;
 
 		char filename[100];
 
-		const char* checkname = objExportable->getObjName().c_str();
+		const char* checkname = brenderable->getObjName().c_str();
 		//if object has not been given name
 		if (strcmp(checkname, "") == 0) {
 			sprintf(filename, "%s/%06d_Object%d.obj", EXPORT_DIR, frame, objNum);
 		}
 		//if object has been given specific name
 		else {
-			std::string objname_str = objExportable->getObjName();
+			std::string objname_str = brenderable->getObjName();
 			char* objname_char = new char[objname_str.length() + 1];
 			strcpy(objname_char, objname_str.c_str());
 			sprintf(filename, "%s/%06d_%s.obj", EXPORT_DIR, frame, objname_char);
@@ -110,9 +110,9 @@ void BrenderManager::export(double time)
 		}
 		//if object has been given specific name
 		else {
-			outfile << "# name " + objExportable->getObjName() + " \n";
+			outfile << "# name " + brenderable->getObjName() + " \n";
 		}
-		objExportable->exportObj(outfile);
+		brenderable->exportObj(outfile);
 		outfile.close();
 		objNum++;
 	}
@@ -120,9 +120,9 @@ void BrenderManager::export(double time)
 	frame++;
 }
 
-void BrenderManager::add(shared_ptr<ObjExportable> exportable)
+void BrenderManager::add(shared_ptr<Brenderable> brenderable)
 {
-	objExportables.push_back(exportable);
+	brenderables.push_back(brenderable);
 }
 
 void BrenderManager::setExportDir(std::string export_dir) 
