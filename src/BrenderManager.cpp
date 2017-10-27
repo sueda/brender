@@ -1,22 +1,22 @@
 /*
  * @author: Gustavo Lopez 10-21-17
  * 
- * @version: 2.2.0
+ * @version: 1.0
  */
 
-#include "ObjExportManager.h"
-#include "ObjExportable.h"
+#include "BrenderManager.h"
+#include "Brenderable.h"
 
 
 using namespace std;
 
-bool ObjExportManager::instanceFlag = false;
-ObjExportManager* ObjExportManager::manager = NULL;
-ObjExportManager* ObjExportManager::getInstance()
+bool BrenderManager::instanceFlag = false;
+BrenderManager* BrenderManager::manager = NULL;
+BrenderManager* BrenderManager::getInstance()
 {
 	if (!instanceFlag)
 	{
-		manager = new ObjExportManager();
+		manager = new BrenderManager();
 		instanceFlag = true;
 		return manager;
 	}
@@ -26,12 +26,12 @@ ObjExportManager* ObjExportManager::getInstance()
 	}
 }
 
-int ObjExportManager::getFrame()
+int BrenderManager::getFrame()
 {
 	return frame;
 }
 
-void ObjExportManager::exportObjs()
+void BrenderManager::export()
 {
 	int objNum = 1;
 	for (auto objExportable : objExportables) {
@@ -73,7 +73,7 @@ void ObjExportManager::exportObjs()
 	frame++;
 }
 
-void ObjExportManager::exportObjs(double time)
+void BrenderManager::export(double time)
 {
 	int objNum = 1;
 	for (auto objExportable : objExportables) {
@@ -120,12 +120,12 @@ void ObjExportManager::exportObjs(double time)
 	frame++;
 }
 
-void ObjExportManager::add(shared_ptr<ObjExportable> exportable)
+void BrenderManager::add(shared_ptr<ObjExportable> exportable)
 {
 	objExportables.push_back(exportable);
 }
 
-void ObjExportManager::setExportDir(std::string export_dir) 
+void BrenderManager::setExportDir(std::string export_dir) 
 {	
 	char* export_char = new char[export_dir.length() + 1];
 	strcpy(export_char, export_dir.c_str());
