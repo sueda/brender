@@ -5,7 +5,7 @@ Date:	10-22-2017
 Version: 2.2.0
 ```
 
-**Brender** is a c++ and python package that works in conjunction with OpenGL. The goal is to provide a simple library to export OpenGL animations as .obj files and then import this set into Blender(an open source 3D creation suite) as an editable animation.
+**Brender** is a c++ and python package. The goal is to provide a simple library to export animations as .obj files and then import this set into Blender(an open source 3D creation suite) as an editable animation.
 
 ## Getting Started
 
@@ -49,75 +49,75 @@ How to setup the Brender package to be used with the sample.
 
 5. Open the project properties and navigate to the "Configuration Properties>Debugging" tab. In the Debugging window, set `Command Arguments` to `../resources`. **NOTE:** It is suggested that you run the sample code in Release mode. *There are currently issues with the sample code running in debug mode on some machines.* (Note that if you run in release mode, you must apply the same setting to the "Release" configuration)
 
-6. You may now build and run the code. Press spacebar to play the animation and export frames. Press the spacebar again to stop. **Note:** exported files will be, by default, in the build folder. See **Understanding and Using ObjExportables** section for details.
+6. You may now build and run the code. Press spacebar to play the animation and export frames. Press the spacebar again to stop. **Note:** exported files will be, by default, in the build folder. See **Understanding and Using Brenderables** section for details.
 
-### Understanding and Using ObjExportables
+### Understanding and Using Brenderables
 
-   The Brender package includes two special classes called **ObjExportables** and **ObjExportManager**. `ObjExportable.h` is a parent class with a set of functions that must be overwritten by the inheriting class to function. *ObjExportables* are how we refer to the objects we want to export. In the sample code, we are exporting a cloth (defined in `Cloth.h`). *ObjExportManagers* are how we refer to and manipulate our objects in a given scene we wish to export. `ObjExportManager.h` is a singleton class that manages the exports throughout your project animation.
+   The Brender package includes two special classes called **Brenderables** and **BrenderManager**. `Brenderable.h` is a parent class with a set of functions that must be overwritten by the inheriting class to function. *Brenderables* are how we refer to the objects we want to export. In the sample code, we are exporting a cloth (defined in `Cloth.h`). *BrenderManagers* are how we refer to and manipulate our objects in a given scene we wish to export. `BrenderManager.h` is a singleton class that manages the exports throughout your project animation.
 
-#### ObjExportable 
+#### Brenderable 
 
-ObjExportable consists of two main functions.
+Brenderable consists of two main functions.
 
-   `exportObj(std::ofstream& outfile)` is a pure virtual function and must be overwritten by the user's inherited class. This should be a user defined function that exports the user-defined object as an .obj file.
+   `exportBrender(std::ofstream& outfile)` is a pure virtual function and must be overwritten by the user's inherited class. This should be a user defined function that exports the user-defined object as an .obj file.
 
-   `getObjName()` If this function is not overwritten, each object that is exported will have a default name: Object1, Object2, etc. You can overwrite this function in the inherited class to return a custom object name.
+   `getName()` If this function is not overwritten, each object that is exported will have a default name: Object1, Object2, etc. You can overwrite this function in the inherited class to return a custom object name.
 
 ##### In our Sample Code
 
 1. **Cloth.h**
 
-   * Because Cloth is the object we want to export, we start by setting the Cloth class to inherit the ObjExportable class
+   * Because Cloth is the object we want to export, we start by setting the Cloth class to inherit the Brenderable class
 	```cpp
-	19	class Cloth : public ObjExportable
+	19	class Cloth : public Brenderable
 	```
    * Within the Cloth Class, we will add our derived functions that we are overwriting
 	```cpp
-	45	void exportObj(std::ofstream& outfile);
-	46	std::string getObjName();
+	45	void exportBrender(std::ofstream& outfile);
+	46	std::string getName();
 	```
 
 2. **Cloth.cpp**
 
-   * In the function `exportObj`(lines 438-473) the user defines how thier OpenGl Object is translated into an .obj format. Note: ObjExportManager handles the file naming and exporting.
+   * In the function `exportBrender`(lines 438-473) the user defines how thier OpenGl Object is translated into an .obj format. Note: BrenderManager handles the file naming and exporting.
 
-   * In the function `getObjName` the user is simply defining a desired object name as a string and returning the value.
+   * In the function `getName` the user is simply defining a desired object name as a string and returning the value.
 
-#### ObjExportManager
+#### BrenderManager
 
-ObjExportManager consists of a few functions that simplify the process of exporting our objects. ObjExportManager is a singleton class and can contain multiple objects to export.
+BrenderManager consists of a few functions that simplify the process of exporting our objects. BrenderManager is a singleton class and can contain multiple objects to export.
 
    `setExportDir(std::string export_dir)` This function takes a string as an input to set the export path you'd like for your files. The default export path is "."
 
-   `add(shared_ptr<ObjExportable exportable>)` This function adds an object to the manager to later be exported using the manager's functions.
+   `add(shared_ptr<Brenderable brenderable>)` This function adds an object to the manager to later be exported using the manager's functions.
 
-   `exportObjs(double time)` This function iterates through all objects added to the manager and exports the according .obj file. The file name is the frame number followed by the object's name. The header of each file contains the commented information: object name, frame time, and frame number.
+   `exportBrender(double time)` This function iterates through all objects added to the manager and exports the according .obj file. The file name is the frame number followed by the object's name. The header of each file contains the commented information: object name, frame time, and frame number.
 
-   `exportObjs()` This function does the same as the above, however it does not utilize or export the frame time (defined by the user's scene).
+   `exportBrender()` This function does the same as the above, however it does not utilize or export the frame time (defined by the user's scene).
 
 ##### In our Sample Code
 
 1. **Scene.h**
-	* In scene, we add the private variable pointer "exportables"
+	* In scene, we add the private variable pointer "brender"
 	```cpp
-	47	ObjExportManager *exportables;
+	47	BrenderManager *brender;
 	```
 2. **Scene.cpp**
   * In the `init()` function, we initiate the manager singleton by getting the instance
 	```cpp
-	57	exportables = ObjExportManager::getInstance();
+	57	brender = BrenderManager::getInstance();
 	```
 	We also can set the export directory if we choose to here (commented out in sample)
 	```cpp
-	62	//exportables->setExportDir("EXPORT/PATH/FOLDER NAME");
+	62	//brender->setExportDir("EXPORT/PATH/FOLDER NAME");
 	```
 	Lastly, in the `init()` function, we add the object we wish to export (cloth) into the manager
 	```cpp
-	63	exportables->add(cloth);
+	63	brender->add(cloth);
 	```
   * In the `step()` function (the function where the frame steps), we export our objects using the manager
 	```cpp
-	101	exportables->exportObjs(t);
+	101	brender->exportObjs(t);
 	```
 
 ## Exporting Files
