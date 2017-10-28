@@ -435,7 +435,7 @@ void Cloth::draw(shared_ptr<MatrixStack> MV, const shared_ptr<Program> p) const
 	MV->popMatrix();
 }
 
-void Cloth::export(std::ofstream& outfile)
+void Cloth::exportBrender(std::ofstream& outfile)
 {
 	//vertex positions
 	for (int i = 0; i < posBuf.size(); i = i + 3) {

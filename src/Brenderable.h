@@ -16,7 +16,7 @@ class Brenderable
 public:
 	Brenderable() {};
 	virtual ~Brenderable() {}
-	virtual void export(std::ofstream& outfile) = 0;	//pure virtual (must be overwritten)
+	virtual void exportBrender(std::ofstream& outfile) = 0;	//pure virtual (must be overwritten)
 	virtual std::string getName() { return ""; }
 private:
 
