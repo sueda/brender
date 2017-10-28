@@ -9,14 +9,14 @@
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
 
-#include "ObjExportable.h"
+#include "Brenderable.h"
 
 class Particle;
 class Spring;
 class MatrixStack;
 class Program;
 
-class Cloth : public ObjExportable
+class Cloth : public Brenderable
 {
 public:
 	EIGEN_MAKE_ALIGNED_OPERATOR_NEW
@@ -42,8 +42,8 @@ public:
 	 * The following functions are used to overwrite ObjExportable.h
 	 * functions and be able to utilize ObjExportManager Functions
 	 */
-	void exportObj(std::ofstream& outfile);
-	std::string getObjName();
+	void exportBrender(std::ofstream& outfile);
+	std::string getName();
 
 private:
 	int rows;

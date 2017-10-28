@@ -54,13 +54,13 @@ void Scene::init()
 {
 	sphereShape->init();
 	cloth->init();
-	exportables = ObjExportManager::getInstance();
+	brender = BrenderManager::getInstance();
 	/*
 	 * Edit the following commented line to choose a specific
 	 * file path for the exported obj files
 	 */
-	//exportables->setExportDir("EXPORT/PATH/FOLDER NAME");
-	exportables->add(cloth);
+	//brender->setExportDir("EXPORT/PATH/FOLDER NAME");
+	brender->add(cloth);
 }
 
 void Scene::tare()
@@ -98,7 +98,7 @@ void Scene::step()
 	// Simulate the cloth
 	cloth->step(h, grav, spheres);
 	// Export Obj Files
-	exportables->exportObjs(t);
+	brender->exportBrender(t);
 }
 
 void Scene::draw(shared_ptr<MatrixStack> MV, const shared_ptr<Program> prog) const
