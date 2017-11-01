@@ -59,7 +59,7 @@ void Scene::init()
 	 * Edit the following commented line to choose a specific
 	 * file path for the exported obj files
 	 */
-	//exportables->setExportDir("EXPORT/PATH/FOLDER NAME");
+	//brender->setExportDir("EXPORT/PATH/FOLDER NAME");
 	brender->add(cloth);
 }
 
@@ -98,7 +98,7 @@ void Scene::step()
 	// Simulate the cloth
 	cloth->step(h, grav, spheres);
 	// Export Obj Files
-	brender->export(t);
+	brender->exportBrender(t);
 }
 
 void Scene::draw(shared_ptr<MatrixStack> MV, const shared_ptr<Program> prog) const

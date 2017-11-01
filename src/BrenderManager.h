@@ -32,8 +32,8 @@ public:
 	static BrenderManager* getInstance();
 	void setExportDir(std::string export_dir);
 	int getFrame();
-	void export();									//does not require/use timestamp
-	void export(double time);
+	void exportBrender();									//does not require/use timestamp
+	void exportBrender(double time);
 	void add(std::shared_ptr<Brenderable> brenderable);
 	~BrenderManager()
 	{
