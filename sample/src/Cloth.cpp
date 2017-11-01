@@ -435,7 +435,7 @@ void Cloth::draw(shared_ptr<MatrixStack> MV, const shared_ptr<Program> p) const
 	MV->popMatrix();
 }
 
-void Cloth::exportObj(std::ofstream& outfile)
+void Cloth::export(std::ofstream& outfile)
 {
 	//vertex positions
 	for (int i = 0; i < posBuf.size(); i = i + 3) {
@@ -472,7 +472,7 @@ void Cloth::exportObj(std::ofstream& outfile)
 	}		
 }
 
-std::string Cloth::getObjName()
+std::string Cloth::getName()
 {
 	string ObjName = "Cloth1_OverwrittenName";
 	return ObjName;
