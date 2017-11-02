@@ -1,3 +1,4 @@
+#pragma once
 #ifndef __Sphere__
 #define __Sphere__
 
@@ -5,15 +6,20 @@
 #include <memory>
 
 #include <BrenderManager.h>
+#include <Brenderable.h>
 
 class Sphere
 {
 public:
 	Sphere();
 	virtual ~Sphere();
-private:
+	void load(const std::string &RESOURCE_DIR);
+	void init();
 
+private:
+	// holds posbuf, norbuf, and texbuf
 	std::shared_ptr<Shape> sphereShape;
+	std::vector< std::shared_ptr<Particle> > spheres;
 };
 
 #endif
