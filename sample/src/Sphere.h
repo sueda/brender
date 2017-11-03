@@ -15,7 +15,7 @@ public:
 	virtual ~Sphere();
 	void load(const std::string &RESOURCE_DIR);
 	void init();
-
+	void exportSphere();
 private:
 	// holds posbuf, norbuf, and texbuf
 	std::shared_ptr<Shape> sphereShape;
