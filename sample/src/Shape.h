@@ -6,9 +6,6 @@
 #include <vector>
 #include <memory>
 
-#include "Brenderable.h"
-
-
 class Program;
 
 /**
@@ -18,7 +15,7 @@ class Program;
  * - texBuf should be of length 2*ntris (if texture coords are available)
  * posBufID, norBufID, and texBufID are OpenGL buffer identifiers.
  */
-class Shape : public Brenderable
+class Shape
 {
 public:
 	Shape();
@@ -26,10 +23,7 @@ public:
 	void loadMesh(const std::string &meshName);
 	void init();
 	void draw(const std::shared_ptr<Program> prog) const;
-
-	void exportBrender(std::ofstream& outfile);
-	std::string getName();
-	
+	void exportBrender(const Eigen::Matrix4d &E, std::ofstream& outfile) const;
 private:
 	std::vector<float> posBuf;
 	std::vector<float> norBuf;

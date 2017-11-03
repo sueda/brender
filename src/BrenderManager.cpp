@@ -26,7 +26,7 @@ BrenderManager* BrenderManager::getInstance()
 	}
 }
 
-int BrenderManager::getFrame()
+int BrenderManager::getFrame() const
 {
 	return frame;
 }
