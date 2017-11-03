@@ -161,7 +161,16 @@ void Shape::exportBrender(std::ofstream& outfile){
 	//
 	//face
 	//f vertex/texture/normal1 vertex/texture/normal2 vertex/texture/normal3 
-	
+	// posbuf holds all vertices. each face has 3 vertices.
+	for(int i = 0; i < (posBuf.size() / 3); i = i + 3 ){
+		char face[50];
+		int f1,f2,f3;
+		f1 = i;
+		f2 = i+1;
+		f3 = i+3;
+
+		sprintf(face, "f %i/%i/%i %i/%i/%i %i/%i/%i\n", f1, f1, f1, f2, f2, f2, f3, f3, f3);
+	}
 	
 	// for (int j = 0; j < rows*2-2; j = j+2) {
 	// 	///one row:
