@@ -139,11 +139,21 @@ void Shape::draw(const shared_ptr<Program> prog) const
 
 void exportBrender(const Eigen::Matrix4d &E, std::ofstream& outfile) const{
 //Make transformation conversions
+// //multiply E by each p(x,y,z) where p is wrt Sphere
+	//can i multiply each value in posbuf-->i dont think so.. 
+	// -->create a vertex4d for each set of 3 values in posbuf, 
+	//		then multiply and use result as value to export
+
+
 
 //vertex positions
 	for (int i = 0; i < posBuf.size(); i = i + 3) {
+		Eigen::Vector4d pos(posBuf[i], posBuf[i+1] ,posBuf[i+2] , 1.0); //double check if it should be zero or 1
+		// apply transformation
+		Eigen::Vector4d trans_pos = E * pos;
 		char vert[50];
-		sprintf(vert, "v %f %f %f\n", posBuf[i], posBuf[i + 1], posBuf[i + 2]);
+		//sprintf(vert, "v %f %f %f\n", posBuf[i], posBuf[i + 1], posBuf[i + 2]);
+		sprintf(vert, "v %f %f %f\n", trans_pos(0), trans_pos(1), trans_pos(2));
 		outfile << vert;
 	}
 	//texture coordinates
@@ -154,8 +164,11 @@ void exportBrender(const Eigen::Matrix4d &E, std::ofstream& outfile) const{
 	}
 	//normal vectors
 	for (int i = 0; i < norBuf.size(); i = i + 3) {
+		Eigen::Vector4d nor(norBuf[i], norBuf[i+1] ,norBuf[i+2] , 0.0); 
+		// apply transformation
+		Eigen::Vector4d trans_nor = E * nor;
 		char norm[50];
-		sprintf(norm, "vn %f %f %f\n", norBuf[i], norBuf[i + 1], norBuf[i + 2]);
+		sprintf(norm, "vn %f %f %f\n", trans_nor(0), trans_nor(1), trans_nor(2));
 		outfile << norm;
 	}
 	//faces--Using Triangle Strips

@@ -30,13 +30,12 @@ void Sphere::init(){
 
 void Sphere::exportBrender(std::ofstream& outfile) const{
 	Eigen::Matrix4d E = Eigen::Matrix4d.Identity();
-	// world coordinates of sphere
-	E(0, 0) = x;
-	E(0, 1) = y;
-	E(0, 2) = z;
+	// world coordinates of sphere --> particle's position? 
+	E(0, 0) = particle.x(x);
+	E(0, 1) = particle.x(y);
+	E(0, 2) = particle.x(z);
 
-
-	sphereShape.exportBrender(/*matrix value*/, outfile);
+	sphereShape.exportBrender( E , outfile);
 }
 
 std::string Sphere::getName() const
