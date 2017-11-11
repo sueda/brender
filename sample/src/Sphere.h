@@ -8,6 +8,9 @@
 #include <BrenderManager.h>
 #include <Brenderable.h>
 
+class Shape;
+class Particle;
+
 class Sphere : public Brenderable
 {
 public:

@@ -11,6 +11,9 @@
 
 #include <Eigen/Dense>
 
+#include "Particle.h"
+#include "Shape.h"
+
 using namespace std;
 
 void Sphere::load(const std::string &RESOURCE_DIR){

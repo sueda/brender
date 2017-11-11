@@ -15,6 +15,7 @@ class Particle;
 class MatrixStack;
 class Program;
 class Shape;
+class Sphere;
 class Brenderable;
 
 class Scene

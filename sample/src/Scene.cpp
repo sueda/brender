@@ -5,6 +5,7 @@
 #include "Particle.h"
 #include "Cloth.h"
 #include "Shape.h"
+#include "Sphere.h"
 #include "Program.h"
 
 using namespace std;
