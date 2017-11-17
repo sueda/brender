@@ -32,6 +32,7 @@ void Sphere::load(const std::string &RESOURCE_DIR){
 	//spheres.push_back(sphere);
 	sphere->r = 0.1;
 	sphere->x = Vector3d(0.0, 0.2, 0.0);
+	particle = sphere;
 }
 
 void Sphere::init(){
