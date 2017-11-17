@@ -43,6 +43,7 @@ private:
 	
 	std::shared_ptr<Shape> sphereShape; //this will be in sphere class
 	std::shared_ptr<Cloth> cloth;
+	std::shared_ptr<Sphere> the_sphere; //fix naming
 	std::vector< std::shared_ptr<Particle> > spheres; // shared_ptr <sphere>
 
 	BrenderManager *brender;

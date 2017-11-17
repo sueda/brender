@@ -137,7 +137,7 @@ void Shape::draw(const shared_ptr<Program> prog) const
 	GLSL::checkError(GET_FILE_LINE);
 }
 
-void exportBrender(const Eigen::Matrix4d &E, std::ofstream& outfile) const{
+void Shape::exportBrender(const Eigen::Matrix4d &E, std::ofstream& outfile) const{
 //Make transformation conversions
 // //multiply E by each p(x,y,z) where p is wrt Sphere
 	//can i multiply each value in posbuf-->i dont think so.. 
@@ -182,7 +182,7 @@ void exportBrender(const Eigen::Matrix4d &E, std::ofstream& outfile) const{
 		int f1,f2,f3;
 		f1 = i;
 		f2 = i+1;
-		f3 = i+3;
+		f3 = i+2;
 
 		sprintf(face, "f %i/%i/%i %i/%i/%i %i/%i/%i\n", f1, f1, f1, f2, f2, f2, f3, f3, f3);
 		outfile << face;

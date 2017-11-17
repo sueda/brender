@@ -18,7 +18,11 @@ public:
 	virtual ~Sphere();
 	void load(const std::string &RESOURCE_DIR);
 	void init();
-
+	void tare();
+	void reset();
+	void step(double t, double h);
+	void draw(std::shared_ptr<MatrixStack> MV, const std::shared_ptr<Program> prog);
+	std::shared_ptr<Particle> retParticle();
 	void exportBrender(std::ofstream& outfile) const;
 	std::string getName() const;
 	//
