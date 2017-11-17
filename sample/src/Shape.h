@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-
+#include <Eigen/Dense>
 
 class Program;
 
@@ -24,9 +24,7 @@ public:
 	void loadMesh(const std::string &meshName);
 	void init();
 	void draw(const std::shared_ptr<Program> prog) const;
-	///Add function from ObjExportable
-	///void exportObj();
-	
+	void exportBrender(const Eigen::Matrix4d &E, std::ofstream& outfile) const;
 private:
 	std::vector<float> posBuf;
 	std::vector<float> norBuf;

@@ -42,7 +42,7 @@ public:
 	 * The following functions are used to overwrite ObjExportable.h
 	 * functions and be able to utilize ObjExportManager Functions
 	 */
-	void exportBrender(std::ofstream& outfile);
+	void exportBrender(std::ofstream& outfile) const;
 	std::string getName();
 
 private:

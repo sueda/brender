@@ -137,4 +137,69 @@ void Shape::draw(const shared_ptr<Program> prog) const
 	GLSL::checkError(GET_FILE_LINE);
 }
 
+void Shape::exportBrender(const Eigen::Matrix4d &E, std::ofstream& outfile) const{
+//Make transformation conversions
+// //multiply E by each p(x,y,z) where p is wrt Sphere
+	//can i multiply each value in posbuf-->i dont think so.. 
+	// -->create a vertex4d for each set of 3 values in posbuf, 
+	//		then multiply and use result as value to export
 
+
+
+//vertex positions
+	for (int i = 0; i < posBuf.size(); i = i + 3) {
+		Eigen::Vector4d pos(posBuf[i], posBuf[i+1] ,posBuf[i+2] , 1.0); //double check if it should be zero or 1
+		// apply transformation
+		Eigen::Vector4d trans_pos = E * pos;
+		char vert[50];
+		//sprintf(vert, "v %f %f %f\n", posBuf[i], posBuf[i + 1], posBuf[i + 2]);
+		sprintf(vert, "v %f %f %f\n", trans_pos(0), trans_pos(1), trans_pos(2));
+		outfile << vert;
+	}
+	//texture coordinates
+	for (int i = 0; i < texBuf.size(); i = i + 2) {
+		char vtex[50];
+		sprintf(vtex, "vt %f %f\n", texBuf[i], texBuf[i + 1]);
+		outfile << vtex;
+	}
+	//normal vectors
+	for (int i = 0; i < norBuf.size(); i = i + 3) {
+		Eigen::Vector4d nor(norBuf[i], norBuf[i+1] ,norBuf[i+2] , 0.0); 
+		// apply transformation
+		Eigen::Vector4d trans_nor = E * nor;
+		char norm[50];
+		sprintf(norm, "vn %f %f %f\n", trans_nor(0), trans_nor(1), trans_nor(2));
+		outfile << norm;
+	}
+	//faces--Using Triangle Strips
+
+	//
+	//face
+	//f vertex/texture/normal1 vertex/texture/normal2 vertex/texture/normal3 
+	// posbuf holds all vertices. each face has 3 vertices.
+	for(int i = 1; i < (posBuf.size() / 3); i = i + 3 ){
+		char face[50];
+		int f1,f2,f3;
+		f1 = i;
+		f2 = i+1;
+		f3 = i+2;
+
+		sprintf(face, "f %i/%i/%i %i/%i/%i %i/%i/%i\n", f1, f1, f1, f2, f2, f2, f3, f3, f3);
+		outfile << face;
+	}
+	
+	// for (int j = 0; j < rows*2-2; j = j+2) {
+	// 	///one row:
+	// 	for (int i = 0; i < cols*2-2; i++) {
+	// 		char facetri[50];
+	// 		int strt = cols*j;
+	// 		int v1, v2, v3;
+	// 		v1 = eleBuf[strt+ i] + 1;
+	// 		v2 = eleBuf[strt+ i + 1] + 1;
+	// 		v3 = eleBuf[strt+ i + 2] + 1;
+
+	// 		sprintf(facetri, "f %i/%i/%i %i/%i/%i %i/%i/%i\n", v1, v1, v1, v2, v2, v2, v3, v3, v3);
+	// 		outfile << facetri;
+	// 	}
+	// }
+	}	
