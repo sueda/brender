@@ -12,6 +12,7 @@
 #include "Shape.h"
 
 using namespace std;
+using namespace Eigen;
 
 Sphere::Sphere()
 {

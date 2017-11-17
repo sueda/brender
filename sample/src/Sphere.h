@@ -10,6 +10,8 @@
 
 class Shape;
 class Particle;
+class MatrixStack;
+class Program;
 
 class Sphere : public Brenderable
 {
