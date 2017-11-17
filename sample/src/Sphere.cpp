@@ -71,17 +71,15 @@ std::shared_ptr<Particle> Sphere::retParticle()
 }
 
 void Sphere::exportBrender(std::ofstream& outfile) const{
-	Eigen::Matrix4d E;  //Matrix4d.Identity();
-	double x, y, z;
-	x = particle->x(0);
-	y = particle->x(1);
-	z = particle->x(2);
-	E << 1.0, 0.0, 0.0, x,
-		0.0, 1.0, 0.0, y,
-		0.0, 0.0, 1.0, z,
-		0.0, 0.0, 0.0, 1.0;
+	Eigen::Matrix4d T, S;  //Matrix4d.Identity();
+	S.setIdentity();
+	S(0,0) = particle->r;
+	S(1,1) = particle->r;
+	S(2,2) = particle->r;
+	T.setIdentity();
+	T.block<3,1>(0,3) = particle->x;
 
-	sphereShape->exportBrender( E , outfile);
+	sphereShape->exportBrender( T*S , outfile);
 }
 
 std::string Sphere::getName() const
