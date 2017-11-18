@@ -81,14 +81,14 @@ void BrenderManager::exportBrender(double time)
 
 		char filename[100];
 
-		const char* checkname = brenderable->getName().c_str();
+		std::string objname_str = brenderable->getName(); 
+		const char* checkname = objname_str.c_str(); 
 		//if object has not been given name
 		if (strcmp(checkname, "") == 0) {
 			sprintf(filename, "%s/%06d_Object%d.obj", EXPORT_DIR, frame, objNum);
 		}
 		//if object has been given specific name
 		else {
-			std::string objname_str = brenderable->getName();
 			char* objname_char = new char[objname_str.length() + 1];
 			strcpy(objname_char, objname_str.c_str());
 			sprintf(filename, "%s/%06d_%s.obj", EXPORT_DIR, frame, objname_char);
