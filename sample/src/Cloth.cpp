@@ -6,6 +6,7 @@
 
 #include "Cloth.h"
 #include "Particle.h"
+#include "Sphere.h"
 #include "Spring.h"
 #include "MatrixStack.h"
 #include "Program.h"
@@ -251,7 +252,7 @@ void Cloth::updatePosNor()
 	}
 }
 
-void Cloth::step(double h, const Vector3d &grav, const vector< shared_ptr<Particle> > spheres)
+void Cloth::step(double h, const Vector3d &grav, const shared_ptr<Sphere> sphere)
 {
 	typedef Triplet<double> T;
 	std::vector<T> A_; // triplet format
@@ -353,25 +354,23 @@ void Cloth::step(double h, const Vector3d &grav, const vector< shared_ptr<Partic
 		auto p = particles[i];
 		double rp = p->r;
 		Vector3d xp = p->x;
-		for(int j = 0; j < (int)spheres.size(); ++j) {
-			auto s = spheres[j];
-			double rs = s->r;
-			Vector3d xs = s->x;
-			Vector3d dx = xp - xs;
-			double l = dx.norm();
-			double penetration = l - (rs + rp);
-			if(penetration < 0.0) {
-				// Colliding
-				Vector3d nor = dx/l;
-				p->x = xs + (rp+rs)*nor;
-				// Remove the normal component from the velocity
-				Vector3d vp = p->v;
-				Vector3d vproj = vp.dot(nor)*nor;
-				Vector3d vtan = vp - vproj;
-				double friction = 0.0;
-				p->v = (1.0-friction)*vtan + s->v.dot(nor)*nor;
-			}
-		}
+        auto s = sphere->particle;
+        double rs = s->r;
+        Vector3d xs = s->x;
+        Vector3d dx = xp - xs;
+        double l = dx.norm();
+        double penetration = l - (rs + rp);
+        if(penetration < 0.0) {
+            // Colliding
+            Vector3d nor = dx/l;
+            p->x = xs + (rp+rs)*nor;
+            // Remove the normal component from the velocity
+            Vector3d vp = p->v;
+            Vector3d vproj = vp.dot(nor)*nor;
+            Vector3d vtan = vp - vproj;
+            double friction = 0.0;
+            p->v = (1.0-friction)*vtan + s->v.dot(nor)*nor;
+        }
 	}
 	
 	// Update position and normal buffers
@@ -472,8 +471,7 @@ void Cloth::exportBrender(std::ofstream& outfile) const
 	}		
 }
 
-std::string Cloth::getName()
+std::string Cloth::getName() const
 {
-	string ObjName = "Cloth1_OverwrittenName";
-	return ObjName;
+    return "Cloth1";
 }

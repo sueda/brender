@@ -4,7 +4,6 @@
 #include "Scene.h"
 #include "Particle.h"
 #include "Cloth.h"
-#include "Shape.h"
 #include "Sphere.h"
 #include "Program.h"
 
@@ -27,7 +26,7 @@ void Scene::load(const string &RESOURCE_DIR)
 	// Units: meters, kilograms, seconds
 	h = 5e-3;
 	
-	grav << 0.0, -9.8, 0.0;
+	grav << 0.0, 0.0, -9.8;
 	
 	int rows = 20;
 	int cols = 20;
@@ -35,29 +34,19 @@ void Scene::load(const string &RESOURCE_DIR)
 	double stiffness = 2e1;
 	double bending = 2e1;
 	Vector2d damping(1.0, 1.0);
-	Vector3d x00(-0.25, 0.5, 0.0);
-	Vector3d x01(0.25, 0.5, 0.0);
-	Vector3d x10(-0.25, 0.5, -0.5);
-	Vector3d x11(0.25, 0.5, -0.5);
+	Vector3d x00(-0.25, 0.0, 0.25);
+	Vector3d x01(0.25, 0.0, 0.25);
+	Vector3d x10(-0.25, -0.5, 0.25);
+	Vector3d x11(0.25, -0.5, 0.25);
 	cloth = make_shared<Cloth>(rows, cols, x00, x01, x10, x11, mass, stiffness, bending, damping);
 	
-	the_sphere = make_shared<Sphere>();
-	the_sphere->load(RESOURCE_DIR);
-
-	sphereShape = make_shared<Shape>();
-	sphereShape->loadMesh(RESOURCE_DIR + "sphere2.obj");
-	
-	auto sphere = make_shared<Particle>(sphereShape);
-	spheres.push_back(sphere);
-	sphere->r = 0.1;
-	sphere->x = Vector3d(0.0, 0.2, 0.0);
-
+	sphere = make_shared<Sphere>();
+	sphere->load(RESOURCE_DIR);
 }
 
 void Scene::init()
 {
-	sphereShape->init();
-	the_sphere->init();
+	sphere->init();
 	cloth->init();
 	brender = BrenderManager::getInstance();
 	/*
@@ -65,58 +54,46 @@ void Scene::init()
 	 * file path for the exported obj files
 	 */
 	//brender->setExportDir("EXPORT/PATH/FOLDER NAME");
-	brender->add(cloth);
-	brender->add(the_sphere);
+    brender->add(cloth);
+    brender->add(sphere);
 }
 
 void Scene::tare()
 {
-	// for(int i = 0; i < (int)spheres.size(); ++i) {
-	// 	spheres[i]->tare();
-	// }
-	the_sphere->tare();
+	sphere->tare();
 	cloth->tare();
 }
 
 void Scene::reset()
 {
 	t = 0.0;
-	// for(int i = 0; i < (int)spheres.size(); ++i) {
-	// 	spheres[i]->reset();
-	// }
-	the_sphere->reset();
+	sphere->reset();
 	cloth->reset();
 }
 
 void Scene::step()
 {
 	t += h;
+    
+    // Move the big sphere
+    auto p = sphere->particle;
+    Vector3d x0 = p->x;
+    double radius = 0.5;
+    double a = 2.0*t;
+    p->x(1) = -radius * sin(a);
+    Vector3d dx = p->x - x0;
+    p->v = dx/h;
 	
-	// Move the sphere
-	// if(!spheres.empty()) {
-	// 	auto s = spheres.front();
-	// 	Vector3d x0 = s->x;
-	// 	double radius = 0.5;
-	// 	double a = 2.0*t;
-	// 	s->x(2) = radius * sin(a);
-	// 	Vector3d dx = s->x - x0;
-	// 	s->v = dx/h;
-	// }
-
-	the_sphere->step(t,h);
 	// Simulate the cloth
-	cloth->step(h, grav, spheres);
-	// Export Obj Files
+	cloth->step(h, grav, sphere);
+
+    // Export Obj Files
 	brender->exportBrender(t);
 }
 
 void Scene::draw(shared_ptr<MatrixStack> MV, const shared_ptr<Program> prog) const
 {
 	glUniform3fv(prog->getUniform("kdFront"), 1, Vector3f(1.0, 1.0, 1.0).data());
-	// for(int i = 0; i < (int)spheres.size(); ++i) {
-	// 	spheres[i]->draw(MV, prog);
-	// }
-	the_sphere->draw(MV,prog);
-
+	sphere->draw(MV,prog);
 	cloth->draw(MV, prog);
 }

@@ -3,13 +3,12 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 # Name of the project
 PROJECT(sample)
 
-# FOR LAB MACHINES ONLY!
-# DO NOT EDIT
+# Set these manually if you don't want to use environment variables
 SET(DEF_DIR_GLM "C:\\c++\\glm")
 SET(DEF_DIR_GLFW "C:\\c++\\glfw-3.2.1")
 SET(DEF_DIR_GLEW "C:\\c++\\glew-2.0.0")
 SET(DEF_DIR_EIGEN "C:\\c++\\eigen-eigen-f562a193118d")
-SET(DEF_DIR_BRENDER "C:\\c++\\brender")
+SET(DEF_DIR_BRENDER "YOUR/PATH/TO/BRENDER")
 
 # Use glob to get the list of all source files.
 # We don't really need to include header and resource files to build, but it's
@@ -19,6 +18,18 @@ FILE(GLOB_RECURSE HEADERS "src/*.h")
 FILE(GLOB_RECURSE GLSL "resources/*.glsl")
 
 SET(BRENDER_DIR "$ENV{BRENDER_DIR}")
+IF(NOT BRENDER_DIR)
+  # The environment variable was not set
+  SET(ERR_MSG "Please point the environment variable BRENDER_DIR to the root directory of your BRENDER installation.")
+  # Try the default location
+  MESSAGE(STATUS "Looking for BRENDER in ${DEF_DIR_BRENDER}")
+    IF(IS_DIRECTORY ${DEF_DIR_BRENDER})
+      MESSAGE(STATUS "Found!")
+      SET(BRENDER_DIR ${DEF_DIR_BRENDER})
+    ELSE()
+      MESSAGE(FATAL_ERROR ${ERR_MSG})
+    ENDIF()
+ENDIF()
 FILE(GLOB_RECURSE BRENDER_SOURCES "${BRENDER_DIR}/src/*.cpp")
 FILE(GLOB_RECURSE BRENDER_HEADERS "${BRENDER_DIR}/src/*.h")
 INCLUDE_DIRECTORIES(${BRENDER_DIR}/src)

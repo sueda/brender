@@ -12,6 +12,7 @@
 #include "Brenderable.h"
 
 class Particle;
+class Sphere;
 class Spring;
 class MatrixStack;
 class Program;
@@ -35,15 +36,15 @@ public:
 	void tare();
 	void reset();
 	void updatePosNor();
-	void step(double h, const Eigen::Vector3d &grav, const std::vector< std::shared_ptr<Particle> > spheres);
+	void step(double h, const Eigen::Vector3d &grav, const std::shared_ptr<Sphere> sphere);
 	void init();
 	void draw(std::shared_ptr<MatrixStack> MV, const std::shared_ptr<Program> p) const;
 	/*
-	 * The following functions are used to overwrite ObjExportable.h
-	 * functions and be able to utilize ObjExportManager Functions
+	 * The following functions are used to overwrite Brenderable.h
+	 * functions and be able to utilize BrenderManager Functions
 	 */
 	void exportBrender(std::ofstream& outfile) const;
-	std::string getName();
+	std::string getName() const;
 
 private:
 	int rows;

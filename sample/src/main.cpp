@@ -126,6 +126,7 @@ static void init()
 	prog->setVerbose(false);
 	
 	camera = make_shared<Camera>();
+    camera->setInitDistance(2.0f);
 
 	scene = make_shared<Scene>();
 	scene->load(RESOURCE_DIR);
@@ -178,8 +179,8 @@ void render()
 	glLineWidth(2.0f);
 	float x0 = -0.5f;
 	float x1 = 0.5f;
-	float z0 = -0.5f;
-	float z1 = 0.5f;
+	float y0 = -0.5f;
+	float y1 = 0.5f;
 	int gridSize = 10;
 	glLineWidth(1.0f);
 	glBegin(GL_LINES);
@@ -190,8 +191,8 @@ void render()
 			glColor3f(0.8f, 0.8f, 0.8f);
 		}
 		float x = x0 + i / (float)gridSize * (x1 - x0);
-		glVertex3f(x, 0.0f, z0);
-		glVertex3f(x, 0.0f, z1);
+		glVertex3f(x, y0, 0.0f);
+		glVertex3f(x, y1, 0.0f);
 	}
 	for(int i = 1; i < gridSize; ++i) {
 		if(i == gridSize/2) {
@@ -199,17 +200,17 @@ void render()
 		} else {
 			glColor3f(0.8f, 0.8f, 0.8f);
 		}
-		float z = z0 + i / (float)gridSize * (z1 - z0);
-		glVertex3f(x0, 0.0f, z);
-		glVertex3f(x1, 0.0f, z);
+		float y = y0 + i / (float)gridSize * (y1 - y0);
+		glVertex3f(x0, y, 0.0f);
+		glVertex3f(x1, y, 0.0f);
 	}
 	glEnd();
 	glColor3f(0.4f, 0.4f, 0.4f);
 	glBegin(GL_LINE_LOOP);
-	glVertex3f(x0, 0.0f, z0);
-	glVertex3f(x1, 0.0f, z0);
-	glVertex3f(x1, 0.0f, z1);
-	glVertex3f(x0, 0.0f, z1);
+	glVertex3f(x0, y0, 0.0f);
+	glVertex3f(x1, y0, 0.0f);
+	glVertex3f(x1, y1, 0.0f);
+	glVertex3f(x0, y1, 0.0f);
 	glEnd();
 	progSimple->unbind();
 

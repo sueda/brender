@@ -63,6 +63,7 @@ void Camera::applyProjectionMatrix(std::shared_ptr<MatrixStack> P) const
 void Camera::applyViewMatrix(std::shared_ptr<MatrixStack> MV) const
 {
 	MV->translate(translations);
+    MV->rotate(-M_PI*0.5, 1.0f, 0.0f, 0.0f);
 	MV->rotate(rotations.y, glm::vec3(1.0f, 0.0f, 0.0f));
-	MV->rotate(rotations.x, glm::vec3(0.0f, 1.0f, 0.0f));
+	MV->rotate(rotations.x, glm::vec3(0.0f, 0.0f, 1.0f));
 }
