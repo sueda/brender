@@ -25,18 +25,17 @@ Sphere::~Sphere()
 
 void Sphere::load(const std::string &RESOURCE_DIR){
 	
-	sphereShape = make_shared<Shape>();
-	sphereShape->loadMesh(RESOURCE_DIR + "sphere2.obj");
+	shape = make_shared<Shape>();
+	shape->loadMesh(RESOURCE_DIR + "sphere2.obj");
 
-	auto sphere = make_shared<Particle>(sphereShape);
+	particle = make_shared<Particle>(shape);
 	//spheres.push_back(sphere);
-	sphere->r = 0.1;
-	sphere->x = Vector3d(0.0, 0.2, 0.0);
-	particle = sphere;
+	particle->r = 0.1;
+	particle->x = Vector3d(0.0, 0.2, 0.0);
 }
 
 void Sphere::init(){
-	sphereShape->init();
+	shape->init();
 }
 
 void Sphere::tare()
@@ -49,29 +48,13 @@ void Sphere::reset()
 	particle->reset();
 }
 
-void Sphere::step(double t, double h)
-{
-	auto s = particle;
-	Vector3d x0 = s->x;
-	double radius = 0.5;
-	double a = 2.0*t;
-	s->x(2) = radius * sin(a);
-	Vector3d dx = s->x - x0;
-	s->v = dx/h;
-}
-
 void Sphere::draw(shared_ptr<MatrixStack> MV, const shared_ptr<Program> prog)
 {
 	particle->draw(MV, prog);
 }
 
-std::shared_ptr<Particle> Sphere::retParticle()
-{
-	return particle;
-}
-
 void Sphere::exportBrender(std::ofstream& outfile) const{
-	Eigen::Matrix4d T, S;  //Matrix4d.Identity();
+	Eigen::Matrix4d T, S;
 	S.setIdentity();
 	S(0,0) = particle->r;
 	S(1,1) = particle->r;
@@ -79,12 +62,10 @@ void Sphere::exportBrender(std::ofstream& outfile) const{
 	T.setIdentity();
 	T.block<3,1>(0,3) = particle->x;
 
-	sphereShape->exportBrender( T*S , outfile);
+	shape->exportBrender( T*S , outfile);
 }
 
 std::string Sphere::getName() const
 {
-	string ObjName = "Sphere1_OverwrittenName";
-	return ObjName;
+	return "Sphere";
 }
-

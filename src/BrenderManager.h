@@ -21,7 +21,7 @@ private:
 	static bool instanceFlag;
 	static BrenderManager *manager;
 	int frame;
-	char* EXPORT_DIR;
+	const char* EXPORT_DIR;
 	std::vector<std::shared_ptr<Brenderable> > brenderables;
 	BrenderManager()
 	{

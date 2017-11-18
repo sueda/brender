@@ -14,7 +14,6 @@ class Cloth;
 class Particle;
 class MatrixStack;
 class Program;
-class Shape;
 class Sphere;
 class Brenderable;
 
@@ -41,10 +40,8 @@ private:
 	double h;
 	Eigen::Vector3d grav;
 	
-	std::shared_ptr<Shape> sphereShape; //this will be in sphere class
 	std::shared_ptr<Cloth> cloth;
-	std::shared_ptr<Sphere> the_sphere; //fix naming
-	std::vector< std::shared_ptr<Particle> > spheres; // shared_ptr <sphere>
+	std::shared_ptr<Sphere> sphere;
 
 	BrenderManager *brender;
 };
