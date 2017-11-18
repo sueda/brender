@@ -31,7 +31,7 @@ void Sphere::load(const std::string &RESOURCE_DIR){
 	particle = make_shared<Particle>(shape);
 	//spheres.push_back(sphere);
 	particle->r = 0.1;
-	particle->x = Vector3d(0.0, 0.2, 0.0);
+	particle->x = Vector3d(0.0, 0.0, 0.0);
 }
 
 void Sphere::init(){
