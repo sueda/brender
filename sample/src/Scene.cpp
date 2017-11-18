@@ -26,7 +26,7 @@ void Scene::load(const string &RESOURCE_DIR)
 	// Units: meters, kilograms, seconds
 	h = 5e-3;
 	
-	grav << 0.0, -9.8, 0.0;
+	grav << 0.0, 0.0, -9.8;
 	
 	int rows = 20;
 	int cols = 20;
@@ -34,10 +34,10 @@ void Scene::load(const string &RESOURCE_DIR)
 	double stiffness = 2e1;
 	double bending = 2e1;
 	Vector2d damping(1.0, 1.0);
-	Vector3d x00(-0.25, 0.5, 0.0);
-	Vector3d x01(0.25, 0.5, 0.0);
-	Vector3d x10(-0.25, 0.5, -0.5);
-	Vector3d x11(0.25, 0.5, -0.5);
+	Vector3d x00(-0.25, 0.0, 0.25);
+	Vector3d x01(0.25, 0.0, 0.25);
+	Vector3d x10(-0.25, -0.5, 0.25);
+	Vector3d x11(0.25, -0.5, 0.25);
 	cloth = make_shared<Cloth>(rows, cols, x00, x01, x10, x11, mass, stiffness, bending, damping);
 	
 	sphere = make_shared<Sphere>();
@@ -80,7 +80,7 @@ void Scene::step()
     Vector3d x0 = p->x;
     double radius = 0.5;
     double a = 2.0*t;
-    p->x(2) = -radius * sin(a);
+    p->x(1) = -radius * sin(a);
     Vector3d dx = p->x - x0;
     p->v = dx/h;
 	
