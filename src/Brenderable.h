@@ -5,8 +5,9 @@
  */
 
 #pragma once
-#include <fstream>
 #include <string>
+#include <fstream>
+#include <vector>
 #include <memory>
 #include "BrenderManager.h"
 
@@ -16,8 +17,9 @@ class Brenderable
 public:
 	Brenderable() {};
 	virtual ~Brenderable() {}
-	virtual void exportBrender(std::ofstream& outfile) const = 0;	//pure virtual (must be overwritten)
-	virtual std::string getName() const { return ""; }
+	virtual int getBrenderCount() const { return 1; }
+	virtual std::vector<std::string> getBrenderNames() const { return std::vector<std::string>(1, ""); }
+	virtual void exportBrender(std::vector< std::shared_ptr< std::ofstream > > outfiles) const = 0;
 private:
 
 };

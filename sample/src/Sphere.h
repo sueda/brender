@@ -24,11 +24,16 @@ public:
 	void reset();
 	void step(double t, double h);
 	void draw(std::shared_ptr<MatrixStack> MV, const std::shared_ptr<Program> prog);
-	void exportBrender(std::ofstream& outfile) const;
-	std::string getName() const;
-    
-    std::shared_ptr<Particle> particle;
-    
+	/*
+	 * The following functions are used to overwrite Brenderable.h
+	 * functions and be able to utilize BrenderManager Functions
+	 */
+	int getBrenderCount() const;
+	std::vector<std::string> getBrenderNames() const;
+	void exportBrender(std::vector< std::shared_ptr< std::ofstream > > outfiles) const;
+	
+	std::shared_ptr<Particle> particle;
+	
 private:
 
 	std::shared_ptr<Shape> shape;

@@ -43,8 +43,9 @@ public:
 	 * The following functions are used to overwrite Brenderable.h
 	 * functions and be able to utilize BrenderManager Functions
 	 */
-	void exportBrender(std::ofstream& outfile) const;
-	std::string getName() const;
+	int getBrenderCount() const;
+	std::vector<std::string> getBrenderNames() const;
+	void exportBrender(std::vector< std::shared_ptr< std::ofstream > > outfiles) const;
 
 private:
 	int rows;

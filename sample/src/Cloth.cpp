@@ -255,7 +255,7 @@ void Cloth::updatePosNor()
 void Cloth::step(double h, const Vector3d &grav, const shared_ptr<Sphere> sphere)
 {
 	typedef Triplet<double> T;
-	std::vector<T> A_; // triplet format
+	vector<T> A_; // triplet format
 	SparseMatrix<double> A; // compressed row format
 	VectorXd b;
 	VectorXd v;
@@ -354,23 +354,23 @@ void Cloth::step(double h, const Vector3d &grav, const shared_ptr<Sphere> sphere
 		auto p = particles[i];
 		double rp = p->r;
 		Vector3d xp = p->x;
-        auto s = sphere->particle;
-        double rs = s->r;
-        Vector3d xs = s->x;
-        Vector3d dx = xp - xs;
-        double l = dx.norm();
-        double penetration = l - (rs + rp);
-        if(penetration < 0.0) {
-            // Colliding
-            Vector3d nor = dx/l;
-            p->x = xs + (rp+rs)*nor;
-            // Remove the normal component from the velocity
-            Vector3d vp = p->v;
-            Vector3d vproj = vp.dot(nor)*nor;
-            Vector3d vtan = vp - vproj;
-            double friction = 0.0;
-            p->v = (1.0-friction)*vtan + s->v.dot(nor)*nor;
-        }
+		auto s = sphere->particle;
+		double rs = s->r;
+		Vector3d xs = s->x;
+		Vector3d dx = xp - xs;
+		double l = dx.norm();
+		double penetration = l - (rs + rp);
+		if(penetration < 0.0) {
+			// Colliding
+			Vector3d nor = dx/l;
+			p->x = xs + (rp+rs)*nor;
+			// Remove the normal component from the velocity
+			Vector3d vp = p->v;
+			Vector3d vproj = vp.dot(nor)*nor;
+			Vector3d vtan = vp - vproj;
+			double friction = 0.0;
+			p->v = (1.0-friction)*vtan + s->v.dot(nor)*nor;
+		}
 	}
 	
 	// Update position and normal buffers
@@ -434,8 +434,21 @@ void Cloth::draw(shared_ptr<MatrixStack> MV, const shared_ptr<Program> p) const
 	MV->popMatrix();
 }
 
-void Cloth::exportBrender(std::ofstream& outfile) const
+int Cloth::getBrenderCount() const
 {
+	return 1;
+}
+
+vector<string> Cloth::getBrenderNames() const
+{
+	vector<string> names;
+	names.push_back("Cloth1");
+	return names;
+}
+
+void Cloth::exportBrender(vector< shared_ptr< ofstream > > outfiles) const
+{
+	ofstream &outfile = *outfiles[0];
 	//vertex positions
 	for (int i = 0; i < posBuf.size(); i = i + 3) {
 		char vert[50];
@@ -469,9 +482,4 @@ void Cloth::exportBrender(std::ofstream& outfile) const
 			outfile << facetri;
 		}
 	}		
-}
-
-std::string Cloth::getName() const
-{
-    return "Cloth1";
 }
