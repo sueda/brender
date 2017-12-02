@@ -4,9 +4,9 @@
  * @version: 1.0
  */
 
+#include <math.h>
 #include "BrenderManager.h"
 #include "Brenderable.h"
-
 
 using namespace std;
 
@@ -26,13 +26,35 @@ BrenderManager* BrenderManager::getInstance()
 	}
 }
 
-int BrenderManager::getFrame() const
-{
-	return frame;
-}
-
 void BrenderManager::exportBrender(double time)
 {
+	bool doExport = false;
+	if(fps == 0) {
+		// Don't export if fps = 0
+		doExport = false;
+	}
+	if(fps == -1) {
+		// Export every frame if fps = -1
+		doExport = true;
+	} else {
+		// Export only if enough time has elapsed
+		if(frame == 0) {
+			// Always export first frame
+			doExport = true;
+		} else {
+			double dtExport = 1.0/fps;
+			if(fmod(time, dtExport) - fmod(time - timeLast, dtExport) < 0.0) {
+				doExport = true;
+			} else {
+				doExport = false;
+			}
+		}
+	}
+	timeLast = time;
+	if(!doExport) {
+		return;
+	}
+	// Start exporting
 	int objNum = 1;
 	for (auto brenderable : brenderables) {
 		vector<string> names = brenderable->getBrenderNames();

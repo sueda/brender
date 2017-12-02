@@ -54,8 +54,10 @@ void Scene::init()
 	 * file path for the exported obj files
 	 */
 	//brender->setExportDir("EXPORT/PATH/FOLDER NAME");
+	brender->setFPS(30.0);
     brender->add(cloth);
     brender->add(sphere);
+	brender->exportBrender(t);
 }
 
 void Scene::tare()

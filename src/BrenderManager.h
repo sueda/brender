@@ -19,19 +19,24 @@ private:
 	static bool instanceFlag;
 	static BrenderManager *manager;
 	int frame;
-    std::string EXPORT_DIR;
+	double fps;
+	double timeLast;
+	std::string EXPORT_DIR;
 	std::vector<std::shared_ptr<Brenderable> > brenderables;
 	BrenderManager()
 	{
 		//private constructor
 		EXPORT_DIR = ".";
 		frame = 0;
+		fps = -1; // -1 means export every frame
+		timeLast = -1; // time of last call to export
 	}
 public:
 	static BrenderManager* getInstance();
 	void setExportDir(std::string export_dir);
-	int getFrame() const;
-	void exportBrender(double time = 0.0);
+	int getFrame() const { return frame; }
+	void setFPS(double fps) { this->fps = fps; }
+	void exportBrender(double time = -1.0);
 	void add(std::shared_ptr<Brenderable> brenderable);
 	~BrenderManager()
 	{
