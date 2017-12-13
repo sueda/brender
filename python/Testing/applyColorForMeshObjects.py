@@ -1,32 +1,11 @@
 import bpy, os
 import mathutils
 
-# https://wiki.blender.org/index.php/Dev:Py/Scripts/Cookbook/Code_snippets/Materials_and_textures
-
-# path to image and load image
-texpath = os.path.expanduser('C:/Users/Gus/Documents/GitHub/Brender/brender/python/Textures/christmasPattern2.jpg')
-try:
-    img = bpy.data.images.load(texpath)
-except:
-    raise NameError("Cannot load image %s" % texpath)
-
-# Create image texture from image
-myTex = bpy.data.textures.new('ChristmasTex', type = 'IMAGE')
-myTex.image = img
-
 # Create material
-mat = bpy.data.materials.new('TexMat')
+mat = bpy.data.materials.new(name='MeshMat')
+mat.diffuse_color = (0.000811812, 0.8, 0.683532)
 
 
-# Add texture slot for color texture
-mtex = mat.texture_slots.add()
-mtex.texture = myTex
-mtex.texture_coords = 'UV'
-mtex.use_map_color_diffuse = True 
-mtex.use_map_color_emission = True 
-mtex.emission_color_factor = 0.5
-mtex.use_map_density = True 
-mtex.mapping = 'FLAT'
 
 # enable use nodes
 ## mat.use_nodes = True
@@ -38,7 +17,7 @@ mtex.mapping = 'FLAT'
 
 
 for obj in bpy.data.objects:
-    if obj.name.startswith("0") and not obj.name.endswith("001"):
+    if obj.name.startswith("0") and obj.name.endswith("001"):
         theobj = bpy.data.objects[obj.name]
         theobj.select = True
         objdata = obj.data
