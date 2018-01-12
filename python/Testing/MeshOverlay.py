@@ -9,7 +9,7 @@ bpy.context.scene.frame_set(0)
 for obj in bpy.data.objects:
     if obj.name.endswith("001"):
         #print(obj.name)
-
+        # NEED TO MAKE THIS LOOP MORE DYNAMIC
         #unhide object
         obj.hide = obj.hide_render = False
         scn.objects.active = obj
