@@ -1,3 +1,4 @@
+import bpy
 from bpy.types import Panel
 
 # using tutorial: https://www.youtube.com/watch?v=OEkrQGFqM10

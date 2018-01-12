@@ -88,7 +88,7 @@ class WireframeOverlay(bpy.types.Operator):
                 obj.data.fill_mode='FULL'
                 obj.data.bevel_resolution = self.bevelResolution
                 #rehide object  
-                obj.hide = obj.hide_render = False #unhide mesh?
+                obj.hide = obj.hide_render = True #hide mesh
                 #deselect object
                 obj.select=False
 
