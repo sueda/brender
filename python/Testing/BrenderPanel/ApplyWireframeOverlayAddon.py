@@ -26,6 +26,8 @@ class WireframeOverlay(bpy.types.Operator):
         dupobjects = []
 
         for obj in bpy.data.objects:
+            # make this dynamic by changing to endswith
+            # and refer to context.string from panel
             if obj.name.startswith("0"):
                 theobj = bpy.data.objects[obj.name]
                 ##duplicates and selects the new object

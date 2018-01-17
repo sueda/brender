@@ -20,15 +20,35 @@ class SimpleToolPanel(Panel):
         layout.operator('object.resize_animation_objects', text='Resize Objects')
         layout.operator('object.translate_animation_objects', text='Translate Objects')
         layout.operator('object.wireframe_overlay', text='Wireframe Overlay')
+        # testing Text Input
+        col = self.layout.column(align = True)
+        col.prop(context.scene, "my_string_cloth_prop")
+        layout.operator('object.apply_cloth_animation_material', text='Apply Cloth Mat')
+        col = self.layout.column(align = True)
+        col.prop(context.scene, "my_string_cube_prop")
+        layout.operator('object.apply_cube_animation_material', text='Apply Cube Mat')
         
 # Registering addon & Unregistering addon
 # Register
 def register():
     bpy.utils.register_class(SimpleToolPanel)
-    
+    bpy.types.Scene.my_string_cloth_prop = bpy.props.StringProperty \
+      (
+        name = "Cloth Name",
+        description = "Cloth Animation Object Name",
+        default = ""
+      )
+    bpy.types.Scene.my_string_cube_prop = bpy.props.StringProperty \
+      (
+        name = "Cube Name",
+        description = "Cube Animation Object Name",
+        default = ""
+      )
 # Unregister
 def unregister():
     bpy.utils.unregister_class(SimpleToolPanel)
+    del bpy.types.Scene.my_string_cloth_prop
+    del bpy.types.Scene.my_string_cube_prop
     
 # Needed to run script in Text Editor
 if __name__ == '__main__':

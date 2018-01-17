@@ -1,5 +1,5 @@
 bl_info = {
-    "name": "Apply Cloth Materials",
+    "name": "Apply Cube Materials",
     "category": "Object",
 }
 
@@ -7,10 +7,10 @@ import bpy
 import mathutils
 
 
-class ApplyClothAnimationMaterial(bpy.types.Operator):
+class ApplyCubeAnimationMaterial(bpy.types.Operator):
     """Apply Animation Object Material"""
-    bl_idname = "object.apply_cloth_animation_material"
-    bl_label = "Apply Cloth Animation Materials"
+    bl_idname = "object.apply_cube_animation_material"
+    bl_label = "Apply Cube Animation Materials"
     bl_options = {'REGISTER', 'UNDO'}
 
     # my_string = bpy.props.StringProperty(name="Object Name")
@@ -21,10 +21,10 @@ class ApplyClothAnimationMaterial(bpy.types.Operator):
         #scene = context.scene
         #cursor = scene.cursor_location
         #obj = scene.objects.active
-        mat = bpy.data.materials['ClothMaterial']
+        mat = bpy.data.materials['CubeMaterial']
         
         for obj in bpy.data.objects:
-            if obj.name.endswith(context.scene.my_string_cloth_prop):
+            if obj.name.endswith(context.scene.my_string_cube_prop):
                 theobj = bpy.data.objects[obj.name]
                 theobj.select = True
                 objdata = obj.data
@@ -36,17 +36,17 @@ class ApplyClothAnimationMaterial(bpy.types.Operator):
 
 
 def menu_func(self, context):
-    self.layout.operator(ApplyClothAnimationMaterial.bl_idname)
+    self.layout.operator(ApplyCubeAnimationMaterial.bl_idname)
 
 # store keymaps here to access after registration
 addon_keymaps = []
 
 
 def register():
-    bpy.utils.register_class(ApplyClothAnimationMaterial)
+    bpy.utils.register_class(ApplyCubeAnimationMaterial)
 
 def unregister():
-    bpy.utils.unregister_class(ApplyClothAnimationMaterial)
+    bpy.utils.unregister_class(ApplyCubeAnimationMaterial)
 
 if __name__ == "__main__":
     register()
