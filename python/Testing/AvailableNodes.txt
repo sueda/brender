@@ -1,0 +1,92 @@
+NODE_MT_category_SH_NEW_CONVERTOR
+bl_idname: ShaderNodeBlackbody, type: Blackbody
+bl_idname: ShaderNodeValToRGB, type: ColorRamp
+bl_idname: ShaderNodeCombineHSV, type: Combine HSV
+bl_idname: ShaderNodeCombineRGB, type: Combine RGB
+bl_idname: ShaderNodeCombineXYZ, type: Combine XYZ
+bl_idname: ShaderNodeMath, type: Math
+bl_idname: ShaderNodeRGBToBW, type: RGB to BW
+bl_idname: ShaderNodeSeparateHSV, type: Separate HSV
+bl_idname: ShaderNodeSeparateRGB, type: Separate RGB
+bl_idname: ShaderNodeSeparateXYZ, type: Separate XYZ
+bl_idname: ShaderNodeVectorMath, type: Vector Math
+bl_idname: ShaderNodeWavelength, type: Wavelength
+NODE_MT_category_SH_NEW_GROUP
+NODE_MT_category_SH_NEW_INPUT
+bl_idname: ShaderNodeAttribute, type: Attribute
+bl_idname: ShaderNodeCameraData, type: Camera Data
+bl_idname: ShaderNodeFresnel, type: Fresnel
+bl_idname: ShaderNodeNewGeometry, type: Geometry
+bl_idname: NodeGroupInput, type: Group Input
+bl_idname: ShaderNodeHairInfo, type: Hair Info
+bl_idname: ShaderNodeLayerWeight, type: Layer Weight
+bl_idname: ShaderNodeLightPath, type: Light Path
+bl_idname: ShaderNodeObjectInfo, type: Object Info
+bl_idname: ShaderNodeParticleInfo, type: Particle Info
+bl_idname: ShaderNodeRGB, type: RGB
+bl_idname: ShaderNodeTangent, type: Tangent
+bl_idname: ShaderNodeTexCoord, type: Texture Coordinate
+bl_idname: ShaderNodeUVAlongStroke, type: UV Along Stroke
+bl_idname: ShaderNodeUVMap, type: UV Map
+bl_idname: ShaderNodeValue, type: Value
+bl_idname: ShaderNodeWireframe, type: Wireframe
+NODE_MT_category_SH_NEW_LAYOUT
+bl_idname: NodeFrame, type: Frame
+bl_idname: NodeReroute, type: Reroute
+NODE_MT_category_SH_NEW_OP_COLOR
+bl_idname: ShaderNodeBrightContrast, type: Bright Contrast
+bl_idname: ShaderNodeGamma, type: Gamma
+bl_idname: ShaderNodeHueSaturation, type: Hue/Saturation
+bl_idname: ShaderNodeInvert, type: Invert
+bl_idname: ShaderNodeLightFalloff, type: Light Falloff
+bl_idname: ShaderNodeMixRGB, type: MixRGB
+bl_idname: ShaderNodeRGBCurve, type: RGB Curves
+NODE_MT_category_SH_NEW_OP_VECTOR
+bl_idname: ShaderNodeBump, type: Bump
+bl_idname: ShaderNodeMapping, type: Mapping
+bl_idname: ShaderNodeNormal, type: Normal
+bl_idname: ShaderNodeNormalMap, type: Normal Map
+bl_idname: ShaderNodeVectorCurve, type: Vector Curves
+bl_idname: ShaderNodeVectorTransform, type: Vector Transform
+NODE_MT_category_SH_NEW_OUTPUT
+bl_idname: NodeGroupOutput, type: Group Output
+bl_idname: ShaderNodeOutputLamp, type: Lamp Output
+bl_idname: ShaderNodeOutputLineStyle, type: Line Style Output
+bl_idname: ShaderNodeOutputMaterial, type: Material Output
+bl_idname: ShaderNodeOutputWorld, type: World Output
+NODE_MT_category_SH_NEW_SCRIPT
+bl_idname: ShaderNodeScript, type: Script
+NODE_MT_category_SH_NEW_SHADER
+bl_idname: ShaderNodeAddShader, type: Add Shader
+bl_idname: ShaderNodeAmbientOcclusion, type: Ambient Occlusion
+bl_idname: ShaderNodeBsdfAnisotropic, type: Anisotropic BSDF
+bl_idname: ShaderNodeBackground, type: Background
+bl_idname: ShaderNodeBsdfDiffuse, type: Diffuse BSDF
+bl_idname: ShaderNodeEmission, type: Emission
+bl_idname: ShaderNodeBsdfGlass, type: Glass BSDF
+bl_idname: ShaderNodeBsdfGlossy, type: Glossy BSDF
+bl_idname: ShaderNodeBsdfHair, type: Hair BSDF
+bl_idname: ShaderNodeHoldout, type: Holdout
+bl_idname: ShaderNodeMixShader, type: Mix Shader
+bl_idname: ShaderNodeBsdfPrincipled, type: Principled BSDF
+bl_idname: ShaderNodeBsdfRefraction, type: Refraction BSDF
+bl_idname: ShaderNodeSubsurfaceScattering, type: Subsurface Scattering
+bl_idname: ShaderNodeBsdfToon, type: Toon BSDF
+bl_idname: ShaderNodeBsdfTranslucent, type: Translucent BSDF
+bl_idname: ShaderNodeBsdfTransparent, type: Transparent BSDF
+bl_idname: ShaderNodeBsdfVelvet, type: Velvet BSDF
+bl_idname: ShaderNodeVolumeAbsorption, type: Volume Absorption
+bl_idname: ShaderNodeVolumeScatter, type: Volume Scatter
+NODE_MT_category_SH_NEW_TEXTURE
+bl_idname: ShaderNodeTexBrick, type: Brick Texture
+bl_idname: ShaderNodeTexChecker, type: Checker Texture
+bl_idname: ShaderNodeTexEnvironment, type: Environment Texture
+bl_idname: ShaderNodeTexGradient, type: Gradient Texture
+bl_idname: ShaderNodeTexImage, type: Image Texture
+bl_idname: ShaderNodeTexMagic, type: Magic Texture
+bl_idname: ShaderNodeTexMusgrave, type: Musgrave Texture
+bl_idname: ShaderNodeTexNoise, type: Noise Texture
+bl_idname: ShaderNodeTexPointDensity, type: Point Density
+bl_idname: ShaderNodeTexSky, type: Sky Texture
+bl_idname: ShaderNodeTexVoronoi, type: Voronoi Texture
+bl_idname: ShaderNodeTexWave, type: Wave Texture
