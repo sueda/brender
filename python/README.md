@@ -26,15 +26,15 @@ This tutorial assumes that the naming scheme of your objects follows the "######
 
 ### Brender Panel Setup and Sample Run
 
-How to setup the Brender package to be used with the sample.
+How to setup the Brender panel in Blender to be used with the sample.
 
-1. Set Environment Variable
+1. Open the necessary addon scripts
 
-   Set `BRENDER_DIR` to *path/to* `/brender`
+   Once your animation/objects are imported to the scene, open the scripting view in Blender. Click the "Open" button in the scripting panel to open all scripts in the `brender/python/brenderpanel/panelscripts` directory (one at a time). 
 
-   NOTE: Make sure to use forward slashes (/) for the Brender environment variable.
+2. Run each of the scripts that you have opened. 
 
-2. Run Cmake and set "Where is the source code:" to the */path/to/* `brender/sample` folder. Set "Where to build the binaries" to */path/to* `/sample/build`. This will create a build folder in the sample directory to store the binaries.
+	Note: nothing will happen to your animation or objects just yet.
 
 3. Now navigate to the `build` directory and open the project file (`sample.sln` in Visual Studio).
 
