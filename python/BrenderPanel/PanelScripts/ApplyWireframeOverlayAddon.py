@@ -25,10 +25,13 @@ class WireframeOverlay(bpy.types.Operator):
         #scn.layers = [True] * 20 # Show all layers
         dupobjects = []
 
+        objectname = context.scene.my_string_wireframe_prop
+        copynames = objectname + ".001"
         for obj in bpy.data.objects:
             # make this dynamic by changing to endswith
             # and refer to context.string from panel
-            if obj.name.startswith("0"):
+            # if obj.name.startswith("0"):
+            if obj.name.endswith(objectname):
                 theobj = bpy.data.objects[obj.name]
                 ##duplicates and selects the new object
                 new_obj = theobj.copy()
@@ -68,8 +71,9 @@ class WireframeOverlay(bpy.types.Operator):
 
         context.scene.frame_set(0)
 # make mesh
+		
         for obj in bpy.data.objects:
-            if obj.name.endswith("001"):
+            if obj.name.endswith(copynames):
                 #print(obj.name)
                 # NEED TO MAKE THIS LOOP MORE DYNAMIC
                 #unhide object
