@@ -51,9 +51,13 @@ How to setup the Brender panel in Blender to be used with the sample.
 	* Resize all objects in the scene by a user input scale. (default = 2)
 	* Translate all objects in the x, y, or z direction. (default = 0,0,0)
 	* Apply Wireframe Overlays 
-		** to do this, input the object's common name you wish to overlay in the text box labeled "Wireframe Object Name". (ex. if your scene has objects "000001_Cloth1",...,"009999_Cloth1", you would input "Cloth1") Then click the Wireframe Overlay Button. Note: This may take some time to apply.
+		
+		* to do this, input the object's common name you wish to overlay in the text box labeled "Wireframe Object Name". (ex. if your scene has objects "000001_Cloth1",...,"009999_Cloth1", you would input "Cloth1") Then click the Wireframe Overlay Button. Note: This may take some time to apply.
+	
 	* Apply Predefined Cloth Material 
-		** in the same manor described above, input the Object's common name you wish to apply the material to and click the following button.
+		
+		* in the same manor described above, input the Object's common name you wish to apply the material to and click the following button.
+		
 	* Apply Predefined Cube Material
 		** same usage as above.
 
