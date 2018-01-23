@@ -10,6 +10,10 @@ bl_info = {
 
 import bpy
 
+####################################################
+# Create Materials
+####################################################
+
 def createClothMaterial():
 	if bpy.data.materials.get("ClothMaterial") is None:
 		# create cloth material
@@ -50,6 +54,9 @@ createCubeMaterial()
 import bpy
 import mathutils
 
+####################################################
+# Apply Material Scripts
+####################################################
 
 bl_info = {
     "name": "Apply Cloth Materials",
@@ -125,6 +132,9 @@ if __name__ == "__main__":
     register()
 
 
+####################################################
+# Wireframe Overlay Script
+####################################################
 
 bl_info = {
     "name": "Wireframe Overlay",
@@ -152,12 +162,9 @@ class WireframeOverlay(bpy.types.Operator):
         objectname = context.scene.my_string_wireframe_prop
         copynames = objectname + ".001"
         for obj in bpy.data.objects:
-            # make this dynamic by changing to endswith
-            # and refer to context.string from panel
-            # if obj.name.startswith("0"):
             if obj.name.endswith(objectname):
                 theobj = bpy.data.objects[obj.name]
-                ##duplicates and selects the new object
+                # duplicates and selects the new object
                 new_obj = theobj.copy()
                 new_obj.data = theobj.data.copy()
                 new_obj.animation_data_clear()
@@ -240,7 +247,9 @@ def unregister():
 if __name__ == "__main__":
     register()
 
-
+####################################################
+# Resize Animation Script
+####################################################
 
 bl_info = {
     "name": "Resize Animation Objects",
@@ -290,7 +299,9 @@ def unregister():
 if __name__ == "__main__":
     register()
 
-
+####################################################
+# Translate Animation Script
+####################################################
 
 bl_info = {
     "name": "Translate Animation Objects",
@@ -343,12 +354,12 @@ def unregister():
 if __name__ == "__main__":
     register()
 
-
+####################################################
+# Brender Panel UI Script
+####################################################
 
 import bpy
 from bpy.types import Panel
-
-# using tutorial: https://www.youtube.com/watch?v=OEkrQGFqM10
 
 # Class for the panel, derived by Panel
 # creating BrenderPanel inherited from Panel class
