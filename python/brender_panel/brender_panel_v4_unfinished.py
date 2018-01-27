@@ -143,6 +143,26 @@ class BrenderSettings(PropertyGroup):
 		max = 10
 		)
 
+	wf_offset = FloatProperty(
+		name = "Offset",
+		description = "A float property",
+		default = 0.000,
+		min = 0.000,
+		max = 0.500,
+		step = 0.001,
+		precision = 3
+		)
+
+	wf_extrude = FloatProperty(
+		name = "Extrude",
+		description = "A float property",
+		default = 0.000,
+		min = 0.000,
+		max = 0.500,
+		step = 0.001,
+		precision = 3
+		)
+
 	wireframe_obj_string = StringProperty(
 		name="Wireframe Object Name",
 		description=":",
@@ -166,7 +186,7 @@ class BrenderSettings(PropertyGroup):
 
 
 ####################################################
-# Create Materials ------Temporary-----Clean up
+# Run on Import
 ####################################################
 import bpy
 
@@ -210,7 +230,6 @@ createCubeMaterial()
 ###############################################################################
 #		Operators
 ###############################################################################
-
 
 class ApplyClothAnimationMaterial(bpy.types.Operator):
 	"""Apply Animation Object Material"""
@@ -361,12 +380,24 @@ class AnimationObjectTranslate(bpy.types.Operator):
 class WireframeOverlay(bpy.types.Operator):
 	"""Wireframe Overlay"""
 	bl_idname = "object.wireframe_overlay"
-	bl_label = "Create Wireframe Overlay for Objects"
+	bl_label = "Create/Update Wireframe Overlay"
 	bl_options = {'REGISTER', 'UNDO'}
 
 	# bevelDepth = bpy.props.FloatProperty(name="Bevel Depth", default=0.001, min=0.000, max=0.500, step=1, precision=3)
 	# bevelResolution = bpy.props.IntProperty(name="Bevel Resolution", default=2, min=0, max=10)
-	
+
+	def DoesObjExist(self, objname):
+		# mat = bpy.data.materials['ClothMaterial']
+		self.objname = objname
+		# scene = context.scene
+		# myaddon = scene.my_addon
+		for obj in bpy.data.objects:
+			if obj.name.endswith(objname):
+				return True
+
+		return False
+
+
 	def execute(self, context):
 
 		scn = context.scene
@@ -374,77 +405,102 @@ class WireframeOverlay(bpy.types.Operator):
 		dupobjects = []
 		objectname = myaddon.wireframe_obj_string
 		copynames = objectname + ".001"
-		# -----------------------------------------
-		# duplicate object loop
-		for obj in bpy.data.objects:
-			if obj.name.endswith(objectname):
-				theobj = bpy.data.objects[obj.name]
-				# duplicates and selects the new object
-				new_obj = theobj.copy()
-				new_obj.data = theobj.data.copy()
-				new_obj.animation_data_clear()
-				scn.objects.link(new_obj)
-				dupobjects.append(new_obj)
 
-		
-		context.scene.frame_set(0)
-		# --------------------------------------------
-		# hide for keyframes
-		for i, obj in enumerate(dupobjects):
-			if i == 0:
-				continue
-			obj.hide = obj.hide_render = True
-			obj.keyframe_insert(data_path='hide')
-			obj.keyframe_insert(data_path='hide_render')
+		if self.DoesObjExist(copynames):
+			# object copies exist. dont copy
+			# update parameters
+			context.scene.frame_set(0)
 
-		for f, obj in enumerate(dupobjects):
-			if f == 0:
-				continue
-			# increment current frame to insert keyframe
-			context.scene.frame_set(f) 
-	
-			obj_prev = dupobjects[f-1]
-			obj_prev.hide = obj_prev.hide_render = True
-			obj_prev.keyframe_insert(data_path='hide')
-			obj_prev.keyframe_insert(data_path='hide_render')
+			for obj in bpy.data.objects:
+				if obj.name.endswith(copynames):
+					obj.select=True
+					obj.data.bevel_depth=myaddon.wf_bevel_depth  #0.002
+					obj.data.fill_mode='FULL'
+					obj.data.bevel_resolution = myaddon.wf_bevel_resolution
+					obj.data.offset = myaddon.wf_offset
+					obj.data.extrude = myaddon.wf_extrude
+					#deselect object
+					obj.select=False
+
+			return {'FINISHED'}
+
+		else:
+			# create copies
+			# print('False')
+				# -----------------------------------------
+			# duplicate object loop
+			for obj in bpy.data.objects:
+				if obj.name.endswith(objectname):
+					theobj = bpy.data.objects[obj.name]
+					# duplicates and selects the new object
+					new_obj = theobj.copy()
+					new_obj.data = theobj.data.copy()
+					new_obj.animation_data_clear()
+					scn.objects.link(new_obj)
+					dupobjects.append(new_obj)
+
 			
-			obj = dupobjects[f]
-			obj.hide = obj.hide_render = False
-			obj.keyframe_insert(data_path='hide')
-			obj.keyframe_insert(data_path='hide_render')
+			context.scene.frame_set(0)
+			# --------------------------------------------
+			# hide for keyframes
+			for i, obj in enumerate(dupobjects):
+				if i == 0:
+					continue
+				obj.hide = obj.hide_render = True
+				obj.keyframe_insert(data_path='hide')
+				obj.keyframe_insert(data_path='hide_render')
 
-
-		# end of duplicating opjects
-		context.scene.frame_set(0)
-		# make mesh
+			for f, obj in enumerate(dupobjects):
+				if f == 0:
+					continue
+				# increment current frame to insert keyframe
+				context.scene.frame_set(f) 
 		
-		for obj in bpy.data.objects:
-			if obj.name.endswith(copynames):
-				#print(obj.name)
-				# NEED TO MAKE THIS LOOP MORE DYNAMIC
-				#unhide object
+				obj_prev = dupobjects[f-1]
+				obj_prev.hide = obj_prev.hide_render = True
+				obj_prev.keyframe_insert(data_path='hide')
+				obj_prev.keyframe_insert(data_path='hide_render')
+				
+				obj = dupobjects[f]
 				obj.hide = obj.hide_render = False
-				scn.objects.active = obj
-				bpy.ops.object.mode_set(mode='EDIT')
-		
-				bpy.ops.mesh.reveal()
-				bpy.ops.mesh.select_all(action='SELECT')
-		
-				#execute any editmode tool
-				bpy.ops.mesh.delete(type='ONLY_FACE')
-		
-				bpy.ops.object.mode_set(mode='OBJECT', toggle=False)
-				obj.select=True
-				bpy.ops.object.convert(target='CURVE')
-				obj.data.bevel_depth=myaddon.wf_bevel_depth  #0.002
-				obj.data.fill_mode='FULL'
-				obj.data.bevel_resolution = myaddon.wf_bevel_resolution
-				#rehide object  
-				obj.hide = obj.hide_render = True #hide mesh
-				#deselect object
-				obj.select=False
+				obj.keyframe_insert(data_path='hide')
+				obj.keyframe_insert(data_path='hide_render')
 
-		return {'FINISHED'}
+
+			# end of duplicating opjects
+			context.scene.frame_set(0)
+			# make mesh
+			
+			for obj in bpy.data.objects:
+				if obj.name.endswith(copynames):
+					#print(obj.name)
+					# NEED TO MAKE THIS LOOP MORE DYNAMIC
+					#unhide object
+					obj.hide = obj.hide_render = False
+					scn.objects.active = obj
+					bpy.ops.object.mode_set(mode='EDIT')
+			
+					bpy.ops.mesh.reveal()
+					bpy.ops.mesh.select_all(action='SELECT')
+			
+					#execute any editmode tool
+					bpy.ops.mesh.delete(type='ONLY_FACE')
+			
+					bpy.ops.object.mode_set(mode='OBJECT', toggle=False)
+					obj.select=True
+					bpy.ops.object.convert(target='CURVE')
+					obj.data.bevel_depth=myaddon.wf_bevel_depth  #0.002
+					obj.data.fill_mode='FULL'
+					obj.data.bevel_resolution = myaddon.wf_bevel_resolution
+					obj.data.offset = myaddon.wf_offset
+					obj.data.extrude = myaddon.wf_extrude
+					#rehide object  
+					obj.hide = obj.hide_render = True #hide mesh
+					#deselect object
+					obj.select=False
+
+			return {'FINISHED'}
+
 
 ###############################################################################
 #		Brender in Object mode
@@ -566,6 +622,9 @@ class BrenderRenderPanel(Panel):
 		scene = context.scene
 		myaddon = scene.my_addon
 
+		row = layout.row()
+		row.prop(myaddon, "wireframe_obj_string")
+
 		split = layout.split()
 		col = split.column()
 		col.label(text="Bevel: ")
@@ -573,8 +632,9 @@ class BrenderRenderPanel(Panel):
 		col.prop(myaddon, "wf_bevel_resolution")
 
 		col = split.column()
-		col.label(text="Modification: ")
-		col.prop(myaddon, "wireframe_obj_string")
+		col.label(text="Modification: (Under Construction)")
+		col.prop(myaddon, "wf_offset")
+		col.prop(myaddon, "wf_extrude")
 
 		row = layout.row()
 		row.operator("object.wireframe_overlay")
