@@ -47,53 +47,82 @@ class BrenderSettings(PropertyGroup):
 	#     min = 10,
 	#     max = 100
 	#     )
+	x_rot_float = FloatProperty(
+		name = "X",
+		description = "A float property",
+		default = 0.0,
+		step = 1.0,
+		precision=1
+		)
+
+	y_rot_float = FloatProperty(
+		name = "Y",
+		description = "A float property",
+		default = 0.0,
+		step = 1.0,
+		precision=1
+		)
+
+	z_rot_float = FloatProperty(
+		name = "Z",
+		description = "A float property",
+		default = 0.0,
+		step = 1.0,
+		precision=1
+		)
 
 	x_scale_float = FloatProperty(
-		name = "X Scale Value",
+		name = "X",
 		description = "A float property",
 		default = 1.0,
 		min = 0.01,
-		max = 30.0
+		max = 30.0,
+		step = 1.0
 		)
 
 	y_scale_float = FloatProperty(
-		name = "Y Scale Value",
+		name = "Y",
 		description = "A float property",
 		default = 1.0,
 		min = 0.01,
-		max = 30.0
+		max = 30.0,
+		step = 1.0
 		)
 
 	z_scale_float = FloatProperty(
-		name = "Z Scale Value",
+		name = "Z",
 		description = "A float property",
 		default = 1.0,
 		min = 0.01,
-		max = 30.0
+		max = 30.0,
+		step = 1.0
 		)
 
 	x_trans_float = FloatProperty(
-		name = "X Translation Value",
+		name = "X",
 		description = "A float property",
 		default = 0.0,
 		min = -100.0,
-		max = 100.0
+		max = 100.0,
+		step = 1.0
 		)
 
 	y_trans_float = FloatProperty(
-		name = "Y Translation Value",
+		name = "Y",
 		description = "A float property",
 		default = 0.0,
 		min = -100.0,
-		max = 100.0
+		max = 100.0,
+		step = 1.0
 		)
 
 	z_trans_float = FloatProperty(
-		name = "Z Translation Value",
+		name = "Z",
 		description = "A float property",
 		default = 0.0,
 		min = -100.0,
-		max = 100.0
+		max = 100.0,
+		step = 1.0
 		)
 	
 	wf_bevel_depth = FloatProperty(
@@ -101,7 +130,8 @@ class BrenderSettings(PropertyGroup):
 		description = "A float property",
 		default = 0.001,
 		min = 0.000,
-		max = 0.500
+		max = 0.500,
+		step = 0.001
 		)
 
 	wf_bevel_resolution = IntProperty(
@@ -133,63 +163,6 @@ class BrenderSettings(PropertyGroup):
 		maxlen=1024,
 		)
 
-	# my_enum = EnumProperty(
-	#     name="Dropdown:",
-	#     description="Apply Data to attribute.",
-	#     items=[ ('OP1', "Option 1", ""),
-	#             ('OP2', "Option 2", ""),
-	#             ('OP3', "Option 3", ""),
-	#            ]
-	#     )
-
-	# my_bool = BoolProperty(
- #        name="Enable or Disable",
- #        description="A bool property",
- #        default = False
- #        )
-
- #    my_int = IntProperty(
- #        name = "Int Value",
- #        description="A integer property",
- #        default = 23,
- #        min = 10,
- #        max = 100
- #        )
-
- #    my_float = FloatProperty(
- #        name = "Float Value",
- #        description = "A float property",
- #        default = 23.7,
- #        min = 0.01,
- #        max = 30.0
- #        )
-
- #    my_string = StringProperty(
- #        name="User Input",
- #        description=":",
- #        default="",
- #        maxlen=1024,
- #        )
-
- #    my_enum = EnumProperty(
- #        name="Dropdown:",
- #        description="Apply Data to attribute.",
- #        items=[ ('OP1', "Option 1", ""),
- #                ('OP2', "Option 2", ""),
- #                ('OP3', "Option 3", ""),
- #               ]
- #        )
-
-	# my_bool = BoolProperty()
- #    scale_int = IntProperty()
- #    scale_float = FloatProperty()
- #    my_float = FloatProperty()
- #    obj_for_cube_mat = StringProperty()
- #    obj_for_cloth_mat = StringProperty()
- #    obj_for_wireframe = StringProperty()
- #    # other syntax
- #    custom_1 = bpy.props.FloatProperty(name="My Float")
- #    custom_2 = bpy.props.IntProperty(name="My Int")
 
 ####################################################
 # Create Materials ------Temporary-----Clean up
@@ -236,6 +209,7 @@ createCubeMaterial()
 ###############################################################################
 #		Operators
 ###############################################################################
+
 
 class ApplyClothAnimationMaterial(bpy.types.Operator):
 	"""Apply Animation Object Material"""
@@ -287,7 +261,7 @@ class ApplyCubeAnimationMaterial(bpy.types.Operator):
 class AnimationObjectResize(bpy.types.Operator):
 	"""Animation Object Resizing"""
 	bl_idname = "object.resize_animation_objects"
-	bl_label = "Resize Animation Objects"
+	bl_label = "Update"
 	bl_options = {'REGISTER', 'UNDO'}
 
 	# scale = bpy.props.IntProperty(name="scale", default=2, min=1, max=100)
@@ -298,13 +272,52 @@ class AnimationObjectResize(bpy.types.Operator):
 		#obj = scene.objects.active
 		scene = context.scene
 		myaddon = scene.my_addon
+		brenderObjname = context.active_object.name
 
-		for obj in bpy.data.objects:
-			if obj.name.startswith("0"):
-				theobj = bpy.data.objects[obj.name]
-				theobj.select = True
-				theobj.scale=(myaddon.x_scale_float,myaddon.x_scale_float,myaddon.x_scale_float)
-				theobj.select = False
+		if "_" in brenderObjname: # has naming scheme 00001_objname
+			for obj in bpy.data.objects:
+				if obj.name.endswith(brenderObjname.split("_", 1)[1]): # same last letters as brenderobj
+					theobj = bpy.data.objects[obj.name]
+					theobj.select = True
+					theobj.scale=(myaddon.x_scale_float,myaddon.y_scale_float,myaddon.z_scale_float)
+					theobj.select = False
+
+		else: # just scale selected object
+			theobj = bpy.data.objects[brenderObjname]
+			theobj.scale=(myaddon.x_scale_float,myaddon.y_scale_float,myaddon.z_scale_float)
+			theobj.select = False
+
+		return {'FINISHED'}
+
+# can be updated: maybe add rotation mode
+class AnimationObjectRotate(bpy.types.Operator):
+	"""Animation Object Resizing"""
+	bl_idname = "object.rotate_animation_objects"
+	bl_label = "Update"
+	bl_options = {'REGISTER', 'UNDO'}
+
+	# scale = bpy.props.IntProperty(name="scale", default=2, min=1, max=100)
+
+	def execute(self, context):
+		#scene = context.scene
+		#cursor = scene.cursor_location
+		#obj = scene.objects.active
+		scene = context.scene
+		myaddon = scene.my_addon
+		brenderObjname = context.active_object.name
+
+		if "_" in brenderObjname: # has naming scheme 00001_objname
+			for obj in bpy.data.objects:
+				if obj.name.endswith(brenderObjname.split("_", 1)[1]): # same last letters as brenderobj
+					theobj = bpy.data.objects[obj.name]
+					theobj.select = True
+					theobj.rotation_euler = (myaddon.x_rot_float,myaddon.y_rot_float,myaddon.z_rot_float)
+					theobj.select = False
+
+		else: # just scale selected object
+			theobj = bpy.data.objects[brenderObjname]
+			theobj.rotation_euler = (myaddon.x_rot_float,myaddon.y_rot_float,myaddon.z_rot_float)
+			theobj.select = False
 
 		return {'FINISHED'}
 
@@ -312,27 +325,34 @@ class AnimationObjectResize(bpy.types.Operator):
 class AnimationObjectTranslate(bpy.types.Operator):
 	"""Animation Object Translating"""
 	bl_idname = "object.translate_animation_objects"
-	bl_label = "Translate Animation Objects"
+	bl_label = "Update"
 	bl_options = {'REGISTER', 'UNDO'}
 
 
 	def execute(self, context):
 		scene = context.scene
 		myaddon = scene.my_addon
+		brenderObjname = context.active_object.name
 		#cursor = scene.cursor_location
 		#obj = scene.objects.active
 		xTrans = myaddon.x_trans_float
 		yTrans = myaddon.y_trans_float
 		zTrans = myaddon.z_trans_float
 		
+		if "_" in brenderObjname: # has naming scheme 00001_objname
+			for obj in bpy.data.objects:
+				if obj.name.endswith(brenderObjname.split("_", 1)[1]): # same last letters as brenderobj
+					theobj = bpy.data.objects[obj.name]
+					theobj.select = True
+					vec = mathutils.Vector((xTrans,yTrans,zTrans))
+					theobj.location = vec #theobj.location + vec
+					theobj.select = False
 
-		for obj in bpy.data.objects:
-			if obj.name.startswith("0"):
-				theobj = bpy.data.objects[obj.name]
-				theobj.select = True
-				vec = mathutils.Vector((xTrans,yTrans,zTrans))
-				theobj.location = theobj.location + vec
-				theobj.select = False
+		else: # just scale selected object
+			theobj = bpy.data.objects[brenderObjname]
+			vec = mathutils.Vector((xTrans,yTrans,zTrans))
+			theobj.location = vec #theobj.location + vec
+			theobj.select = False
 
 		return {'FINISHED'}
 
@@ -448,6 +468,27 @@ class WireframeOverlay(bpy.types.Operator):
 
 # Class for the panel, derived by Panel
 # creating BrenderPanel inherited from Panel class
+class BrenderImportPanel(Panel):
+	bl_idname = "OBJECT_PT_Brender_import_panel"
+	bl_label = "Import Obj Animation"
+	bl_space_type = "VIEW_3D"
+	bl_region_type = "TOOLS"    # bl_category = "Tools" ## adds to tool panel
+	bl_category = 'Brender'
+	bl_context = "objectmode"
+
+
+	# not sure about this one
+	@classmethod
+	def poll(self,context):
+		return context.object is not None
+
+	# Add UI elements here
+	def draw(self, context):
+		layout = self.layout
+
+		layout.operator("load.obj_as_anim") # fix this button
+
+
 class BrenderTransformPanel(Panel):
 	bl_idname = "OBJECT_PT_Brender_transform_panel"
 	bl_label = "Object Transformation Tools"
@@ -468,14 +509,32 @@ class BrenderTransformPanel(Panel):
 		scene = context.scene
 		myaddon = scene.my_addon
 
-		layout.prop(myaddon, "x_scale_float")
-		layout.prop(myaddon, "y_scale_float")
-		layout.prop(myaddon, "z_scale_float")
-		layout.operator("object.resize_animation_objects")
-		layout.prop(myaddon, "x_trans_float")
-		layout.prop(myaddon, "y_trans_float")
-		layout.prop(myaddon, "z_trans_float")
-		layout.operator("object.translate_animation_objects")
+		#layout.label(text="Scale:")
+
+		split = layout.split()
+		# Scale Column
+		col = split.column(align=True)
+		col.label(text="Scale:")
+		col.prop(myaddon, "x_scale_float")
+		col.prop(myaddon, "y_scale_float")
+		col.prop(myaddon, "z_scale_float")
+		col.operator("object.resize_animation_objects")
+
+		# Location Column
+		col = split.column(align=True)
+		col.label(text="Location:")
+		col.prop(myaddon, "x_trans_float")
+		col.prop(myaddon, "y_trans_float")
+		col.prop(myaddon, "z_trans_float")
+		col.operator("object.translate_animation_objects")
+
+		# Rotation Column
+		col = split.column(align=True)
+		col.label(text="Rotation:")
+		col.prop(myaddon, "x_rot_float")
+		col.prop(myaddon, "y_rot_float")
+		col.prop(myaddon, "z_rot_float")
+		col.operator("object.rotate_animation_objects")
 
 
 class BrenderMaterialPanel(Panel):
@@ -498,7 +557,6 @@ class BrenderMaterialPanel(Panel):
 		scene = context.scene
 		myaddon = scene.my_addon
 
-		layout.prop(myaddon, "wireframe_obj_string")
 		layout.prop(myaddon, "checker_mat_obj_string")
 		layout.operator("object.apply_cloth_animation_material")
 		layout.prop(myaddon, "blue_mat_obj_string")
