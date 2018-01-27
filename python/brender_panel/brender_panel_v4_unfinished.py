@@ -126,16 +126,17 @@ class BrenderSettings(PropertyGroup):
 		)
 	
 	wf_bevel_depth = FloatProperty(
-		name = "Bevel Depth",
+		name = "Depth",
 		description = "A float property",
 		default = 0.001,
 		min = 0.000,
 		max = 0.500,
-		step = 0.001
+		step = 0.001,
+		precision = 3
 		)
 
 	wf_bevel_resolution = IntProperty(
-		name = "Bevel Resolution",
+		name = "Resolution",
 		description = "A float property",
 		default = 2,
 		min = 0,
@@ -444,23 +445,6 @@ class WireframeOverlay(bpy.types.Operator):
 				obj.select=False
 
 		return {'FINISHED'}
-# class HelloWorldOperator(bpy.types.Operator):
-#     bl_idname = "wm.hello_world"
-#     bl_label = "Print Values Operator"
-
-#     def execute(self, context):
-#         scene = context.scene
-#         mytool = scene.my_addon
-
-#         # print the values to the console
-#         print("Hello World")
-#         print("bool state:", mytool.my_bool)
-#         print("int value:", mytool.my_int)
-#         print("float value:", mytool.my_float)
-#         print("string value:", mytool.my_string)
-#         print("enum state:", mytool.my_enum)
-
-#         return {'FINISHED'}
 
 ###############################################################################
 #		Brender in Object mode
@@ -485,7 +469,6 @@ class BrenderImportPanel(Panel):
 	# Add UI elements here
 	def draw(self, context):
 		layout = self.layout
-
 		layout.operator("load.obj_as_anim") # fix this button
 
 
@@ -583,8 +566,18 @@ class BrenderRenderPanel(Panel):
 		scene = context.scene
 		myaddon = scene.my_addon
 
-		layout.prop(myaddon, "wireframe_obj_string")
-		layout.operator("object.apply_cloth_animation_material")
+		split = layout.split()
+		col = split.column()
+		col.label(text="Bevel: ")
+		col.prop(myaddon, "wf_bevel_depth")
+		col.prop(myaddon, "wf_bevel_resolution")
+
+		col = split.column()
+		col.label(text="Modification: ")
+		col.prop(myaddon, "wireframe_obj_string")
+
+		row = layout.row()
+		row.operator("object.wireframe_overlay")
 
 			
 	
