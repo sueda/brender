@@ -2,7 +2,7 @@ bl_info = {
 	"name": "Brender Panel Addon",
 	"description": "Creates a panel to edit Brender Animations.",
 	"author": "Lopez, Gustavo",
-	'version': (1, 1, 0),
+	'version': (1, 5, 4),
 	'blender': (2, 6, 7),
 	"location": "3D View > Tools",
 	"warning": "", # used for warning icon and text in addons panel
@@ -11,6 +11,16 @@ bl_info = {
 	"category": "Development"
 
 }
+
+####################################################
+# ToDo's
+####################################################
+# 1. create wireframe preview option
+# 2. create import every # of frames
+# 3. create get common name method to use across other methods
+# 	(obtaining selected object name)
+####################################################
+####################################################
 
 import bpy
 import mathutils
@@ -49,19 +59,7 @@ class CyclesButtonsPanel:
 
 class BrenderSettings(PropertyGroup):
 
-	# my_bool = BoolProperty(
- #        name="Enable or Disable",
- #        description="A bool property",
- #        default = False
- #        )
 
-	# my_int = IntProperty(
-	#     name = "Int Value",
-	#     description="A integer property",
-	#     default = 23,
-	#     min = 10,
-	#     max = 100
-	#     )
 	x_rot_float = FloatProperty(
 		name = "X",
 		description = "A float property",
@@ -205,44 +203,28 @@ class BrenderSettings(PropertyGroup):
 ####################################################
 import bpy
 
-def createClothMaterial():
-	if bpy.data.materials.get("ClothMaterial") is None:
-		# create cloth material
-		mat_name = "ClothMaterial"
-		mat = bpy.data.materials.new(mat_name)
-		mat.use_nodes = True 
-		nodes = mat.node_tree.nodes
-		# diffuse node is made by default
-		diffnode = nodes["Diffuse BSDF"]
-		checkernode = nodes.new('ShaderNodeTexChecker')
-		uvmapnode = nodes.new('ShaderNodeUVMap')
-		# organize nodes
-		diffnode.location = (100,300)
-		checkernode.location = (-100,300)
-		uvmapnode.location = (-300,300)
-		# apply checker primary and secondary colors
-		checkernode.inputs[1].default_value = (0.456, 0.386, 0.150, 1)
-		checkernode.inputs[2].default_value = (0.080, 0, 0, 1)
-		# link nodes
-		links = mat.node_tree.links
-		links.new(checkernode.outputs[0], diffnode.inputs[0]) 
-		links.new(uvmapnode.outputs[0], checkernode.inputs[0])
 
-def createCubeMaterial():
-	if bpy.data.materials.get("CubeMaterial") is None:
-		# create cube material
-		mat_name2 = "CubeMaterial"
-		mat2 = bpy.data.materials.new(mat_name2)
-		mat2.use_nodes = True 
-		nodes2 = mat2.node_tree.nodes
-		diffnode2 = nodes2["Diffuse BSDF"]
-		# apply checker primary and secondary colors
-		diffnode2.inputs[0].default_value = (0.198, 0.371, 0.694, 1)
 
 
 ###############################################################################
 #		Operators
 ###############################################################################
+
+# def GetCommonName():
+# 	if "_" in brenderObjname: # has naming scheme 00001_objname
+# 			for obj in bpy.data.objects:
+# 				if obj.name.endswith(brenderObjname.split("_", 1)[1]): # same last letters as brenderobj
+# 					theobj = bpy.data.objects[obj.name]
+# 					theobj.select = True
+# 					vec = mathutils.Vector((xTrans,yTrans,zTrans))
+# 					theobj.location = vec #theobj.location + vec
+# 					theobj.select = False
+
+# 	else: # just scale selected object
+# 		theobj = bpy.data.objects[brenderObjname]
+# 		vec = mathutils.Vector((xTrans,yTrans,zTrans))
+# 		theobj.location = vec #theobj.location + vec
+# 		theobj.select = False
 
 class BatchDelete(bpy.types.Operator):
 	"""Animation Object Resizing"""
@@ -287,9 +269,37 @@ class CreateDefaultMaterials(bpy.types.Operator):
 
 
 	def execute(self, context):
-		createClothMaterial()
-		createCubeMaterial()
+		if bpy.data.materials.get("ClothMaterial") is None:
+			# create cloth material
+			mat_name = "ClothMaterial"
+			mat = bpy.data.materials.new(mat_name)
+			mat.use_nodes = True 
+			nodes = mat.node_tree.nodes
+			# diffuse node is made by default
+			diffnode = nodes["Diffuse BSDF"]
+			checkernode = nodes.new('ShaderNodeTexChecker')
+			uvmapnode = nodes.new('ShaderNodeUVMap')
+			# organize nodes
+			diffnode.location = (100,300)
+			checkernode.location = (-100,300)
+			uvmapnode.location = (-300,300)
+			# apply checker primary and secondary colors
+			checkernode.inputs[1].default_value = (0.456, 0.386, 0.150, 1)
+			checkernode.inputs[2].default_value = (0.080, 0, 0, 1)
+			# link nodes
+			links = mat.node_tree.links
+			links.new(checkernode.outputs[0], diffnode.inputs[0]) 
+			links.new(uvmapnode.outputs[0], checkernode.inputs[0])
 
+		if bpy.data.materials.get("CubeMaterial") is None:
+			# create cube material
+			mat_name2 = "CubeMaterial"
+			mat2 = bpy.data.materials.new(mat_name2)
+			mat2.use_nodes = True 
+			nodes2 = mat2.node_tree.nodes
+			diffnode2 = nodes2["Diffuse BSDF"]
+			# apply checker primary and secondary colors
+			diffnode2.inputs[0].default_value = (0.198, 0.371, 0.694, 1)
 
 		return {'FINISHED'}
 
@@ -502,7 +512,16 @@ class WireframeOverlay(bpy.types.Operator):
 		scn = context.scene
 		myaddon = scn.my_addon
 		dupobjects = []
-		objectname = myaddon.wireframe_obj_string
+
+		if myaddon.wireframe_obj_string is not "":
+			objectname = myaddon.wireframe_obj_string
+		else:
+			brenderObjname = context.active_object.name
+			if "_" in brenderObjname: # has naming scheme 00001_objname
+				objectname =  brenderObjname.split("_", 1)[1]
+			else:
+				objectname = brenderObjname
+
 		copynames = objectname + ".001"
 
 		if self.DoesObjExist(copynames):
