@@ -17,8 +17,10 @@ bl_info = {
 ####################################################
 # 1. create wireframe preview option
 # 2. create import every # of frames
-# 3. create get common name method to use across other methods
-# 	(obtaining selected object name)
+# 3. create get common name method to use across other methods------------DONE
+# 	(obtaining selected object name)--------------------------------------DONE
+# 4. use get common name function in other methods to simplify
+# 5. lookup @classmethod specifics
 ####################################################
 ####################################################
 
@@ -210,21 +212,16 @@ import bpy
 #		Operators
 ###############################################################################
 
-# def GetCommonName():
-# 	if "_" in brenderObjname: # has naming scheme 00001_objname
-# 			for obj in bpy.data.objects:
-# 				if obj.name.endswith(brenderObjname.split("_", 1)[1]): # same last letters as brenderobj
-# 					theobj = bpy.data.objects[obj.name]
-# 					theobj.select = True
-# 					vec = mathutils.Vector((xTrans,yTrans,zTrans))
-# 					theobj.location = vec #theobj.location + vec
-# 					theobj.select = False
+def GetCommonName(brenderObjname):
+	returnBrenderName = brenderObjname
+	if "_" in brenderObjname: # has naming scheme 00001_objname
+		returnBrenderName = brenderObjname.split("_", 1)[1] # same last letters as brenderobj
 
-# 	else: # just scale selected object
-# 		theobj = bpy.data.objects[brenderObjname]
-# 		vec = mathutils.Vector((xTrans,yTrans,zTrans))
-# 		theobj.location = vec #theobj.location + vec
-# 		theobj.select = False
+	else: # just scale selected object
+		returnBrenderName = brenderObjname
+
+	return returnBrenderName
+
 
 class BatchDelete(bpy.types.Operator):
 	"""Animation Object Resizing"""
@@ -238,25 +235,17 @@ class BatchDelete(bpy.types.Operator):
 		myaddon = scene.my_addon
 		brenderObjname = context.active_object.name
 
+		brenderObjname = GetCommonName(brenderObjname)
 
-		if "_" in brenderObjname: # has naming scheme 00001_objname
-			print('Here')
-			for obj in bpy.data.objects:
-				if obj.name.endswith(brenderObjname.split("_", 1)[1]): # same last letters as brenderobj
-					obj.hide = obj.hide_render = False
-					obj.select = True
-					bpy.ops.object.delete(use_global=False)
-					obj.select = False
-			for mesh in bpy.data.meshes:
-				if mesh.name.endswith(brenderObjname.split("_", 1)[1]): # same last letters as brenderobj
-					bpy.data.meshes.remove(mesh)
-
-
-		else: # just delete selected object
-			theobj = bpy.data.objects[brenderObjname]
-			theobj.select = True
-			bpy.ops.object.delete()
-
+		for obj in bpy.data.objects:
+			if obj.name.endswith(brenderObjname): # same last letters as brenderobj
+				obj.hide = obj.hide_render = False
+				obj.select = True
+				bpy.ops.object.delete(use_global=False)
+				obj.select = False
+		for mesh in bpy.data.meshes:
+			if mesh.name.endswith(brenderObjname): # same last letters as brenderobj
+				bpy.data.meshes.remove(mesh)
 
 		return {'FINISHED'}
 
@@ -307,7 +296,7 @@ class CreateDefaultMaterials(bpy.types.Operator):
 class ApplyMaterialToAll(bpy.types.Operator):
 	"""Apply Animation Object Material"""
 	bl_idname = "object.apply_material_to_all"
-	bl_label = "Apply Cloth Animation Materials"
+	bl_label = "Apply Selected Material"
 	bl_options = {'REGISTER', 'UNDO'}
 
 	def execute(self, context):
@@ -315,78 +304,20 @@ class ApplyMaterialToAll(bpy.types.Operator):
 		scene = context.scene
 		myaddon = scene.my_addon
 		brenderObjname = context.active_object.name
-		# NOTE: currently appends the selectd object even though it already has new mat
+		brenderObjname = GetCommonName(brenderObjname)
 
-		if "_" in brenderObjname: # has naming scheme 00001_objname
-			print('Here')
-			for obj in bpy.data.objects:
-				if obj.name.endswith(brenderObjname.split("_", 1)[1]): # same last letters as brenderobj
-					obj.select = True
-					# append Material
-					if obj.data.materials:
-						obj.data.materials[0] = mat
-					else:
-						obj.data.materials.append(mat)
-					obj.select = False
-					
-
-		else: # just delete selected object
-			theobj = bpy.data.objects[brenderObjname]
-			theobj.select = True
-			objdata = theobj.data
-			# append Material
-			objdata.materials.append(mat)
-			theobj.select = False
-
-		return {'FINISHED'}
-
-
-
-class ApplyClothAnimationMaterial(bpy.types.Operator):
-	"""Apply Animation Object Material"""
-	bl_idname = "object.apply_cloth_animation_material"
-	bl_label = "Apply Cloth Animation Materials"
-	bl_options = {'REGISTER', 'UNDO'}
-
-	def execute(self, context):
-		mat = bpy.data.materials['ClothMaterial']
-		scene = context.scene
-		myaddon = scene.my_addon
-		
 		for obj in bpy.data.objects:
-			if obj.name.endswith(myaddon.checker_mat_obj_string):
-				theobj = bpy.data.objects[obj.name]
-				theobj.select = True
-				objdata = obj.data
+			if obj.name.endswith(brenderObjname): # same last letters as brenderobj
+				obj.select = True
 				# append Material
-				objdata.materials.append(mat)
-				theobj.select = False
+				if obj.data.materials:
+					obj.data.materials[0] = mat
+				else:
+					obj.data.materials.append(mat)
+				obj.select = False			
 
 		return {'FINISHED'}
 
-
-
-class ApplyCubeAnimationMaterial(bpy.types.Operator):
-	"""Apply Animation Object Material"""
-	bl_idname = "object.apply_cube_animation_material"
-	bl_label = "Apply Cube Animation Materials"
-	bl_options = {'REGISTER', 'UNDO'}
-	  
-	def execute(self, context):
-		mat = bpy.data.materials['CubeMaterial']
-		scene = context.scene
-		myaddon = scene.my_addon
-		
-		for obj in bpy.data.objects:
-			if obj.name.endswith(myaddon.blue_mat_obj_string):
-				theobj = bpy.data.objects[obj.name]
-				theobj.select = True
-				objdata = obj.data
-				# append Material
-				objdata.materials.append(mat)
-				theobj.select = False
-
-		return {'FINISHED'}
 
 
 class AnimationObjectResize(bpy.types.Operator):
@@ -395,7 +326,6 @@ class AnimationObjectResize(bpy.types.Operator):
 	bl_label = "Update"
 	bl_options = {'REGISTER', 'UNDO'}
 
-	# scale = bpy.props.IntProperty(name="scale", default=2, min=1, max=100)
 
 	def execute(self, context):
 		#scene = context.scene
@@ -404,51 +334,39 @@ class AnimationObjectResize(bpy.types.Operator):
 		scene = context.scene
 		myaddon = scene.my_addon
 		brenderObjname = context.active_object.name
+		brenderObjname = GetCommonName(brenderObjname)
 
-		if "_" in brenderObjname: # has naming scheme 00001_objname
-			for obj in bpy.data.objects:
-				if obj.name.endswith(brenderObjname.split("_", 1)[1]): # same last letters as brenderobj
-					theobj = bpy.data.objects[obj.name]
-					theobj.select = True
-					theobj.scale=(myaddon.x_scale_float,myaddon.y_scale_float,myaddon.z_scale_float)
-					theobj.select = False
+		for obj in bpy.data.objects:
+			if obj.name.endswith(brenderObjname): # same last letters as brenderobj
+				theobj = bpy.data.objects[obj.name]
+				theobj.select = True
+				theobj.scale=(myaddon.x_scale_float,myaddon.y_scale_float,myaddon.z_scale_float)
+				theobj.select = False
 
-		else: # just scale selected object
-			theobj = bpy.data.objects[brenderObjname]
-			theobj.scale=(myaddon.x_scale_float,myaddon.y_scale_float,myaddon.z_scale_float)
-			theobj.select = False
 
 		return {'FINISHED'}
 
-# can be updated: maybe add rotation mode
+
 class AnimationObjectRotate(bpy.types.Operator):
 	"""Animation Object Resizing"""
 	bl_idname = "object.rotate_animation_objects"
 	bl_label = "Update"
 	bl_options = {'REGISTER', 'UNDO'}
 
-	# scale = bpy.props.IntProperty(name="scale", default=2, min=1, max=100)
 
 	def execute(self, context):
-		#scene = context.scene
-		#cursor = scene.cursor_location
-		#obj = scene.objects.active
 		scene = context.scene
 		myaddon = scene.my_addon
 		brenderObjname = context.active_object.name
+		brenderObjname = GetCommonName(brenderObjname)
 
-		if "_" in brenderObjname: # has naming scheme 00001_objname
-			for obj in bpy.data.objects:
-				if obj.name.endswith(brenderObjname.split("_", 1)[1]): # same last letters as brenderobj
-					theobj = bpy.data.objects[obj.name]
-					theobj.select = True
-					theobj.rotation_euler = (myaddon.x_rot_float,myaddon.y_rot_float,myaddon.z_rot_float)
-					theobj.select = False
+		for obj in bpy.data.objects:
+			if obj.name.endswith(brenderObjname): # same last letters as brenderobj
+				theobj = bpy.data.objects[obj.name]
+				theobj.select = True
+				theobj.rotation_euler = (myaddon.x_rot_float,myaddon.y_rot_float,myaddon.z_rot_float)
+				theobj.select = False
 
-		else: # just scale selected object
-			theobj = bpy.data.objects[brenderObjname]
-			theobj.rotation_euler = (myaddon.x_rot_float,myaddon.y_rot_float,myaddon.z_rot_float)
-			theobj.select = False
 
 		return {'FINISHED'}
 
@@ -464,26 +382,20 @@ class AnimationObjectTranslate(bpy.types.Operator):
 		scene = context.scene
 		myaddon = scene.my_addon
 		brenderObjname = context.active_object.name
-		#cursor = scene.cursor_location
-		#obj = scene.objects.active
+		brenderObjname = GetCommonName(brenderObjname)
+
 		xTrans = myaddon.x_trans_float
 		yTrans = myaddon.y_trans_float
 		zTrans = myaddon.z_trans_float
 		
-		if "_" in brenderObjname: # has naming scheme 00001_objname
-			for obj in bpy.data.objects:
-				if obj.name.endswith(brenderObjname.split("_", 1)[1]): # same last letters as brenderobj
-					theobj = bpy.data.objects[obj.name]
-					theobj.select = True
-					vec = mathutils.Vector((xTrans,yTrans,zTrans))
-					theobj.location = vec #theobj.location + vec
-					theobj.select = False
+		for obj in bpy.data.objects:
+			if obj.name.endswith(brenderObjname): # same last letters as brenderobj
+				theobj = bpy.data.objects[obj.name]
+				theobj.select = True
+				vec = mathutils.Vector((xTrans,yTrans,zTrans))
+				theobj.location = vec #theobj.location + vec
+				theobj.select = False
 
-		else: # just scale selected object
-			theobj = bpy.data.objects[brenderObjname]
-			vec = mathutils.Vector((xTrans,yTrans,zTrans))
-			theobj.location = vec #theobj.location + vec
-			theobj.select = False
 
 		return {'FINISHED'}
 
@@ -496,10 +408,7 @@ class WireframeOverlay(bpy.types.Operator):
 
 
 	def DoesObjExist(self, objname):
-		# mat = bpy.data.materials['ClothMaterial']
 		self.objname = objname
-		# scene = context.scene
-		# myaddon = scene.my_addon
 		for obj in bpy.data.objects:
 			if obj.name.endswith(objname):
 				return True
@@ -513,14 +422,12 @@ class WireframeOverlay(bpy.types.Operator):
 		myaddon = scn.my_addon
 		dupobjects = []
 
+		# Check if name is typed in, if not, use selected object
 		if myaddon.wireframe_obj_string is not "":
 			objectname = myaddon.wireframe_obj_string
 		else:
 			brenderObjname = context.active_object.name
-			if "_" in brenderObjname: # has naming scheme 00001_objname
-				objectname =  brenderObjname.split("_", 1)[1]
-			else:
-				objectname = brenderObjname
+			objectname = GetCommonName(brenderObjname)
 
 		copynames = objectname + ".001"
 
@@ -544,8 +451,6 @@ class WireframeOverlay(bpy.types.Operator):
 
 		else:
 			# create copies
-			# print('False')
-				# -----------------------------------------
 			# duplicate object loop
 			for obj in bpy.data.objects:
 				if obj.name.endswith(objectname):
@@ -559,7 +464,6 @@ class WireframeOverlay(bpy.types.Operator):
 
 			
 			context.scene.frame_set(0)
-			# --------------------------------------------
 			# hide for keyframes
 			for i, obj in enumerate(dupobjects):
 				if i == 0:
@@ -584,15 +488,12 @@ class WireframeOverlay(bpy.types.Operator):
 				obj.keyframe_insert(data_path='hide')
 				obj.keyframe_insert(data_path='hide_render')
 
-
 			# end of duplicating opjects
 			context.scene.frame_set(0)
 			# make mesh
 			
 			for obj in bpy.data.objects:
 				if obj.name.endswith(copynames):
-					#print(obj.name)
-					# NEED TO MAKE THIS LOOP MORE DYNAMIC
 					#unhide object
 					obj.hide = obj.hide_render = False
 					scn.objects.active = obj
@@ -621,7 +522,7 @@ class WireframeOverlay(bpy.types.Operator):
 
 
 ###############################################################################
-#		Brender in Object mode
+#		Brender in Object mode UI Panels
 ###############################################################################
 
 # Class for the panel, derived by Panel
@@ -629,8 +530,6 @@ class WireframeOverlay(bpy.types.Operator):
 class BrenderEditPanel(View3DPanel, Panel):
 	bl_idname = "SCENE_PT_Brender_edit_panel"
 	bl_label = "Import/Edit Obj Animation"
-	# bl_space_type = "VIEW_3D"
-	# bl_region_type = "TOOLS"    # bl_category = "Tools" ## adds to tool panel
 	bl_category = "Brender"
 	bl_context = "objectmode"
 
@@ -644,19 +543,16 @@ class BrenderEditPanel(View3DPanel, Panel):
 	def draw(self, context):
 		layout = self.layout
 
-		layout.operator("load.obj_as_anim") # fix this button
+		layout.operator("load.obj_as_anim")
 		layout.operator("object.create_default_mats")
-		layout.operator("object.delete_all") #####################################################
+		layout.operator("object.delete_all") 
 
 
 class BrenderTransformPanel(View3DPanel, Panel):
 	bl_idname = "OBJECT_PT_Brender_transform_panel"
 	bl_label = "Object Transformation Tools"
-	# bl_space_type = "VIEW_3D"
-	# bl_region_type = "TOOLS"    # bl_category = "Tools" ## adds to tool panel
 	bl_category = 'Brender'
 	bl_context = "objectmode"
-
 
 	# not sure about this one
 	@classmethod
@@ -668,8 +564,6 @@ class BrenderTransformPanel(View3DPanel, Panel):
 		layout = self.layout
 		scene = context.scene
 		myaddon = scene.my_addon
-
-		#layout.label(text="Scale:")
 
 		split = layout.split()
 		# Scale Column
@@ -700,13 +594,10 @@ class BrenderTransformPanel(View3DPanel, Panel):
 class BrenderMaterialPanel(View3DPanel, Panel):
 	bl_idname = "OBJECT_PT_Brender_material_panel"
 	bl_label = "Brender Material Tools"
-	# bl_space_type = "VIEW_3D"
-	# bl_region_type = "TOOLS"    # bl_category = "Tools" ## adds to tool panel
 	bl_category = 'Brender'
 	bl_context = "objectmode"
 
 
-	# not sure about this one
 	@classmethod
 	def poll(self,context):
 		return context.object is not None
@@ -729,8 +620,6 @@ class BrenderMaterialPanel(View3DPanel, Panel):
 class BrenderRenderPanel(View3DPanel, Panel):
 	bl_idname = "OBJECT_PT_Brender_render_panel"
 	bl_label = "Brender Render Tools"
-	# bl_space_type = "VIEW_3D"
-	# bl_region_type = "TOOLS"    # bl_category = "Tools" ## adds to tool panel
 	bl_category = 'Brender'
 	bl_context = "objectmode"
 
