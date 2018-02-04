@@ -19,7 +19,7 @@ bl_info = {
 # 2. create import every # of frames
 # 3. create get common name method to use across other methods------------DONE
 # 	(obtaining selected object name)--------------------------------------DONE
-# 4. use get common name function in other methods to simplify
+# 4. use get common name function in other methods to simplify------------DONE
 # 5. lookup @classmethod specifics
 ####################################################
 ####################################################
