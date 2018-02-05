@@ -607,6 +607,29 @@ class WireframeOverlay(bpy.types.Operator):
 			return {'FINISHED'}
 
 
+class wireframePreview(bpy.types.Operator):
+	"""Wireframe Overlay"""
+	bl_idname = "object.wireframe_overlay_preview"
+	bl_label = "Preview Wireframe Overlay"
+	bl_options = {'REGISTER', 'UNDO'}
+
+	def execute(self, context):
+		scene = context.scene
+		myaddon = scene.my_addon
+		obj = context.object
+
+		if obj.type in ['CURVE']:
+			obj.data.bevel_depth=myaddon.wf_bevel_depth  #0.002
+			obj.data.fill_mode='FULL'
+			obj.data.bevel_resolution = myaddon.wf_bevel_resolution
+			obj.data.offset = myaddon.wf_offset
+			obj.data.extrude = myaddon.wf_extrude
+		else:
+			self.report({'ERROR'},'You must have a wireframe/curve object selected to preview.')
+
+		return {'FINISHED'}
+
+
 ###############################################################################
 #		Brender in Object mode UI Panels
 ###############################################################################
@@ -618,12 +641,8 @@ class BrenderEditPanel(View3DPanel, Panel):
 	bl_label = "Import/Edit Obj Animation"
 	bl_category = "Brender"
 	bl_context = "objectmode"
-
-
-	# not sure about this one
-	@classmethod
-	def poll(self,context):
-		return context.object is not None
+	# Removed poll classmethod so that this 
+	# panel is always visible
 
 	# Add UI elements here
 	def draw(self, context):
@@ -714,12 +733,8 @@ class BrenderRenderPanel(View3DPanel, Panel):
 	bl_label = "Brender Render Tools"
 	bl_category = 'Brender'
 	bl_context = "objectmode"
-
-
-	# not sure about this one
-	@classmethod
-	def poll(self,context):
-		return context.object is not None
+	# Removed poll classmethod so that this 
+	# panel is always visible
 
 	# Add UI elements here
 	def draw(self, context):
@@ -740,6 +755,9 @@ class BrenderRenderPanel(View3DPanel, Panel):
 		col.label(text="Modification: (Under Construction)")
 		col.prop(myaddon, "wf_offset")
 		col.prop(myaddon, "wf_extrude")
+
+		row = layout.row()
+		row.operator("object.wireframe_overlay_preview")
 
 		row = layout.row()
 		row.operator("object.wireframe_overlay")
