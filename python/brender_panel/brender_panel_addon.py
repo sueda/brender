@@ -2,7 +2,7 @@ bl_info = {
 	"name": "Brender Panel Addon",
 	"description": "Creates a panel to edit Brender Animations.",
 	"author": "Lopez, Gustavo",
-	'version': (1, 5, 4),
+	'version': (1, 5, 5),
 	'blender': (2, 6, 7),
 	"location": "3D View > Tools",
 	"warning": "", # used for warning icon and text in addons panel
@@ -15,12 +15,12 @@ bl_info = {
 ####################################################
 # ToDo's
 ####################################################
-# 1. create wireframe preview option
-# 2. create import every # of frames
+# 1. create wireframe preview option--------------------------------------DONE
+# 2. create import every # of frames--------------------------------------DONE
 # 3. create get common name method to use across other methods------------DONE
 # 	(obtaining selected object name)--------------------------------------DONE
 # 4. use get common name function in other methods to simplify------------DONE
-# 5. lookup @classmethod specifics
+# 5. lookup @classmethod specifics----------------------------------------DONE
 ####################################################
 ####################################################
 
@@ -608,7 +608,7 @@ class WireframeOverlay(bpy.types.Operator):
 
 
 class wireframePreview(bpy.types.Operator):
-	"""Wireframe Overlay"""
+	"""Wireframe Overlay Preview"""
 	bl_idname = "object.wireframe_overlay_preview"
 	bl_label = "Preview Wireframe Overlay"
 	bl_options = {'REGISTER', 'UNDO'}
