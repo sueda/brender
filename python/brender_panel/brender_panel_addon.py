@@ -146,7 +146,7 @@ class BrenderSettings(PropertyGroup):
 		default = 0.001,
 		min = 0.000,
 		max = 0.500,
-		step = 0.001,
+		step = 0.1,
 		precision = 3
 		)
 
@@ -172,7 +172,7 @@ class BrenderSettings(PropertyGroup):
 		default = 0.000,
 		min = 0.000,
 		max = 0.500,
-		step = 0.001,
+		step = 0.1,
 		precision = 3
 		)
 
@@ -182,7 +182,7 @@ class BrenderSettings(PropertyGroup):
 		default = 0.000,
 		min = 0.000,
 		max = 0.500,
-		step = 0.001,
+		step = 0.1,
 		precision = 3
 		)
 
