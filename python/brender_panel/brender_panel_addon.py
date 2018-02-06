@@ -508,14 +508,18 @@ class WireframeOverlay(bpy.types.Operator):
 		myaddon = scn.my_addon
 		dupobjects = []
 
-		# Check if name is typed in, if not, use selected object
+		# Check if name is typed in, if not, use selected object 
 		if myaddon.wireframe_obj_string is not "":
 			objectname = myaddon.wireframe_obj_string
 		else:
 			brenderObjname = context.active_object.name
 			objectname = GetCommonName(brenderObjname)
+		# is selected object the wireframe overlay or base object
+		if objectname.endswith(".001"):
+			copynames = objectname
+		else:
+			copynames = objectname + ".001"
 
-		copynames = objectname + ".001"
 
 		if self.DoesObjExist(copynames):
 			# object copies exist. dont copy
