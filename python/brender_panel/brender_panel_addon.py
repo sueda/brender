@@ -515,10 +515,10 @@ class WireframeOverlay(bpy.types.Operator):
 			brenderObjname = context.active_object.name
 			objectname = GetCommonName(brenderObjname)
 		# is selected object the wireframe overlay or base object
-		if objectname.endswith(".001"):
+		if objectname.endswith(".wireframe"):
 			copynames = objectname
 		else:
-			copynames = objectname + ".001"
+			copynames = objectname + ".wireframe"
 
 
 		if self.DoesObjExist(copynames):
@@ -547,6 +547,7 @@ class WireframeOverlay(bpy.types.Operator):
 					theobj = bpy.data.objects[obj.name]
 					# duplicates and selects the new object
 					new_obj = theobj.copy()
+					new_obj.name = theobj.name + '.wireframe' # new naming convention
 					new_obj.data = theobj.data.copy()
 					new_obj.animation_data_clear()
 					scn.objects.link(new_obj)
