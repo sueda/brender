@@ -547,11 +547,15 @@ class WireframeOverlay(bpy.types.Operator):
 					theobj = bpy.data.objects[obj.name]
 					# duplicates and selects the new object
 					new_obj = theobj.copy()
+					origName = new_obj.name # to correct default mesh name
 					new_obj.name = theobj.name + '.wireframe' # new naming convention
 					new_obj.data = theobj.data.copy()
 					new_obj.animation_data_clear()
 					scn.objects.link(new_obj)
 					dupobjects.append(new_obj)
+					# make sure mesh data has same name
+					mesh = bpy.data.meshes[origName]
+					mesh.name = new_obj.name
 
 			
 			context.scene.frame_set(0)
