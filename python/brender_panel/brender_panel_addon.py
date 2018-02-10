@@ -61,6 +61,13 @@ class CyclesButtonsPanel:
 
 class BrenderSettings(PropertyGroup):
 
+	testvar = FloatProperty(
+		name = "TestVariable",
+		description = "A float property",
+		default = 0.0,
+		step = 1.0,
+		precision=1
+		)
 
 	x_rot_float = FloatProperty(
 		name = "X",
@@ -159,7 +166,7 @@ class BrenderSettings(PropertyGroup):
 		)
 
 	frameskip = IntProperty(
-		name = "FrameSkip",
+		name = "",
 		description = "An integer property",
 		default = 0,
 		min = 0,
@@ -207,6 +214,15 @@ class BrenderSettings(PropertyGroup):
 		maxlen=1024,
 		)
 
+	mat_scale = FloatProperty(
+		name = "Material Scale",
+		description = "A float property",
+		default = 5.000,
+		min = 0.001,
+		max = 0.500,
+		step = 0.1,
+		precision = 3
+		)
 
 ####################################################
 # Run on Import
@@ -404,7 +420,30 @@ class ApplyMaterialToAll(bpy.types.Operator):
 
 		return {'FINISHED'}
 
+##########-----------------------UNDER CONSTRUCTION------------##############################################
+class ApplyMaterialScale(bpy.types.Operator):
+	"""Apply Animation Object Material"""
+	bl_idname = "object.apply_material_to_all"
+	bl_label = "Apply Selected Material"
+	bl_options = {'REGISTER', 'UNDO'}
 
+	def execute(self, context):
+		mat = bpy.context.object.active_material
+		scene = context.scene
+		myaddon = scene.my_addon
+		brenderObjname = context.active_object.name
+		brenderObjname = GetCommonName(brenderObjname)
+
+		for obj in bpy.data.objects:
+			if obj.name.endswith(brenderObjname): # same last letters as brenderobj
+				obj.select = True
+				# append Material
+				if obj.data.materials:
+					mat = obj.data.materials[0] 
+					## IMPLEMENT THIS TO MODIFY TEXTURE SCALE		
+
+		return {'FINISHED'}
+#################################################################################
 
 class AnimationObjectResize(bpy.types.Operator):
 	"""Animation Object Resizing"""
@@ -645,9 +684,9 @@ class wireframePreview(bpy.types.Operator):
 
 # Class for the panel, derived by Panel
 # creating BrenderPanel inherited from Panel class
-class BrenderEditPanel(View3DPanel, Panel):
-	bl_idname = "SCENE_PT_Brender_edit_panel"
-	bl_label = "Import/Edit Obj Animation"
+class BrenderImportPanel(View3DPanel, Panel):
+	bl_idname = "SCENE_PT_Brender_import_panel"
+	bl_label = "Import Obj as Animation"
 	bl_category = "Brender"
 	bl_context = "objectmode"
 	# Removed poll classmethod so that this 
@@ -659,20 +698,48 @@ class BrenderEditPanel(View3DPanel, Panel):
 		scene = context.scene
 		myaddon = scene.my_addon
 
+		layout.label("Import")
 		layout.operator("load.obj_as_anim")
+		layout.label("Advanced Import")
 		row = layout.row()
-		split = row.split()
-		split.operator("load.obj_as_anim_advanced")
+		box = row.box()
+		split = box.split()
+		split.label("Skip every ")
 		split.prop(myaddon, "frameskip")
-		layout.operator("object.create_default_mats")
-		layout.operator("object.delete_all") 
+		split.label("frames")
+		split.operator("load.obj_as_anim_advanced", text="Import")
+		## split = box.split(percentage=0.25)
+		## split.alignment = 'CENTER'
+		## split.operator("load.obj_as_anim_advanced", text="Import")
+
+
+class BrenderEditPanel(View3DPanel, Panel):
+	bl_idname = "SCENE_PT_Brender_edit_panel"
+	bl_label = "Edit"
+	bl_category = "Brender"
+	bl_context = "objectmode"
+	# Removed poll classmethod so that this 
+	# panel is always visible
+
+	# Add UI elements here
+	def draw(self, context):
+		layout = self.layout
+		scene = context.scene
+		myaddon = scene.my_addon
+		
+		layout.operator("object.delete_all")
+		layout.label("Advanced")
+		layout.prop(myaddon,"testvar") 
+
+
 
 
 class BrenderTransformPanel(View3DPanel, Panel):
 	bl_idname = "OBJECT_PT_Brender_transform_panel"
-	bl_label = "Object Transformation Tools"
+	bl_label = "Transform"
 	bl_category = 'Brender'
 	bl_context = "objectmode"
+	bl_options = {'DEFAULT_CLOSED'}
 
 	# not sure about this one
 	@classmethod
@@ -713,7 +780,7 @@ class BrenderTransformPanel(View3DPanel, Panel):
 
 class BrenderMaterialPanel(View3DPanel, Panel):
 	bl_idname = "OBJECT_PT_Brender_material_panel"
-	bl_label = "Brender Material Tools"
+	bl_label = "Materials"
 	bl_category = 'Brender'
 	bl_context = "objectmode"
 
@@ -728,6 +795,7 @@ class BrenderMaterialPanel(View3DPanel, Panel):
 		myaddon = scene.my_addon
 		ob = context.object
 
+		layout.operator("object.create_default_mats")
 		split = layout.split()
 
 		if ob:
@@ -739,9 +807,10 @@ class BrenderMaterialPanel(View3DPanel, Panel):
 
 class BrenderRenderPanel(View3DPanel, Panel):
 	bl_idname = "OBJECT_PT_Brender_render_panel"
-	bl_label = "Brender Render Tools"
+	bl_label = "Wireframe Overlay"
 	bl_category = 'Brender'
 	bl_context = "objectmode"
+	bl_options = {'DEFAULT_CLOSED'}
 	# Removed poll classmethod so that this 
 	# panel is always visible
 
