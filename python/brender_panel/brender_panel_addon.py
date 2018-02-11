@@ -267,13 +267,17 @@ class LoadObjAsAnimationAdvanced(bpy.types.Operator):
 		#add all objs to scene
 		# this makes the frame skip option available
 		count=0
+		lastframe = 0
 		modval = myaddon.frameskip + 1
 		for f in files:
 			if count % modval == 0:
 				fp = spath[0] + "/" + f
 				self.load_obj(fp,f)
+				lastframe+=1
 
 			count+=1
+		bpy.context.scene.frame_end = lastframe - 1
+		# bpy.ops.time.view_all() # should view all, but needs to apply to timeline
 		
 		bpy.context.scene.frame_set(0)
 		for i, ob in enumerate(self.objects):
@@ -299,6 +303,9 @@ class LoadObjAsAnimationAdvanced(bpy.types.Operator):
 			ob.hide = ob.hide_render = False
 			ob.keyframe_insert(data_path='hide')
 			ob.keyframe_insert(data_path='hide_render')
+
+		# numOfFrames = len(self.objects)
+		# bpy.context.scene.frame_end = numOfFrames
 				
 		return{'FINISHED'}
 
@@ -421,28 +428,28 @@ class ApplyMaterialToAll(bpy.types.Operator):
 		return {'FINISHED'}
 
 ##########-----------------------UNDER CONSTRUCTION------------##############################################
-class ApplyMaterialScale(bpy.types.Operator):
-	"""Apply Animation Object Material"""
-	bl_idname = "object.apply_material_to_all"
-	bl_label = "Apply Selected Material"
-	bl_options = {'REGISTER', 'UNDO'}
+# class ApplyMaterialScale(bpy.types.Operator):
+# 	"""Apply Animation Object Material"""
+# 	bl_idname = "object.apply_material_to_all"
+# 	bl_label = "Apply Selected Material"
+# 	bl_options = {'REGISTER', 'UNDO'}
 
-	def execute(self, context):
-		mat = bpy.context.object.active_material
-		scene = context.scene
-		myaddon = scene.my_addon
-		brenderObjname = context.active_object.name
-		brenderObjname = GetCommonName(brenderObjname)
+# 	def execute(self, context):
+# 		mat = bpy.context.object.active_material
+# 		scene = context.scene
+# 		myaddon = scene.my_addon
+# 		brenderObjname = context.active_object.name
+# 		brenderObjname = GetCommonName(brenderObjname)
 
-		for obj in bpy.data.objects:
-			if obj.name.endswith(brenderObjname): # same last letters as brenderobj
-				obj.select = True
-				# append Material
-				if obj.data.materials:
-					mat = obj.data.materials[0] 
-					## IMPLEMENT THIS TO MODIFY TEXTURE SCALE		
+# 		for obj in bpy.data.objects:
+# 			if obj.name.endswith(brenderObjname): # same last letters as brenderobj
+# 				obj.select = True
+# 				# append Material
+# 				if obj.data.materials:
+# 					mat = obj.data.materials[0] 
+# 					## IMPLEMENT THIS TO MODIFY TEXTURE SCALE		
 
-		return {'FINISHED'}
+# 		return {'FINISHED'}
 #################################################################################
 
 class AnimationObjectResize(bpy.types.Operator):
