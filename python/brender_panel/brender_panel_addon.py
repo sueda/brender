@@ -214,6 +214,20 @@ class BrenderSettings(PropertyGroup):
 		maxlen=1024,
 		)
 
+	process_obj_name = StringProperty(
+		name="Process Object Name",
+		description=":",
+		default="*_Cloth3D",
+		maxlen=1024,
+		)
+
+	process_mat = StringProperty(
+		name="Process Material Name",
+		description=":",
+		default="!ClothMaterial",
+		maxlen=1024,
+		)
+
 	mat_scale = FloatProperty(
 		name = "Material Scale",
 		description = "A float property",
@@ -239,6 +253,7 @@ import bpy
 # The following Function is a modification of 'cmomoney's blender_import_obj_anim method
 import bpy, os
 from bpy.props import *
+import fnmatch
 
 class LoadObjAsAnimationAdvanced(bpy.types.Operator):
 	bl_idname = 'load.obj_as_anim_advanced'
@@ -330,6 +345,41 @@ def GetCommonName(brenderObjname):
 		returnBrenderName = brenderObjname
 
 	return returnBrenderName
+
+
+
+class ProcessObjects(bpy.types.Operator):
+	"""Animation Object Resizing"""
+	bl_idname = "object.process_objects"
+	bl_label = "UnderConstruction"
+	bl_options = {'REGISTER', 'UNDO'}
+
+
+	def execute(self, context):
+		# Find all objects in the scene by name (e.g., foo* would match foo0001, etc.).
+		scene = bpy.context.scene
+		myaddon = scene.my_addon
+		cloth_objs = [obj for obj in scene.objects if fnmatch.fnmatchcase(obj.name, myaddon.process_obj_name)]
+		# Material to be applied. This material must already exist in the blender scene.
+		mat = bpy.data.materials.get(myaddon.process_mat)
+		# Any edge angle below this will be rendered with smooth normals
+		angle_thresh = 30*3.14159/180.0
+		# Go through the objects
+		for ob in cloth_objs:
+			for poly in ob.data.polygons:
+				poly.use_smooth = True
+			# see if there is already a modifier named "EdgeSplit" and use it
+			mod = ob.modifiers.get("EdgeSplit")
+			if mod is None:
+				# otherwise add a modifier to selected object
+				mod = ob.modifiers.new("EdgeSplit", 'EDGE_SPLIT')
+			mod.split_angle = angle_thresh
+			if ob.data.materials:
+				ob.data.materials[0] = mat
+			else:
+				ob.data.materials.append(mat)
+
+		return {'FINISHED'}
 
 
 class BatchDelete(bpy.types.Operator):
@@ -847,6 +897,31 @@ class BrenderRenderPanel(View3DPanel, Panel):
 		row = layout.row()
 		row.operator("object.wireframe_overlay")
 
+
+class BrenderProcessingPanel(View3DPanel, Panel):
+	bl_idname = "OBJECT_PT_Brender_processing_panel"
+	bl_label = "Object Processing"
+	bl_category = 'Brender'
+	bl_context = "objectmode"
+	bl_options = {'DEFAULT_CLOSED'}
+	# Removed poll classmethod so that this 
+	# panel is always visible
+
+	# Add UI elements here
+	def draw(self, context):
+		layout = self.layout
+		scene = context.scene
+		myaddon = scene.my_addon
+
+		row = layout.row()
+		row.prop(myaddon, "process_obj_name")
+
+		row = layout.row()
+		row.prop(myaddon, "process_mat")
+
+		layout.operator("object.process_objects")
+
+		
 
 
 # ------------------------------------------------------------------------
