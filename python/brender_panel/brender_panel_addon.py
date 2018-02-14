@@ -238,6 +238,13 @@ class BrenderSettings(PropertyGroup):
 		precision = 3
 		)
 
+	cam_name = StringProperty(
+		name="Camera Name",
+		description=":",
+		default="",
+		maxlen=1024,
+		)
+
 ####################################################
 # Run on Import
 ####################################################
@@ -451,6 +458,63 @@ class CreateDefaultMaterials(bpy.types.Operator):
 
 		return {'FINISHED'}
 
+class CreateWireframeMaterial(bpy.types.Operator):
+	"""Animation Object Resizing"""
+	bl_idname = "object.create_default_wf_mat"
+	bl_label = "Create Wireframe Material (2D Default)"
+	bl_options = {'REGISTER', 'UNDO'}
+
+
+	def execute(self, context):
+		if bpy.data.materials.get("Wireframe2DMaterial") is None:
+			# create wireframe material
+			mat_name = "Wireframe2DMaterial"
+			mat = bpy.data.materials.new(mat_name)
+			mat.use_nodes = True 
+			nodes = mat.node_tree.nodes
+			emissnode = nodes.new(type='ShaderNodeEmission')
+			diffnode = nodes["Diffuse BSDF"]
+			outputnode = nodes["Material Output"]
+			# delete the diffuse node
+			nodes.remove(diffnode)
+			# apply emission defaults
+			# emission color
+			emissnode.inputs[0].default_value = (0.8, 0.8, 0.8, 1)
+			#emission strength
+			emissnode.inputs[1].default_value = (5.0)
+			# link node to output
+			links = mat.node_tree.links
+			links.new(emissnode.outputs[0], outputnode.inputs[0])
+
+		return {'FINISHED'}
+
+
+class CreateClearClothMaterial(bpy.types.Operator):
+	"""Animation Object Resizing"""
+	bl_idname = "object.create_clear_mat"
+	bl_label = "Create Clear Material (2D Cloth Default)"
+	bl_options = {'REGISTER', 'UNDO'}
+
+
+	def execute(self, context):
+		if bpy.data.materials.get("Clear2DMaterial") is None:
+			# create wireframe material
+			mat_name = "Clear2DMaterial"
+			mat = bpy.data.materials.new(mat_name)
+			mat.use_nodes = True 
+			nodes = mat.node_tree.nodes
+			translunode = nodes.new(type='ShaderNodeBsdfTransparent')
+			diffnode = nodes["Diffuse BSDF"]
+			outputnode = nodes["Material Output"]
+			# delete the diffuse node
+			nodes.remove(diffnode)
+			# link node to output
+			links = mat.node_tree.links
+			links.new(translunode.outputs[0], outputnode.inputs[0])
+
+		return {'FINISHED'}
+
+# ShaderNodeBsdfTransparent
 
 class ApplyMaterialToAll(bpy.types.Operator):
 	"""Apply Animation Object Material"""
@@ -735,6 +799,71 @@ class wireframePreview(bpy.types.Operator):
 		return {'FINISHED'}
 
 
+class cameraSetup2D(bpy.types.Operator):
+	"""Wireframe Overlay Preview"""
+	bl_idname = "object.cam_setup_2d"
+	bl_label = "Apply Camera Defaults (2D)"
+	bl_options = {'REGISTER', 'UNDO'}
+
+	def execute(self, context):
+		scene = context.scene
+		myaddon = scene.my_addon
+		
+		if myaddon.cam_name is not "":
+			cam = bpy.data.objects[myaddon.cam_name]
+		else:
+			cam = context.object
+
+		if cam.type in ['CAMERA']:
+			cam.location = mathutils.Vector((0.5, 0.5, 2.15))
+			cam.rotation_euler = mathutils.Euler((0.0, -0.0, 0.0), 'XYZ')
+
+		return {'FINISHED'}
+
+
+class createBlackBackground(bpy.types.Operator):
+	"""Wireframe Overlay Preview"""
+	bl_idname = "object.create_black_bg"
+	bl_label = "Create Black BG (2D Default)"
+	bl_options = {'REGISTER', 'UNDO'}
+
+	def execute(self, context):
+		scene = context.scene
+		myaddon = scene.my_addon
+		
+		bpy.ops.mesh.primitive_plane_add()
+		pln = bpy.context.active_object
+		pln.name = "background"
+		pln.location = mathutils.Vector((0.0, 0.0, -0.025))
+		pln.scale =  mathutils.Vector((5.0, 5.0, 5.0))
+
+		if bpy.data.materials.get("BlackMaterial") is None:
+			# create cube material
+			mat_name = "BlackMaterial"
+			mat = bpy.data.materials.new(mat_name)
+			mat.use_nodes = True 
+			nodes = mat.node_tree.nodes
+			diffnode = nodes["Diffuse BSDF"]
+			# apply checker primary and secondary colors
+			diffnode.inputs[0].default_value = (0.0, 0.0, 0.0, 1)
+			diffnode.inputs[1].default_value = (0.0)
+
+		pln = bpy.data.objects['background']
+		mat = bpy.data.materials.get("BlackMaterial")
+		pln.select = True
+
+		if pln.data.materials:
+			pln.data.materials[0] = mat
+		else:
+			pln.data.materials.append(mat)
+		pln.select = False	
+
+		return {'FINISHED'}
+
+
+
+
+
 ###############################################################################
 #		Brender in Object mode UI Panels
 ###############################################################################
@@ -922,6 +1051,35 @@ class BrenderProcessingPanel(View3DPanel, Panel):
 		layout.operator("object.process_objects")
 
 		
+class BrenderScenePanel(View3DPanel, Panel):
+	bl_idname = "OBJECT_PT_Brender_scene_panel"
+	bl_label = "Scene Tools"
+	bl_category = 'Brender'
+	bl_context = "objectmode"
+	bl_options = {'DEFAULT_CLOSED'}
+	# Removed poll classmethod so that this 
+	# panel is always visible
+
+	# Add UI elements here
+	def draw(self, context):
+		layout = self.layout
+		scene = context.scene
+		myaddon = scene.my_addon
+
+		layout.label(text="Camera Options")
+		row = layout.row()
+		row.prop(myaddon, "cam_name")
+		layout.operator("object.cam_setup_2d")
+
+		layout.label(text="Default BG")
+		layout.operator("object.create_black_bg")
+
+		layout.label(text="2D Material Defaults")
+		layout.operator("object.create_default_wf_mat")
+		layout.operator("object.create_clear_mat")
+
+		layout.label(text="2D Lighting defaults")
+		layout.label(text="under construction")
 
 
 # ------------------------------------------------------------------------
