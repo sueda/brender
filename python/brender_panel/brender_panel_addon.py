@@ -817,6 +817,35 @@ class cameraSetup2D(bpy.types.Operator):
 		if cam.type in ['CAMERA']:
 			cam.location = mathutils.Vector((0.5, 0.5, 2.15))
 			cam.rotation_euler = mathutils.Euler((0.0, -0.0, 0.0), 'XYZ')
+			cam.data.type = 'ORTHO'
+			cam.data.ortho_scale = 1.9
+
+		return {'FINISHED'}
+
+class lightSetup2D(bpy.types.Operator):
+	"""Wireframe Overlay Preview"""
+	bl_idname = "object.light_setup_2d"
+	bl_label = "Apply Lighting Defaults (2D)"
+	bl_options = {'REGISTER', 'UNDO'}
+
+	def execute(self, context):
+		scene = context.scene
+		myaddon = scene.my_addon
+		
+		light = bpy.data.objects['Lamp']##context.object
+
+		if light.type in ['LAMP']:
+			light.data.type = 'SUN'
+			light.rotation_euler = mathutils.Euler((0.0,0.0,1.578),'XYZ')
+			light.data.use_nodes = True
+			ltnodes = light.data.node_tree.nodes
+			outputnode = ltnodes['Lamp Output']
+			emissnode = ltnodes.new(type='ShaderNodeEmission')
+			emissnode.inputs[1].default_value = (4.000)
+
+			links = light.data.node_tree.links
+			links.new(emissnode.outputs[0], outputnode.inputs[0])
+
 
 		return {'FINISHED'}
 
@@ -1070,6 +1099,9 @@ class BrenderScenePanel(View3DPanel, Panel):
 		row = layout.row()
 		row.prop(myaddon, "cam_name")
 		layout.operator("object.cam_setup_2d")
+
+		layout.label(text="Light Options")
+		layout.operator("object.light_setup_2d")
 
 		layout.label(text="Default BG")
 		layout.operator("object.create_black_bg")
