@@ -245,6 +245,11 @@ class BrenderSettings(PropertyGroup):
 		maxlen=1024,
 		)
 
+	# Background Values
+	# cam_x_rot_float
+	# cam_y_rot_float
+	# cam_z_rot_float
+
 ####################################################
 # Run on Import
 ####################################################
@@ -257,10 +262,15 @@ import bpy
 #		Operators
 ###############################################################################
 
+
 # The following Function is a modification of 'cmomoney's blender_import_obj_anim method
 import bpy, os
 from bpy.props import *
 import fnmatch
+
+from bpy_extras.io_utils import ExportHelper
+from bpy.props import StringProperty, BoolProperty, EnumProperty
+from bpy.types import Operator
 
 class LoadObjAsAnimationAdvanced(bpy.types.Operator):
 	bl_idname = 'load.obj_as_anim_advanced'
@@ -387,6 +397,82 @@ class ProcessObjects(bpy.types.Operator):
 				ob.data.materials.append(mat)
 
 		return {'FINISHED'}
+
+
+##################################################################################################################################
+##################################################################################################################################
+##################################################################################################################################
+# Modified Version
+import bpy
+
+
+def write_settings_data(context, filepath, myaddon):
+	# scene = bpy.context.scene
+	# myaddon = scene.myaddon
+	print("running write_settings_data...")
+	f = open(filepath, 'w', encoding='utf-8')
+	f.write("Brender Settings: \n")
+	f.write("x_trans_float: %.3f \n" % myaddon.x_trans_float)
+	f.write("y_trans_float: %.3f \n" % myaddon.y_trans_float)
+	f.write("z_trans_float: %.3f \n" % myaddon.z_trans_float)
+	x_rot_float
+	f.close()
+
+	return {'FINISHED'}
+
+
+# ExportHelper is a helper class, defines filename and
+# invoke() function which calls the file selector.
+from bpy_extras.io_utils import ExportHelper
+from bpy.props import StringProperty, BoolProperty, EnumProperty
+from bpy.types import Operator
+
+
+class ExportBrenderSettings(Operator, ExportHelper):
+	"""This appears in the tooltip of the operator and in the generated docs"""
+	bl_idname = "export_brend.settings_data"  # important since its how bpy.ops.import_test.settings_data is constructed
+	bl_label = "Export Some Data"
+
+	# ExportHelper mixin class uses this
+	filename_ext = ".brend"
+
+	filter_glob = StringProperty(
+			default="*.brend",
+			options={'HIDDEN'},
+			maxlen=255,  # Max internal buffer length, longer would be clamped.
+			)
+
+
+	def execute(self, context):
+		scene = context.scene
+		myaddon = scene.my_addon
+		return write_settings_data(context, self.filepath, myaddon)
+
+
+# Only needed if you want to add into a dynamic menu
+# def menu_func_export(self, context):
+# 	self.layout.operator(ExportBrenderSettings.bl_idname, text="Text Export Operator")
+
+
+# def register():
+# 	bpy.utils.register_class(ExportBrenderSettings)
+# 	bpy.types.INFO_MT_file_export.append(menu_func_export)
+
+
+# def unregister():
+# 	bpy.utils.unregister_class(ExportBrenderSettings)
+# 	bpy.types.INFO_MT_file_export.remove(menu_func_export)
+
+
+# if __name__ == "__main__":
+# 	register()
+
+	# test call
+	# bpy.ops.export_brend.settings_data('INVOKE_DEFAULT')
+
+		
+    
+
 
 
 class BatchDelete(bpy.types.Operator):
@@ -927,7 +1013,7 @@ class BrenderImportPanel(View3DPanel, Panel):
 		## split.alignment = 'CENTER'
 		## split.operator("load.obj_as_anim_advanced", text="Import")
 
-
+##################################################################################################################
 class BrenderEditPanel(View3DPanel, Panel):
 	bl_idname = "SCENE_PT_Brender_edit_panel"
 	bl_label = "Edit"
@@ -945,6 +1031,7 @@ class BrenderEditPanel(View3DPanel, Panel):
 		layout.operator("object.delete_all")
 		layout.label("Advanced")
 		layout.prop(myaddon,"testvar") 
+		layout.operator(ExportBrenderSettings.bl_idname, text="Text Export Operator")
 
 
 
@@ -1128,3 +1215,5 @@ def unregister():
 
 if __name__ == "__main__":
 	register()
+
+	# exportBrenderSettings('INVOKE_DEFAULT')
