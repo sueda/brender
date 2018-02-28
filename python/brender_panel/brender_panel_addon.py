@@ -15,12 +15,7 @@ bl_info = {
 ####################################################
 # ToDo's
 ####################################################
-# 1. create wireframe preview option--------------------------------------DONE
-# 2. create import every # of frames--------------------------------------DONE
-# 3. create get common name method to use across other methods------------DONE
-# 	(obtaining selected object name)--------------------------------------DONE
-# 4. use get common name function in other methods to simplify------------DONE
-# 5. lookup @classmethod specifics----------------------------------------DONE
+# 1. 
 ####################################################
 ####################################################
 
@@ -405,21 +400,36 @@ class ProcessObjects(bpy.types.Operator):
 # Modified Version
 import bpy
 
-
 def write_settings_data(context, filepath, myaddon):
 	# scene = bpy.context.scene
 	# myaddon = scene.myaddon
 	print("running write_settings_data...")
 	f = open(filepath, 'w', encoding='utf-8')
-	f.write("Brender Settings: \n")
-	f.write("x_trans_float: %.3f \n" % myaddon.x_trans_float)
-	f.write("y_trans_float: %.3f \n" % myaddon.y_trans_float)
-	f.write("z_trans_float: %.3f \n" % myaddon.z_trans_float)
-	x_rot_float
+	f.write("%.3f \n" % myaddon.x_trans_float)
+	f.write("%.3f \n" % myaddon.y_trans_float)
+	f.write("%.3f \n" % myaddon.z_trans_float)
+	# x_rot_float
 	f.close()
 
 	return {'FINISHED'}
 
+
+def read_settings_data(context, filepath, myaddon):
+	print("running read_settings_data...")
+	f = open(filepath, 'r', encoding='utf-8')
+	#data = f.read()
+	settings = []
+	for line in f:
+		# settings.append(f.readline())
+		settings.append(line.split(" ", 1)[0])
+	# print(settings)
+	f.close()
+
+	myaddon.x_trans_float = float(settings[0])
+	myaddon.y_trans_float = float(settings[1])
+	myaddon.z_trans_float = float(settings[2])
+
+	return {'FINISHED'}
 
 # ExportHelper is a helper class, defines filename and
 # invoke() function which calls the file selector.
@@ -431,7 +441,7 @@ from bpy.types import Operator
 class ExportBrenderSettings(Operator, ExportHelper):
 	"""This appears in the tooltip of the operator and in the generated docs"""
 	bl_idname = "export_brend.settings_data"  # important since its how bpy.ops.import_test.settings_data is constructed
-	bl_label = "Export Some Data"
+	bl_label = "Export Brender Settings"
 
 	# ExportHelper mixin class uses this
 	filename_ext = ".brend"
@@ -449,29 +459,46 @@ class ExportBrenderSettings(Operator, ExportHelper):
 		return write_settings_data(context, self.filepath, myaddon)
 
 
-# Only needed if you want to add into a dynamic menu
-# def menu_func_export(self, context):
-# 	self.layout.operator(ExportBrenderSettings.bl_idname, text="Text Export Operator")
 
 
-# def register():
-# 	bpy.utils.register_class(ExportBrenderSettings)
-# 	bpy.types.INFO_MT_file_export.append(menu_func_export)
+# ImportHelper is a helper class, defines filename and
+# invoke() function which calls the file selector.
+from bpy_extras.io_utils import ImportHelper
 
+class ImportBrenderSettings(Operator, ImportHelper):
+	"""This appears in the tooltip of the operator and in the generated docs"""
+	bl_idname = "import_brend.settings_data"  # important since its how bpy.ops.import_brend.settings_data is constructed
+	bl_label = "Import Brender Settings"
 
-# def unregister():
-# 	bpy.utils.unregister_class(ExportBrenderSettings)
-# 	bpy.types.INFO_MT_file_export.remove(menu_func_export)
+	# ImportHelper mixin class uses this
+	filename_ext = ".brend"
 
+	filter_glob = StringProperty(
+			default="*.brend",
+			options={'HIDDEN'},
+			maxlen=255,  # Max internal buffer length, longer would be clamped.
+			)
 
-# if __name__ == "__main__":
-# 	register()
+	# List of operator properties, the attributes will be assigned
+	# to the class instance from the operator settings before calling.
+	use_setting = BoolProperty(
+			name="Example Boolean",
+			description="Example Tooltip",
+			default=True,
+			)
 
-	# test call
-	# bpy.ops.export_brend.settings_data('INVOKE_DEFAULT')
+	type = EnumProperty(
+			name="Example Enum",
+			description="Choose between two items",
+			items=(('OPT_A', "First Option", "Description one"),
+				   ('OPT_B', "Second Option", "Description two")),
+			default='OPT_A',
+			)
 
-		
-    
+	def execute(self, context):
+		scene = context.scene
+		myaddon = scene.my_addon
+		return read_settings_data(context, self.filepath, myaddon)
 
 
 
@@ -1031,8 +1058,8 @@ class BrenderEditPanel(View3DPanel, Panel):
 		layout.operator("object.delete_all")
 		layout.label("Advanced")
 		layout.prop(myaddon,"testvar") 
-		layout.operator(ExportBrenderSettings.bl_idname, text="Text Export Operator")
-
+		layout.operator(ExportBrenderSettings.bl_idname, text="Export Brender Settings")
+		layout.operator(ImportBrenderSettings.bl_idname, text="Import Brender Settings")
 
 
 
