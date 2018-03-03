@@ -240,6 +240,12 @@ class BrenderSettings(PropertyGroup):
 		maxlen=1024,
 		)
 
+	bg_bool = BoolProperty(
+		name="bg_bool",
+		description=":",
+		default=False
+		)
+
 	# Background Values
 	# cam_x_rot_float
 	# cam_y_rot_float
@@ -397,7 +403,8 @@ class ProcessObjects(bpy.types.Operator):
 ##################################################################################################################################
 ##################################################################################################################################
 ##################################################################################################################################
-# Modified Version
+
+
 import bpy
 
 def write_settings_data(context, filepath, myaddon):
@@ -405,9 +412,28 @@ def write_settings_data(context, filepath, myaddon):
 	# myaddon = scene.myaddon
 	print("running write_settings_data...")
 	f = open(filepath, 'w', encoding='utf-8')
+	f.write("# Brender Settings:\n")
+	f.write("# Object.Location:\n")
 	f.write("%.3f \n" % myaddon.x_trans_float)
 	f.write("%.3f \n" % myaddon.y_trans_float)
 	f.write("%.3f \n" % myaddon.z_trans_float)
+	f.write("# Background:")
+	if "brenderDefaults.background" in bpy.data.objects:
+		f.write("True\n")
+	else:
+		f.write("False\n")
+	f.write("# Camera:")
+	if "brenderDefaults.Camera" in bpy.data.objects:
+		f.write("True\n")
+	else:
+		f.write("False\n")	
+	f.write("# Lamp:")
+	if "brenderDefaults.Lamp" in bpy.data.objects:
+		f.write("True\n")
+	else:
+		f.write("False\n")
+
+
 	# x_rot_float
 	f.close()
 
@@ -428,6 +454,40 @@ def read_settings_data(context, filepath, myaddon):
 	myaddon.x_trans_float = float(settings[0])
 	myaddon.y_trans_float = float(settings[1])
 	myaddon.z_trans_float = float(settings[2])
+
+	return {'FINISHED'}
+
+def read_settings_data_testing(context, filepath, myaddon):
+	print("running read_settings_data...")
+	f = open(filepath, 'r', encoding='utf-8')
+	#data = f.read()
+	settings = []
+	for line in f:
+		# settings.append(f.readline())
+		settings.append(line.rstrip())
+	# print(settings)
+	f.close()
+
+	count = 0
+
+	# if "True" in settings:
+	# 	createBlackBackground.execute(bpy.context, bpy.context) # note passed bpy.context as both dummy var and context
+
+	for str in settings:
+		if(str[0] == '#'):
+			# whats the heading?
+			if "Background" in str:
+				if str.split(":",1)[1] == "True":
+					createBlackBackground.execute(bpy.context, bpy.context)
+			if "Camera" in str:
+				if str.split(":",1)[1] == "True":
+					cameraSetup2D.execute(bpy.context, bpy.context)
+			if "Lamp" in str:
+				if str.split(":",1)[1] == "True":
+					lightSetup2D.execute(bpy.context, bpy.context)
+
+		else:
+			print(str)
 
 	return {'FINISHED'}
 
@@ -479,26 +539,11 @@ class ImportBrenderSettings(Operator, ImportHelper):
 			maxlen=255,  # Max internal buffer length, longer would be clamped.
 			)
 
-	# List of operator properties, the attributes will be assigned
-	# to the class instance from the operator settings before calling.
-	use_setting = BoolProperty(
-			name="Example Boolean",
-			description="Example Tooltip",
-			default=True,
-			)
-
-	type = EnumProperty(
-			name="Example Enum",
-			description="Choose between two items",
-			items=(('OPT_A', "First Option", "Description one"),
-				   ('OPT_B', "Second Option", "Description two")),
-			default='OPT_A',
-			)
 
 	def execute(self, context):
 		scene = context.scene
 		myaddon = scene.my_addon
-		return read_settings_data(context, self.filepath, myaddon)
+		return read_settings_data_testing(context, self.filepath, myaddon)
 
 
 
@@ -922,10 +967,14 @@ class cameraSetup2D(bpy.types.Operator):
 		scene = context.scene
 		myaddon = scene.my_addon
 		
-		if myaddon.cam_name is not "":
-			cam = bpy.data.objects[myaddon.cam_name]
-		else:
-			cam = context.object
+		# if myaddon.cam_name is not "":
+		# 	cam = bpy.data.objects[myaddon.cam_name]
+		# else:
+		# 	cam = context.object
+		cam = bpy.data.objects['Camera']
+
+		# default naming for export
+		cam.name = "brenderDefaults." + cam.name
 
 		if cam.type in ['CAMERA']:
 			cam.location = mathutils.Vector((0.5, 0.5, 2.15))
@@ -946,6 +995,8 @@ class lightSetup2D(bpy.types.Operator):
 		myaddon = scene.my_addon
 		
 		light = bpy.data.objects['Lamp']##context.object
+		# default naming for export
+		light.name = "brenderDefaults.Lamp"
 
 		if light.type in ['LAMP']:
 			light.data.type = 'SUN'
@@ -975,7 +1026,8 @@ class createBlackBackground(bpy.types.Operator):
 		
 		bpy.ops.mesh.primitive_plane_add()
 		pln = bpy.context.active_object
-		pln.name = "background"
+		# default naming for export
+		pln.name = "brenderDefaults.background"
 		pln.location = mathutils.Vector((0.0, 0.0, -0.025))
 		pln.scale =  mathutils.Vector((5.0, 5.0, 5.0))
 
@@ -990,7 +1042,7 @@ class createBlackBackground(bpy.types.Operator):
 			diffnode.inputs[0].default_value = (0.0, 0.0, 0.0, 1)
 			diffnode.inputs[1].default_value = (0.0)
 
-		pln = bpy.data.objects['background']
+		pln = bpy.data.objects['brenderDefaults.background']
 		mat = bpy.data.materials.get("BlackMaterial")
 		pln.select = True
 
@@ -999,6 +1051,9 @@ class createBlackBackground(bpy.types.Operator):
 		else:
 			pln.data.materials.append(mat)
 		pln.select = False	
+
+		# Set Bool for possible export ---------------------------------------------------------------NOTE: update if deleted?
+		myaddon.bg_bool = True
 
 		return {'FINISHED'}
 
@@ -1211,7 +1266,7 @@ class BrenderScenePanel(View3DPanel, Panel):
 
 		layout.label(text="Camera Options")
 		row = layout.row()
-		row.prop(myaddon, "cam_name")
+		# row.prop(myaddon, "cam_name")
 		layout.operator("object.cam_setup_2d")
 
 		layout.label(text="Light Options")
