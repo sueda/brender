@@ -15,7 +15,7 @@ bl_info = {
 ####################################################
 # ToDo's
 ####################################################
-# 1. 
+# 1. maybe write material parser that can copy all data of a material?
 ####################################################
 ####################################################
 
@@ -240,16 +240,6 @@ class BrenderSettings(PropertyGroup):
 		maxlen=1024,
 		)
 
-	bg_bool = BoolProperty(
-		name="bg_bool",
-		description=":",
-		default=False
-		)
-
-	# Background Values
-	# cam_x_rot_float
-	# cam_y_rot_float
-	# cam_z_rot_float
 
 ####################################################
 # Run on Import
@@ -412,11 +402,7 @@ def write_settings_data(context, filepath, myaddon):
 	# myaddon = scene.myaddon
 	print("running write_settings_data...")
 	f = open(filepath, 'w', encoding='utf-8')
-	f.write("# Brender Settings:\n")
-	f.write("# Object.Location:\n")
-	f.write("%.3f \n" % myaddon.x_trans_float)
-	f.write("%.3f \n" % myaddon.y_trans_float)
-	f.write("%.3f \n" % myaddon.z_trans_float)
+	f.write("Brender Settings:\n")
 	f.write("# Background:")
 	if "brenderDefaults.background" in bpy.data.objects:
 		f.write("True\n")
@@ -432,6 +418,11 @@ def write_settings_data(context, filepath, myaddon):
 		f.write("True\n")
 	else:
 		f.write("False\n")
+	f.write("# Wireframe Object:%s\n" % myaddon.wireframe_obj_string)
+	f.write("# Wireframe Depth:%.3f\n" % myaddon.wf_bevel_depth)
+	f.write("# Wireframe Resolution:%.3f\n" % myaddon.wf_bevel_resolution)
+	f.write("# Wireframe Offset:%.3f\n" % myaddon.wf_offset)
+	f.write("# Wireframe Extrude:%.3f\n" % myaddon.wf_extrude)
 
 
 	# x_rot_float
@@ -485,6 +476,16 @@ def read_settings_data_testing(context, filepath, myaddon):
 			if "Lamp" in str:
 				if str.split(":",1)[1] == "True":
 					lightSetup2D.execute(bpy.context, bpy.context)
+			if "Wireframe Object" in str:
+				myaddon.wireframe_obj_string = str.split(":",1)[1]
+			if "Wireframe Depth" in str:
+				myaddon.wf_bevel_depth = float(str.split(":",1)[1])
+			if "Wireframe Resolution" in str:
+				myaddon.wf_bevel_resolution = float(str.split(":",1)[1])
+			if "Wireframe Offset" in str:
+				myaddon.wf_offset = float(str.split(":",1)[1])
+			if "Wireframe Extrude" in str:
+				myaddon.wf_extrude = float(str.split(":",1)[1])
 
 		else:
 			print(str)
@@ -699,30 +700,6 @@ class ApplyMaterialToAll(bpy.types.Operator):
 
 		return {'FINISHED'}
 
-##########-----------------------UNDER CONSTRUCTION------------##############################################
-# class ApplyMaterialScale(bpy.types.Operator):
-# 	"""Apply Animation Object Material"""
-# 	bl_idname = "object.apply_material_to_all"
-# 	bl_label = "Apply Selected Material"
-# 	bl_options = {'REGISTER', 'UNDO'}
-
-# 	def execute(self, context):
-# 		mat = bpy.context.object.active_material
-# 		scene = context.scene
-# 		myaddon = scene.my_addon
-# 		brenderObjname = context.active_object.name
-# 		brenderObjname = GetCommonName(brenderObjname)
-
-# 		for obj in bpy.data.objects:
-# 			if obj.name.endswith(brenderObjname): # same last letters as brenderobj
-# 				obj.select = True
-# 				# append Material
-# 				if obj.data.materials:
-# 					mat = obj.data.materials[0] 
-# 					## IMPLEMENT THIS TO MODIFY TEXTURE SCALE		
-
-# 		return {'FINISHED'}
-#################################################################################
 
 class AnimationObjectResize(bpy.types.Operator):
 	"""Animation Object Resizing"""
@@ -832,6 +809,8 @@ class WireframeOverlay(bpy.types.Operator):
 		else:
 			brenderObjname = context.active_object.name
 			objectname = GetCommonName(brenderObjname)
+			# set as wf_obj_string
+			myaddon.wireframe_obj_string = objectname
 		# is selected object the wireframe overlay or base object
 		if objectname.endswith(".wireframe"):
 			copynames = objectname
@@ -1052,8 +1031,6 @@ class createBlackBackground(bpy.types.Operator):
 			pln.data.materials.append(mat)
 		pln.select = False	
 
-		# Set Bool for possible export ---------------------------------------------------------------NOTE: update if deleted?
-		myaddon.bg_bool = True
 
 		return {'FINISHED'}
 
@@ -1095,7 +1072,6 @@ class BrenderImportPanel(View3DPanel, Panel):
 		## split.alignment = 'CENTER'
 		## split.operator("load.obj_as_anim_advanced", text="Import")
 
-##################################################################################################################
 class BrenderEditPanel(View3DPanel, Panel):
 	bl_idname = "SCENE_PT_Brender_edit_panel"
 	bl_label = "Edit"
@@ -1112,7 +1088,6 @@ class BrenderEditPanel(View3DPanel, Panel):
 		
 		layout.operator("object.delete_all")
 		layout.label("Advanced")
-		layout.prop(myaddon,"testvar") 
 		layout.operator(ExportBrenderSettings.bl_idname, text="Export Brender Settings")
 		layout.operator(ImportBrenderSettings.bl_idname, text="Import Brender Settings")
 
