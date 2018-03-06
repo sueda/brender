@@ -240,6 +240,14 @@ class BrenderSettings(PropertyGroup):
 		maxlen=1024,
 		)
 
+# for exporting values
+default_material_names = [
+	"BlackMaterial",
+	"Clear2DMaterial",
+	"Wireframe2DMaterial",
+	"ClothMaterial",
+	"CubeMaterial"
+]
 
 ####################################################
 # Run on Import
@@ -397,6 +405,54 @@ class ProcessObjects(bpy.types.Operator):
 
 import bpy
 
+def applyMatDefaults(objname,mat):
+	dummyvar = 0
+	if mat not in bpy.data.materials:
+		if mat in "ClothMaterial" or mat in "CubeMaterial":
+			CreateDefaultMaterials.execute(dummyvar, dummyvar)
+		elif mat in "Wireframe2DMaterial":
+			CreateWireframeMaterial.execute(dummyvar,dummyvar)
+		else:
+			# Clear2DMaterial
+			CreateClearClothMaterial.execute(dummyvar,dummyvar)
+
+	ApplyMaterialToAll.general(objname,mat)
+		
+	
+
+
+
+
+def Material_array():
+	unique_objs = []
+	# get name of 1 copy of each unique object
+	for obj in bpy.data.objects:
+		if obj.type in ['CURVE'] or obj.type in ['MESH']:
+			if "_" in obj.name:
+				testname = "000000_" + obj.name.split("_",1)[1]
+			else:
+				testname = obj.name
+
+			if testname not in unique_objs:
+				unique_objs.append(testname)
+
+	# get material name for each unique object
+	# now form of: "objectName:Material"
+	unique_objs[:] = [name + ':' + bpy.data.objects[name].active_material.name for name in unique_objs]
+
+	return unique_objs
+
+
+def checkDefaultsMatArray(arr):
+	mats = []
+	for strval in arr:
+		mat = strval.split(":",1)[1]
+		if mat in default_material_names:
+			mats.append(strval)
+
+	return mats
+
+
 def write_settings_data(context, filepath, myaddon):
 	# scene = bpy.context.scene
 	# myaddon = scene.myaddon
@@ -423,6 +479,11 @@ def write_settings_data(context, filepath, myaddon):
 	f.write("# Wireframe Resolution:%.3f\n" % myaddon.wf_bevel_resolution)
 	f.write("# Wireframe Offset:%.3f\n" % myaddon.wf_offset)
 	f.write("# Wireframe Extrude:%.3f\n" % myaddon.wf_extrude)
+
+	obj_and_materials = Material_array()
+	obj_and_materials = checkDefaultsMatArray(obj_and_materials)
+	for strval in obj_and_materials:
+		f.write("# Object Material:%s\n" % strval)
 
 
 	# x_rot_float
@@ -486,11 +547,19 @@ def read_settings_data_testing(context, filepath, myaddon):
 				myaddon.wf_offset = float(str.split(":",1)[1])
 			if "Wireframe Extrude" in str:
 				myaddon.wf_extrude = float(str.split(":",1)[1])
+			if "Object Material" in str:
+				parts = str.split(":")
+				objname = parts[1]
+				mat = parts[2]
+				applyMatDefaults(objname,mat)
 
 		else:
 			print(str)
 
 	return {'FINISHED'}
+
+
+
 
 # ExportHelper is a helper class, defines filename and
 # invoke() function which calls the file selector.
@@ -687,6 +756,24 @@ class ApplyMaterialToAll(bpy.types.Operator):
 		myaddon = scene.my_addon
 		brenderObjname = context.active_object.name
 		brenderObjname = GetCommonName(brenderObjname)
+
+		for obj in bpy.data.objects:
+			if obj.name.endswith(brenderObjname): # same last letters as brenderobj
+				obj.select = True
+				# append Material
+				if obj.data.materials:
+					obj.data.materials[0] = mat
+				else:
+					obj.data.materials.append(mat)
+				obj.select = False			
+
+		return {'FINISHED'}
+
+	def general(objname,matname):
+		mat = bpy.data.materials[matname]
+		scene = bpy.context.scene
+		myaddon = scene.my_addon
+		brenderObjname = GetCommonName(objname)
 
 		for obj in bpy.data.objects:
 			if obj.name.endswith(brenderObjname): # same last letters as brenderobj
