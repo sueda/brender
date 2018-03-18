@@ -1,0 +1,28 @@
+{
+	"Objects" : [
+		{
+			"Name" : "000000_Cloth2D",
+			"Parent" : null,
+			"Type" : "MESH",
+			"Material" : {
+				"id" : 0,
+				"Name" : "Clear2DMaterial"
+			} 
+
+		},
+
+		{
+			"Name" : "000000_Cloth2D.wireframe",
+			"Parent" : "000000_Cloth2D",
+			"Type" : "CURVE",
+			"Depth" : 0.001,
+			"Res" : 2.000,
+			"Material" : {
+				"id" : 0,
+				"Name" : "Clear2DMaterial"
+			}
+		}
+
+	]
+	
+}

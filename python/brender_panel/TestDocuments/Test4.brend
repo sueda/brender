@@ -1,0 +1,11 @@
+Brender Settings:
+# Background:True
+# Camera:True
+# Lamp:True
+# Wireframe Object:Cloth2D
+# Wireframe Depth:0.001
+# Wireframe Resolution:2.000
+# Wireframe Offset:0.000
+# Wireframe Extrude:0.000
+# Object Material:000000_Cloth2D:Clear2DMaterial
+# Object Material:000000_Cloth2D.wireframe:Wireframe2DMaterial

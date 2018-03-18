@@ -547,6 +547,9 @@ def read_settings_data_testing(context, filepath, myaddon):
 				myaddon.wf_offset = float(str.split(":",1)[1])
 			if "Wireframe Extrude" in str:
 				myaddon.wf_extrude = float(str.split(":",1)[1])
+			# create wireframe
+			if myaddon.wireframe_obj_string != "":
+				WireframeOverlay.apply_wireframe(myaddon.wireframe_obj_string)
 			if "Object Material" in str:
 				parts = str.split(":")
 				objname = parts[1]
@@ -874,22 +877,19 @@ class WireframeOverlay(bpy.types.Operator):
 	bl_label = "Create/Update Wireframe Overlay"
 	bl_options = {'REGISTER', 'UNDO'}
 
-
-	def DoesObjExist(self, objname):
-		self.objname = objname
+	def DoesObjExist(objname):
+		# self.objname = objname
 		for obj in bpy.data.objects:
 			if obj.name.endswith(objname):
 				return True
 
 		return False
 
-
 	def execute(self, context):
 
-		scn = context.scene
-		myaddon = scn.my_addon
-		dupobjects = []
-
+		scn = context.scene #----------------------
+		myaddon = scn.my_addon #----------------------
+		objectname = myaddon.wireframe_obj_string
 		# Check if name is typed in, if not, use selected object 
 		if myaddon.wireframe_obj_string is not "":
 			objectname = myaddon.wireframe_obj_string
@@ -898,6 +898,22 @@ class WireframeOverlay(bpy.types.Operator):
 			objectname = GetCommonName(brenderObjname)
 			# set as wf_obj_string
 			myaddon.wireframe_obj_string = objectname
+		
+
+		WireframeOverlay.apply_wireframe(objectname)
+
+		return {'FINISHED'}
+		# distinguish which object needs wireframe
+
+
+	def apply_wireframe(objname): 
+
+		scn = bpy.context.scene
+		myaddon = scn.my_addon
+		dupobjects = []
+
+
+		objectname = GetCommonName(objname)
 		# is selected object the wireframe overlay or base object
 		if objectname.endswith(".wireframe"):
 			copynames = objectname
@@ -905,10 +921,11 @@ class WireframeOverlay(bpy.types.Operator):
 			copynames = objectname + ".wireframe"
 
 
-		if self.DoesObjExist(copynames):
+		if WireframeOverlay.DoesObjExist(copynames):
 			# object copies exist. dont copy
 			# update parameters
-			context.scene.frame_set(0)
+			# context.scene.frame_set(0)
+			scn.frame_set(0)
 
 			for obj in bpy.data.objects:
 				if obj.name.endswith(copynames):
@@ -942,7 +959,8 @@ class WireframeOverlay(bpy.types.Operator):
 					mesh.name = new_obj.name
 
 			
-			context.scene.frame_set(0)
+			# context.scene.frame_set(0)
+			scn.frame_set(0)
 			# hide for keyframes
 			for i, obj in enumerate(dupobjects):
 				if i == 0:
@@ -955,7 +973,8 @@ class WireframeOverlay(bpy.types.Operator):
 				if f == 0:
 					continue
 				# increment current frame to insert keyframe
-				context.scene.frame_set(f) 
+				# context.scene.frame_set(f) 
+				scn.frame_set(f)
 		
 				obj_prev = dupobjects[f-1]
 				obj_prev.hide = obj_prev.hide_render = True
@@ -968,7 +987,8 @@ class WireframeOverlay(bpy.types.Operator):
 				obj.keyframe_insert(data_path='hide_render')
 
 			# end of duplicating opjects
-			context.scene.frame_set(0)
+			# context.scene.frame_set(0)
+			scn.frame_set(0)
 			# make mesh
 			
 			for obj in bpy.data.objects:
@@ -997,7 +1017,9 @@ class WireframeOverlay(bpy.types.Operator):
 					#deselect object
 					obj.select=False
 
-			return {'FINISHED'}
+		return {'FINISHED'}
+
+
 
 
 class wireframePreview(bpy.types.Operator):
