@@ -1102,6 +1102,7 @@ class WireframeOverlay(bpy.types.Operator):
 			for obj in bpy.data.objects:
 				if obj.name.endswith(copynames):
 					BRENDER_object_names.append(obj.name)
+			BRENDER_wf_names.append(copynames)
 
 		print(BRENDER_object_names)
 
