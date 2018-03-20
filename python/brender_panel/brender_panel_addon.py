@@ -249,6 +249,9 @@ default_material_names = [
 	"CubeMaterial"
 ]
 
+BRENDER_wf_names = []
+BRENDER_object_names = []
+
 ####################################################
 # Run on Import
 ####################################################
@@ -295,6 +298,8 @@ class LoadObjAsAnimationAdvanced(bpy.types.Operator):
 		spath = os.path.split(self.filepath)
 		files = [file.name for file in self.files]
 		files.sort()
+		# testing
+		
 		#add all objs to scene
 		# this makes the frame skip option available
 		count=0
@@ -337,6 +342,12 @@ class LoadObjAsAnimationAdvanced(bpy.types.Operator):
 
 		# numOfFrames = len(self.objects)
 		# bpy.context.scene.frame_end = numOfFrames
+		# print(files)
+		# to keep track of brender objects
+		
+		for name in files:
+			BRENDER_object_names.append(name.split('.', 1)[0]) # takes off .obj
+		#print(Brender_object_names)
 				
 		return{'FINISHED'}
 
@@ -404,6 +415,7 @@ class ProcessObjects(bpy.types.Operator):
 
 
 import bpy
+import json
 
 def applyMatDefaults(objname,mat):
 	dummyvar = 0
@@ -452,47 +464,113 @@ def checkDefaultsMatArray(arr):
 
 	return mats
 
+# original- working---------------------------------------------------------------------------------------------
+# def write_settings_data(context, filepath, myaddon):
+# 	# scene = bpy.context.scene
+# 	# myaddon = scene.myaddon
+# 	print("running write_settings_data...")
+# 	f = open(filepath, 'w', encoding='utf-8')
+# 	f.write("Brender Settings:\n")
+# 	f.write("# Background:")
+# 	if "brenderDefaults.background" in bpy.data.objects:
+# 		f.write("True\n")
+# 	else:
+# 		f.write("False\n")
+# 	f.write("# Camera:")
+# 	if "brenderDefaults.Camera" in bpy.data.objects:
+# 		f.write("True\n")
+# 	else:
+# 		f.write("False\n")	
+# 	f.write("# Lamp:")
+# 	if "brenderDefaults.Lamp" in bpy.data.objects:
+# 		f.write("True\n")
+# 	else:
+# 		f.write("False\n")
+# 	f.write("# Wireframe Object:%s\n" % myaddon.wireframe_obj_string)
+# 	f.write("# Wireframe Depth:%.3f\n" % myaddon.wf_bevel_depth)
+# 	f.write("# Wireframe Resolution:%.3f\n" % myaddon.wf_bevel_resolution)
+# 	f.write("# Wireframe Offset:%.3f\n" % myaddon.wf_offset)
+# 	f.write("# Wireframe Extrude:%.3f\n" % myaddon.wf_extrude)
 
-def write_settings_data(context, filepath, myaddon):
+# 	obj_and_materials = Material_array()
+# 	obj_and_materials = checkDefaultsMatArray(obj_and_materials)
+# 	for strval in obj_and_materials:
+# 		f.write("# Object Material:%s\n" % strval)
+
+
+# 	# x_rot_float
+# 	f.close()
+
+# 	return {'FINISHED'}
+
+def write_settings_data_json(context, filepath, myaddon):
+# def write_settings_data(context, filepath, myaddon):
 	# scene = bpy.context.scene
 	# myaddon = scene.myaddon
 	print("running write_settings_data...")
+	objDict = {'Objects':[]}
 	f = open(filepath, 'w', encoding='utf-8')
-	f.write("Brender Settings:\n")
-	f.write("# Background:")
-	if "brenderDefaults.background" in bpy.data.objects:
-		f.write("True\n")
-	else:
-		f.write("False\n")
-	f.write("# Camera:")
-	if "brenderDefaults.Camera" in bpy.data.objects:
-		f.write("True\n")
-	else:
-		f.write("False\n")	
-	f.write("# Lamp:")
-	if "brenderDefaults.Lamp" in bpy.data.objects:
-		f.write("True\n")
-	else:
-		f.write("False\n")
-	f.write("# Wireframe Object:%s\n" % myaddon.wireframe_obj_string)
-	f.write("# Wireframe Depth:%.3f\n" % myaddon.wf_bevel_depth)
-	f.write("# Wireframe Resolution:%.3f\n" % myaddon.wf_bevel_resolution)
-	f.write("# Wireframe Offset:%.3f\n" % myaddon.wf_offset)
-	f.write("# Wireframe Extrude:%.3f\n" % myaddon.wf_extrude)
+	for obj in bpy.data.objects:
+		# if obj.name in BRENDER_object_names and not obj.name.startswith("000000"):
+		# 	# skip it
+		# 	continue
+		# else:
+		new_obj = {}
+		new_obj['Name'] = obj.name
+		new_obj['Type'] = obj.type
+		if obj.type in 'MESH':
+			new_obj['Parent'] = None
+		elif obj.type in 'CURVE':
+			new_obj['Parent'] = obj.name.split(".", 1)[0] # take off ".wireframe"
+			new_obj['Wireframe Depth'] = myaddon.wf_bevel_depth
+			new_obj['Wireframe Resolution'] = myaddon.wf_bevel_resolution
+			new_obj['Wireframe Offset'] = myaddon.wf_offset
+			new_obj['Wireframe Extrude'] = myaddon.wf_extrude
 
-	obj_and_materials = Material_array()
-	obj_and_materials = checkDefaultsMatArray(obj_and_materials)
-	for strval in obj_and_materials:
-		f.write("# Object Material:%s\n" % strval)
+		if obj.type in 'MESH' or obj.type in 'CURVE':
+			new_obj['Material'] = obj.active_material.name
+		objDict['Objects'].append(new_obj)
+		
 
-
-	# x_rot_float
+	new_string = json.dumps(objDict, indent=2)
+	f.write(new_string)
 	f.close()
+	# f.write("Brender Settings:\n")
+	# f.write("# Background:")
+	# if "brenderDefaults.background" in bpy.data.objects:
+	# 	f.write("True\n")
+	# else:
+	# 	f.write("False\n")
+	# f.write("# Camera:")
+	# if "brenderDefaults.Camera" in bpy.data.objects:
+	# 	f.write("True\n")
+	# else:
+	# 	f.write("False\n")	
+	# f.write("# Lamp:")
+	# if "brenderDefaults.Lamp" in bpy.data.objects:
+	# 	f.write("True\n")
+	# else:
+	# 	f.write("False\n")
+	# f.write("# Wireframe Object:%s\n" % myaddon.wireframe_obj_string)
+	# f.write("# Wireframe Depth:%.3f\n" % myaddon.wf_bevel_depth)
+	# f.write("# Wireframe Resolution:%.3f\n" % myaddon.wf_bevel_resolution)
+	# f.write("# Wireframe Offset:%.3f\n" % myaddon.wf_offset)
+	# f.write("# Wireframe Extrude:%.3f\n" % myaddon.wf_extrude)
+
+	# obj_and_materials = Material_array()
+	# obj_and_materials = checkDefaultsMatArray(obj_and_materials)
+	# for strval in obj_and_materials:
+	# 	f.write("# Object Material:%s\n" % strval)
+
+
+	# # x_rot_float
+	# f.close()
 
 	return {'FINISHED'}
 
 
-def read_settings_data(context, filepath, myaddon):
+
+def read_settings_data_json(context, filepath, myaddon):
 	print("running read_settings_data...")
 	f = open(filepath, 'r', encoding='utf-8')
 	#data = f.read()
@@ -503,13 +581,12 @@ def read_settings_data(context, filepath, myaddon):
 	# print(settings)
 	f.close()
 
-	myaddon.x_trans_float = float(settings[0])
-	myaddon.y_trans_float = float(settings[1])
-	myaddon.z_trans_float = float(settings[2])
+	# do some loop that checks if wireframes dont exist, create them
+	# maybe based on getcommon name of wireframe parent value....
 
 	return {'FINISHED'}
 
-def read_settings_data_testing(context, filepath, myaddon):
+def read_settings_data(context, filepath, myaddon):
 	print("running read_settings_data...")
 	f = open(filepath, 'r', encoding='utf-8')
 	#data = f.read()
@@ -616,7 +693,7 @@ class ImportBrenderSettings(Operator, ImportHelper):
 	def execute(self, context):
 		scene = context.scene
 		myaddon = scene.my_addon
-		return read_settings_data_testing(context, self.filepath, myaddon)
+		return read_settings_data(context, self.filepath, myaddon)
 
 
 
@@ -902,6 +979,7 @@ class WireframeOverlay(bpy.types.Operator):
 
 		WireframeOverlay.apply_wireframe(objectname)
 
+
 		return {'FINISHED'}
 		# distinguish which object needs wireframe
 
@@ -919,7 +997,10 @@ class WireframeOverlay(bpy.types.Operator):
 			copynames = objectname
 		else:
 			copynames = objectname + ".wireframe"
-
+#-------------------------------------------------------------------------------------------------------------------------------==
+		# Brender_object_names.append("000000_" + copynames)
+		# print(Brender_object_names)
+		# print(len(Brender_object_names))
 
 		if WireframeOverlay.DoesObjExist(copynames):
 			# object copies exist. dont copy
@@ -1016,6 +1097,13 @@ class WireframeOverlay(bpy.types.Operator):
 					obj.hide = obj.hide_render = True #hide mesh
 					#deselect object
 					obj.select=False
+
+
+			for obj in bpy.data.objects:
+				if obj.name.endswith(copynames):
+					BRENDER_object_names.append(obj.name)
+
+		print(BRENDER_object_names)
 
 		return {'FINISHED'}
 

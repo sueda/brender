@@ -14,13 +14,15 @@ from bpy.props import StringProperty, BoolProperty, EnumProperty
 
 import bpy
 
-def read_settings_data(context, filepath):
+def read_settings_data_testing(context, filepath):
 	print("running read_settings_data...")
 	f = open(filepath, 'r', encoding='utf-8')
 	#data = f.read()
-	objs = json.load(f)
+	data = json.load(f)
 	f.close()
-	print(objs)
+	for obj in data['Objects']:
+		print(obj['Name'])
+	# print(objs)
 	# settings = []
 	# for line in f:
 	# 	# settings.append(f.readline())
@@ -48,7 +50,7 @@ class ImportBrenderSettingsJSON(Operator, ImportHelper):
 
 	def execute(self, context):
 		scene = context.scene
-		myaddon = scene.my_addon
+		# myaddon = scene.my_addon
 		return read_settings_data_testing(context, self.filepath)
 
 		# return{'FINISHED'}
