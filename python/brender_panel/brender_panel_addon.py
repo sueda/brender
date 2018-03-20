@@ -417,6 +417,19 @@ class ProcessObjects(bpy.types.Operator):
 import bpy
 import json
 
+def CreateImportedMatDefaults(mat):
+	dummyvar = 0
+	if mat not in bpy.data.materials:
+		if mat in "ClothMaterial" or mat in "CubeMaterial":
+			CreateDefaultMaterials.execute(dummyvar, dummyvar)
+		elif mat in "Wireframe2DMaterial":
+			CreateWireframeMaterial.execute(dummyvar,dummyvar)
+		else:
+			# Clear2DMaterial
+			CreateClearClothMaterial.execute(dummyvar,dummyvar)
+
+
+
 def applyMatDefaults(objname,mat):
 	dummyvar = 0
 	if mat not in bpy.data.materials:
@@ -508,7 +521,7 @@ def write_settings_data_json(context, filepath, myaddon):
 	# scene = bpy.context.scene
 	# myaddon = scene.myaddon
 	print("running write_settings_data...")
-	objDict = {'Objects':[]}
+	objDict = {'Objects':[], 'Materials':[]}
 	f = open(filepath, 'w', encoding='utf-8')
 	for obj in bpy.data.objects:
 		# if obj.name in BRENDER_object_names and not obj.name.startswith("000000"):
@@ -520,7 +533,7 @@ def write_settings_data_json(context, filepath, myaddon):
 		new_obj['Type'] = obj.type
 		if obj.type in 'MESH':
 			new_obj['Parent'] = None
-		elif obj.type in 'CURVE':
+		elif obj.type in 'CURVE' and obj.name.endswith(".wireframe"):
 			new_obj['Parent'] = obj.name.split(".", 1)[0] # take off ".wireframe"
 			new_obj['Wireframe Depth'] = myaddon.wf_bevel_depth
 			new_obj['Wireframe Resolution'] = myaddon.wf_bevel_resolution
@@ -530,41 +543,15 @@ def write_settings_data_json(context, filepath, myaddon):
 		if obj.type in 'MESH' or obj.type in 'CURVE':
 			new_obj['Material'] = obj.active_material.name
 		objDict['Objects'].append(new_obj)
+
+	for mats in bpy.data.materials:
+		new_mat = {'Name' : mats.name}
+		objDict['Materials'].append(new_mat)
 		
 
 	new_string = json.dumps(objDict, indent=2)
 	f.write(new_string)
 	f.close()
-	# f.write("Brender Settings:\n")
-	# f.write("# Background:")
-	# if "brenderDefaults.background" in bpy.data.objects:
-	# 	f.write("True\n")
-	# else:
-	# 	f.write("False\n")
-	# f.write("# Camera:")
-	# if "brenderDefaults.Camera" in bpy.data.objects:
-	# 	f.write("True\n")
-	# else:
-	# 	f.write("False\n")	
-	# f.write("# Lamp:")
-	# if "brenderDefaults.Lamp" in bpy.data.objects:
-	# 	f.write("True\n")
-	# else:
-	# 	f.write("False\n")
-	# f.write("# Wireframe Object:%s\n" % myaddon.wireframe_obj_string)
-	# f.write("# Wireframe Depth:%.3f\n" % myaddon.wf_bevel_depth)
-	# f.write("# Wireframe Resolution:%.3f\n" % myaddon.wf_bevel_resolution)
-	# f.write("# Wireframe Offset:%.3f\n" % myaddon.wf_offset)
-	# f.write("# Wireframe Extrude:%.3f\n" % myaddon.wf_extrude)
-
-	# obj_and_materials = Material_array()
-	# obj_and_materials = checkDefaultsMatArray(obj_and_materials)
-	# for strval in obj_and_materials:
-	# 	f.write("# Object Material:%s\n" % strval)
-
-
-	# # x_rot_float
-	# f.close()
 
 	return {'FINISHED'}
 
@@ -574,13 +561,33 @@ def read_settings_data_json(context, filepath, myaddon):
 	print("running read_settings_data...")
 	f = open(filepath, 'r', encoding='utf-8')
 	#data = f.read()
-	settings = []
-	for line in f:
-		# settings.append(f.readline())
-		settings.append(line.split(" ", 1)[0])
-	# print(settings)
+	data = json.load(f)
 	f.close()
 
+	for mats in data['Materials']:
+		CreateImportedMatDefaults(mats['Name'])
+
+	for obj in data['Objects']:
+		# print(obj['Name'])
+		if obj['Type'] in 'MESH':
+			continue
+		if obj['Type'] in 'CURVE' and obj['Name'].endswith('.wireframe'):
+			# does the wireframe exist yet?
+			# only do wireframe creation once
+			if GetCommonName(obj.['Parent'].split("_",1)[1]) not in BRENDER_wf_names:
+				# wireframes havent been documented, create
+				# assuming only one wireframed object
+				myaddon.wireframe_obj_string = GetCommonName(obj.['Parent'].split("_",1)[1])
+				myaddon.wf_bevel_depth = obj['Wireframe Depth']
+				myaddon.wf_bevel_resolution = obj['Wireframe Resolution']
+				myaddon.wf_offset = obj['Wireframe Offset']
+				myaddon.wf_extrude = obj['Wireframe Extrude']
+				WireframeOverlay.apply_wireframe(myaddon.wireframe_obj_string)
+			else:
+				# already created
+				continue
+
+				# SETUP MATERIAL CREATION BEFORE ANYTHING ELSE------------------------------------
 	# do some loop that checks if wireframes dont exist, create them
 	# maybe based on getcommon name of wireframe parent value....
 

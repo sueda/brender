@@ -29,6 +29,8 @@ new_string = json.dumps(exDict, indent=2)
 for obj in exDict['Objects']:
 	if 'Test2' in obj['Name']:
 		print("it exists")
+
+
 # exDict['Objects'].append({"Name":"Test1"})
 # print(exDict)
 # exDict['Objects']['Name']
