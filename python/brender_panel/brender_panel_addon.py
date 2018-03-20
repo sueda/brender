@@ -465,43 +465,43 @@ def checkDefaultsMatArray(arr):
 	return mats
 
 # original- working---------------------------------------------------------------------------------------------
-# def write_settings_data(context, filepath, myaddon):
-# 	# scene = bpy.context.scene
-# 	# myaddon = scene.myaddon
-# 	print("running write_settings_data...")
-# 	f = open(filepath, 'w', encoding='utf-8')
-# 	f.write("Brender Settings:\n")
-# 	f.write("# Background:")
-# 	if "brenderDefaults.background" in bpy.data.objects:
-# 		f.write("True\n")
-# 	else:
-# 		f.write("False\n")
-# 	f.write("# Camera:")
-# 	if "brenderDefaults.Camera" in bpy.data.objects:
-# 		f.write("True\n")
-# 	else:
-# 		f.write("False\n")	
-# 	f.write("# Lamp:")
-# 	if "brenderDefaults.Lamp" in bpy.data.objects:
-# 		f.write("True\n")
-# 	else:
-# 		f.write("False\n")
-# 	f.write("# Wireframe Object:%s\n" % myaddon.wireframe_obj_string)
-# 	f.write("# Wireframe Depth:%.3f\n" % myaddon.wf_bevel_depth)
-# 	f.write("# Wireframe Resolution:%.3f\n" % myaddon.wf_bevel_resolution)
-# 	f.write("# Wireframe Offset:%.3f\n" % myaddon.wf_offset)
-# 	f.write("# Wireframe Extrude:%.3f\n" % myaddon.wf_extrude)
+def write_settings_data(context, filepath, myaddon):
+	# scene = bpy.context.scene
+	# myaddon = scene.myaddon
+	print("running write_settings_data...")
+	f = open(filepath, 'w', encoding='utf-8')
+	f.write("Brender Settings:\n")
+	f.write("# Background:")
+	if "brenderDefaults.background" in bpy.data.objects:
+		f.write("True\n")
+	else:
+		f.write("False\n")
+	f.write("# Camera:")
+	if "brenderDefaults.Camera" in bpy.data.objects:
+		f.write("True\n")
+	else:
+		f.write("False\n")	
+	f.write("# Lamp:")
+	if "brenderDefaults.Lamp" in bpy.data.objects:
+		f.write("True\n")
+	else:
+		f.write("False\n")
+	f.write("# Wireframe Object:%s\n" % myaddon.wireframe_obj_string)
+	f.write("# Wireframe Depth:%.3f\n" % myaddon.wf_bevel_depth)
+	f.write("# Wireframe Resolution:%.3f\n" % myaddon.wf_bevel_resolution)
+	f.write("# Wireframe Offset:%.3f\n" % myaddon.wf_offset)
+	f.write("# Wireframe Extrude:%.3f\n" % myaddon.wf_extrude)
 
-# 	obj_and_materials = Material_array()
-# 	obj_and_materials = checkDefaultsMatArray(obj_and_materials)
-# 	for strval in obj_and_materials:
-# 		f.write("# Object Material:%s\n" % strval)
+	obj_and_materials = Material_array()
+	obj_and_materials = checkDefaultsMatArray(obj_and_materials)
+	for strval in obj_and_materials:
+		f.write("# Object Material:%s\n" % strval)
 
 
-# 	# x_rot_float
-# 	f.close()
+	# x_rot_float
+	f.close()
 
-# 	return {'FINISHED'}
+	return {'FINISHED'}
 
 def write_settings_data_json(context, filepath, myaddon):
 # def write_settings_data(context, filepath, myaddon):
