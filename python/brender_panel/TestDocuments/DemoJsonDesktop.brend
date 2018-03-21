@@ -1,0 +1,1971 @@
+{
+  "Objects": [
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000000_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000000_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000000_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000005_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000005_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000005_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000010_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000010_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000010_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000015_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000015_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000015_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000020_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000020_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000020_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000025_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000025_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000025_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000030_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000030_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000030_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000035_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000035_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000035_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000040_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000040_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000040_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000045_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000045_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000045_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000050_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000050_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000050_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000055_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000055_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000055_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000060_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000060_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000060_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000065_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000065_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000065_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000070_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000070_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000070_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000075_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000075_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000075_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000080_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000080_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000080_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000085_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000085_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000085_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000090_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000090_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000090_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000095_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000095_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000095_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000100_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000100_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000100_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000105_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000105_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000105_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000110_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000110_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000110_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000115_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000115_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000115_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000120_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000120_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000120_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000125_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000125_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000125_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000130_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000130_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000130_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000135_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000135_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000135_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000140_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000140_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000140_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000145_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000145_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000145_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000150_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000150_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000150_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000155_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000155_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000155_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000160_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000160_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000160_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000165_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000165_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000165_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000170_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000170_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000170_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000175_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000175_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000175_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000180_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000180_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000180_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000185_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000185_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000185_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000190_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000190_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000190_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000195_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000195_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000195_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000200_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000200_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000200_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000205_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000205_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000205_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000210_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000210_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000210_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000215_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000215_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000215_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000220_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000220_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000220_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000225_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000225_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000225_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000230_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000230_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000230_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000235_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000235_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000235_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000240_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000240_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000240_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000245_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000245_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000245_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000250_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000250_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000250_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000255_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000255_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000255_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000260_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000260_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000260_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000265_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000265_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000265_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000270_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000270_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000270_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000275_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000275_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000275_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000280_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000280_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000280_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000285_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000285_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000285_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000290_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000290_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000290_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000295_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000295_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000295_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000300_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000300_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000300_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000305_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000305_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000305_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000310_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000310_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000310_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000315_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000315_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000315_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000320_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000320_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000320_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000325_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000325_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000325_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000330_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000330_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000330_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000335_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000335_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000335_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000340_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000340_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000340_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000345_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000345_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000345_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000350_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000350_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000350_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000355_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000355_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000355_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000360_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000360_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000360_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000365_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000365_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000365_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000370_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000370_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000370_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000375_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000375_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000375_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000380_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000380_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000380_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000385_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000385_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000385_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000390_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000390_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000390_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000395_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000395_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000395_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000400_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000400_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000400_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000405_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000405_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000405_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000410_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000410_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000410_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000415_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000415_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000415_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000420_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000420_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000420_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000425_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000425_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000425_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000430_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000430_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000430_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000435_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000435_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000435_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000440_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000440_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000440_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000445_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000445_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000445_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000450_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000450_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000450_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000455_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000455_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000455_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000460_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000460_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000460_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000465_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000465_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000465_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000470_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000470_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000470_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000475_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000475_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000475_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000480_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000480_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000480_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000485_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000485_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000485_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000490_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000490_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000490_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000495_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000495_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000495_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000500_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000500_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000500_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000505_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000505_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000505_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000510_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000510_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000510_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000515_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000515_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000515_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000520_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000520_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000520_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000525_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000525_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000525_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000530_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000530_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000530_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000535_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000535_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000535_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000540_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000540_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000540_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000545_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000545_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000545_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000550_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000550_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000550_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000555_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000555_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000555_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000560_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000560_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000560_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000565_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000565_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000565_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000570_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000570_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000570_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000575_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000575_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000575_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000580_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000580_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000580_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000585_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000585_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000585_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000590_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000590_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000590_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000595_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000595_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000595_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "CubeMaterial",
+      "Type": "MESH",
+      "Name": "000600_Cloth2D"
+    },
+    {
+      "Wireframe Depth": 0.003000000026077032,
+      "Parent": "000600_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Wireframe Offset": 0.0,
+      "Wireframe Resolution": 2,
+      "Name": "000600_Cloth2D.wireframe"
+    },
+    {
+      "Parent": null,
+      "Material": "BlackMaterial",
+      "Type": "MESH",
+      "Name": "brenderDefaults.background"
+    },
+    {
+      "Type": "CAMERA",
+      "Name": "brenderDefaults.Camera"
+    },
+    {
+      "Type": "LAMP",
+      "Name": "brenderDefaults.Lamp"
+    }
+  ],
+  "Materials": [
+    {
+      "Name": "BlackMaterial"
+    },
+    {
+      "Name": "Clear2DMaterial"
+    },
+    {
+      "Name": "ClothMaterial"
+    },
+    {
+      "Name": "CubeMaterial"
+    },
+    {
+      "Name": "Wireframe2DMaterial"
+    }
+  ]
+}

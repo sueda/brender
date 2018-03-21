@@ -1,0 +1,115 @@
+{
+  "Materials": [
+    {
+      "Name": "BlackMaterial"
+    },
+    {
+      "Name": "Clear2DMaterial"
+    },
+    {
+      "Name": "ClothMaterial"
+    },
+    {
+      "Name": "CubeMaterial"
+    },
+    {
+      "Name": "Wireframe2DMaterial"
+    }
+  ],
+  "Objects": [
+    {
+      "Material": "CubeMaterial",
+      "Parent": null,
+      "Name": "000000_Cloth2D",
+      "Type": "MESH"
+    },
+    {
+      "Wireframe Extrude": 0.0,
+      "Name": "000000_Cloth2D.wireframe",
+      "Wireframe Depth": 0.003000000026077032,
+      "Material": "Wireframe2DMaterial",
+      "Parent": "000000_Cloth2D",
+      "Wireframe Offset": 0.0,
+      "Type": "CURVE",
+      "Wireframe Resolution": 2
+    },
+    {
+      "Euler 0": 0.0,
+      "Name": "blah",
+      "Loc Y": 0.30000001192092896,
+      "Euler 1": 0.0,
+      "Euler 2": 0.0,
+      "Loc X": 0.30000001192092896,
+      "Sub Type": "SPOT",
+      "Euler Order": "XYZ",
+      "Loc Z": 0.30000001192092896,
+      "Type": "LAMP"
+    },
+    {
+      "Material": "BlackMaterial",
+      "Parent": null,
+      "Name": "brenderDefaults.background",
+      "Type": "MESH"
+    },
+    {
+      "Euler 0": 0.0,
+      "Name": "brenderDefaults.Camera",
+      "Loc Y": 0.5,
+      "Euler 1": -0.0,
+      "Euler 2": 0.0,
+      "Loc X": 0.5,
+      "Sub Type": "ORTHO",
+      "Euler Order": "XYZ",
+      "Loc Z": 2.1500000953674316,
+      "Type": "CAMERA"
+    },
+    {
+      "Euler 0": 0.0,
+      "Name": "brenderDefaults.Lamp",
+      "Loc Y": 1.0054539442062378,
+      "Euler 1": 0.0,
+      "Euler 2": 1.5779999494552612,
+      "Loc X": 4.076245307922363,
+      "Sub Type": "SUN",
+      "Euler Order": "XYZ",
+      "Loc Z": 5.903861999511719,
+      "Type": "LAMP"
+    },
+    {
+      "Euler 0": 1.499599814414978,
+      "Name": "Camera",
+      "Loc Y": 0.0,
+      "Euler 1": -0.0,
+      "Euler 2": 0.0,
+      "Loc X": 0.0,
+      "Sub Type": "PANO",
+      "Euler Order": "XYZ",
+      "Loc Z": 9.99534797668457,
+      "Type": "CAMERA"
+    },
+    {
+      "Euler 0": 0.0,
+      "Name": "Point",
+      "Loc Y": 0.0,
+      "Euler 1": 0.0,
+      "Euler 2": 0.0,
+      "Loc X": 0.0,
+      "Sub Type": "SUN",
+      "Euler Order": "XYZ",
+      "Loc Z": 0.0,
+      "Type": "LAMP"
+    },
+    {
+      "Euler 0": 0.08201885223388672,
+      "Name": "Spot",
+      "Loc Y": 0.0,
+      "Euler 1": 0.6445544362068176,
+      "Euler 2": -0.25946247577667236,
+      "Loc X": 0.0,
+      "Sub Type": "SPOT",
+      "Euler Order": "XYZ",
+      "Loc Z": 7.021809101104736,
+      "Type": "LAMP"
+    }
+  ]
+}

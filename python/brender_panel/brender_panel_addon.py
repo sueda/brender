@@ -12,49 +12,21 @@ bl_info = {
 
 }
 
-####################################################
-# ToDo's
-####################################################
-# 1. maybe write material parser that can copy all data of a material?
-####################################################
-####################################################
-
 import bpy, os
 import mathutils
 import fnmatch
+import json
+
+from bpy_extras.io_utils import ExportHelper
+from bpy_extras.io_utils import ImportHelper
 
 from bpy.props import *
-# from bpy.props import (StringProperty,
-# 					   BoolProperty,
-# 					   IntProperty,
-# 					   FloatProperty,
-# 					   EnumProperty,
-# 					   PointerProperty,
-# 					   )
 
 from bpy.types import (Panel,
 					   Operator,
 					   PropertyGroup,
 					   )
 
-
-
-import bpy, os
-
-
-
-from bpy_extras.io_utils import ExportHelper
-from bpy.props import StringProperty, BoolProperty, EnumProperty
-from bpy.types import Operator
-
-import bpy
-import json
-
-from bpy_extras.io_utils import ExportHelper
-from bpy.props import StringProperty, BoolProperty, EnumProperty
-from bpy.types import Operator
-
-from bpy_extras.io_utils import ImportHelper
 
 class View3DPanel:
 	bl_space_type = 'VIEW_3D'
@@ -284,16 +256,7 @@ BRENDER_wf_names = []
 #		Operators
 ###############################################################################
 
-
 # The following Function is a modification of 'cmomoney's blender_import_obj_anim method
-# import bpy, os
-# from bpy.props import *
-# import fnmatch
-
-# from bpy_extras.io_utils import ExportHelper
-# from bpy.props import StringProperty, BoolProperty, EnumProperty
-# from bpy.types import Operator
-
 class LoadObjAsAnimationAdvanced(bpy.types.Operator):
 	bl_idname = 'load.obj_as_anim_advanced'
 	bl_label = 'Advanced Import'
@@ -318,7 +281,6 @@ class LoadObjAsAnimationAdvanced(bpy.types.Operator):
 		spath = os.path.split(self.filepath)
 		files = [file.name for file in self.files]
 		files.sort()
-		# testing
 		
 		#add all objs to scene
 		# this makes the frame skip option available
@@ -362,7 +324,6 @@ class LoadObjAsAnimationAdvanced(bpy.types.Operator):
 
 		
 		# Uncomment Following to keep track of Brender Objects
-		#################################################################################
 		# for name in files:
 		# 	BRENDER_object_names.append(name.split('.', 1)[0]) # takes off .obj
 		
@@ -386,7 +347,7 @@ def GetCommonName(brenderObjname):
 	if "_" in brenderObjname: # has naming scheme 00001_objname
 		returnBrenderName = brenderObjname.split("_", 1)[1] # same last letters as brenderobj
 
-	else: # just scale selected object
+	else: # just return selected object
 		returnBrenderName = brenderObjname
 
 	return returnBrenderName
@@ -427,13 +388,6 @@ class ProcessObjects(bpy.types.Operator):
 		return {'FINISHED'}
 
 
-##################################################################################################################################
-##################################################################################################################################
-##################################################################################################################################
-
-
-# import bpy
-# import json
 
 def CreateImportedMatDefaults(mat):
 	dummyvar = 0
@@ -449,7 +403,7 @@ def CreateImportedMatDefaults(mat):
 			CreateClearClothMaterial.execute(dummyvar,dummyvar)
 
 
-
+##-----------------------------------------------------------------------------------------------------------------------NOTE: Maybe create apply_material_function(objname,mat)
 def applyMatDefaults(objname,mat):
 	dummyvar = 0
 	if mat not in bpy.data.materials:
@@ -463,11 +417,8 @@ def applyMatDefaults(objname,mat):
 
 	ApplyMaterialToAll.general(objname,mat)
 		
-	
 
-
-
-
+# ------------------------------------------------------------------------------------------------------------------------NOTE: get unique name (1 copy)
 def Material_array():
 	unique_objs = []
 	# get name of 1 copy of each unique object
@@ -497,72 +448,44 @@ def checkDefaultsMatArray(arr):
 
 	return mats
 
-# original- working---------------------------------------------------------------------------------------------
-def write_settings_data(context, filepath, myaddon):
-	# scene = bpy.context.scene
-	# myaddon = scene.myaddon
-	print("running write_settings_data...")
-	f = open(filepath, 'w', encoding='utf-8')
-	f.write("Brender Settings:\n")
-	f.write("# Background:")
-	if "brenderDefaults.background" in bpy.data.objects:
-		f.write("True\n")
-	else:
-		f.write("False\n")
-	f.write("# Camera:")
-	if "brenderDefaults.Camera" in bpy.data.objects:
-		f.write("True\n")
-	else:
-		f.write("False\n")	
-	f.write("# Lamp:")
-	if "brenderDefaults.Lamp" in bpy.data.objects:
-		f.write("True\n")
-	else:
-		f.write("False\n")
-	f.write("# Wireframe Object:%s\n" % myaddon.wireframe_obj_string)
-	f.write("# Wireframe Depth:%.3f\n" % myaddon.wf_bevel_depth)
-	f.write("# Wireframe Resolution:%.3f\n" % myaddon.wf_bevel_resolution)
-	f.write("# Wireframe Offset:%.3f\n" % myaddon.wf_offset)
-	f.write("# Wireframe Extrude:%.3f\n" % myaddon.wf_extrude)
-
-	obj_and_materials = Material_array()
-	obj_and_materials = checkDefaultsMatArray(obj_and_materials)
-	for strval in obj_and_materials:
-		f.write("# Object Material:%s\n" % strval)
-
-
-	# x_rot_float
-	f.close()
-
-	return {'FINISHED'}
-
 def write_settings_data_json(context, filepath, myaddon):
-# def write_settings_data(context, filepath, myaddon):
-	# scene = bpy.context.scene
-	# myaddon = scene.myaddon
 	print("running write_settings_data...")
 	objDict = {'Objects':[], 'Materials':[]}
 	f = open(filepath, 'w', encoding='utf-8')
+	unique_names = []
 	for obj in bpy.data.objects:
-		# if obj.name in BRENDER_object_names and not obj.name.startswith("000000"):
-		# 	# skip it
-		# 	continue
-		# else:
-		new_obj = {}
-		new_obj['Name'] = obj.name
-		new_obj['Type'] = obj.type
-		if obj.type in 'MESH':
-			new_obj['Parent'] = None
-		elif obj.type in 'CURVE' and obj.name.endswith(".wireframe"):
-			new_obj['Parent'] = obj.name.split(".", 1)[0] # take off ".wireframe"
-			new_obj['Wireframe Depth'] = myaddon.wf_bevel_depth
-			new_obj['Wireframe Resolution'] = myaddon.wf_bevel_resolution
-			new_obj['Wireframe Offset'] = myaddon.wf_offset
-			new_obj['Wireframe Extrude'] = myaddon.wf_extrude
+		common_name = GetCommonName(obj.name)
+		# Take this If statement out to export all object info (ex: 000000_Cloth2D-999999_Cloth2D)
+		if common_name not in unique_names:
+			unique_names.append(common_name)
+			# if obj.name in BRENDER_object_names and not obj.name.startswith("000000"):
+			# 	# skip it
+			# 	continue
+			# else:
+			new_obj = {}
+			new_obj['Name'] = obj.name
+			new_obj['Type'] = obj.type
+			if obj.type in 'MESH':
+				new_obj['Parent'] = None
+			elif obj.type in 'CURVE' and obj.name.endswith(".wireframe"):
+				new_obj['Parent'] = obj.name.split(".", 1)[0] # take off ".wireframe"
+				new_obj['Wireframe Depth'] = myaddon.wf_bevel_depth
+				new_obj['Wireframe Resolution'] = myaddon.wf_bevel_resolution
+				new_obj['Wireframe Offset'] = myaddon.wf_offset
+				new_obj['Wireframe Extrude'] = myaddon.wf_extrude
+			elif obj.type in 'LAMP' or obj.type in 'CAMERA':
+				new_obj['Sub Type'] = obj.data.type
+				new_obj['Loc X'] = obj.location[0]
+				new_obj['Loc Y'] = obj.location[1]
+				new_obj['Loc Z'] = obj.location[2]
+				new_obj['Euler 0'] = obj.rotation_euler[0]
+				new_obj['Euler 1'] = obj.rotation_euler[1]
+				new_obj['Euler 2'] = obj.rotation_euler[2]
+				new_obj['Euler Order'] = obj.rotation_euler.order
 
-		if obj.type in 'MESH' or obj.type in 'CURVE':
-			new_obj['Material'] = obj.active_material.name
-		objDict['Objects'].append(new_obj)
+			if obj.type in 'MESH' or obj.type in 'CURVE':
+				new_obj['Material'] = obj.active_material.name
+			objDict['Objects'].append(new_obj)
 
 	for mats in bpy.data.materials:
 		new_mat = {'Name' : mats.name}
@@ -580,7 +503,6 @@ def write_settings_data_json(context, filepath, myaddon):
 def read_settings_data_json(context, filepath, myaddon):
 	print("running read_settings_data...")
 	f = open(filepath, 'r', encoding='utf-8')
-	#data = f.read()
 	data = json.load(f)
 	f.close()
 
@@ -612,65 +534,33 @@ def read_settings_data_json(context, filepath, myaddon):
 				continue
 			# bpy.data.objects[obj['Name']].active_material = obj['Material']
 		if obj['Type'] in 'LAMP':
-			if obj['Name'] in 'brenderDefaults.Lamp':
+			if obj['Name'] == 'brenderDefaults.Lamp':
 				lightSetup2D.execute(bpy.context, bpy.context)
+			else:
+				# create lamp
+				# NOTE: Lamp Creation doesnt include intensity, radius, etc at the moment
+				bpy.ops.object.lamp_add()
+				new_obj = bpy.context.active_object
+				new_obj.data.type=obj['Sub Type']
+				new_obj.name = obj['Name']
+				new_obj.location = mathutils.Vector((obj['Loc X'], obj['Loc Y'], obj['Loc Z']))
+				new_obj.rotation_euler = mathutils.Euler((obj['Euler 0'], obj['Euler 1'], obj['Euler 2']), obj['Euler Order'])
+				new_obj.select = False
 
 		if obj['Type'] in 'CAMERA':
-			if obj['Name'] in 'brenderDefaults.Camera':
+			if obj['Name'] == 'brenderDefaults.Camera':
 				cameraSetup2D.execute(bpy.context, bpy.context)
+			else:
+				# create lamp
+				# NOTE: Lamp Creation doesnt include intensity, radius, etc at the moment
+				bpy.ops.object.camera_add()
+				new_obj = bpy.context.active_object
+				new_obj.data.type=obj['Sub Type']
+				new_obj.name = obj['Name']
+				new_obj.location = mathutils.Vector((obj['Loc X'], obj['Loc Y'], obj['Loc Z']))
+				new_obj.rotation_euler = mathutils.Euler((obj['Euler 0'], obj['Euler 1'], obj['Euler 2']), obj['Euler Order'])
+				new_obj.select = False
 				
-
-	return {'FINISHED'}
-
-def read_settings_data(context, filepath, myaddon):
-	print("running read_settings_data...")
-	f = open(filepath, 'r', encoding='utf-8')
-	#data = f.read()
-	settings = []
-	for line in f:
-		# settings.append(f.readline())
-		settings.append(line.rstrip())
-	# print(settings)
-	f.close()
-
-	count = 0
-
-	# if "True" in settings:
-	# 	createBlackBackground.execute(bpy.context, bpy.context) # note passed bpy.context as both dummy var and context
-
-	for str in settings:
-		if(str[0] == '#'):
-			# whats the heading?
-			if "Background" in str:
-				if str.split(":",1)[1] == "True":
-					createBlackBackground.execute(bpy.context, bpy.context)
-			if "Camera" in str:
-				if str.split(":",1)[1] == "True":
-					cameraSetup2D.execute(bpy.context, bpy.context)
-			if "Lamp" in str:
-				if str.split(":",1)[1] == "True":
-					lightSetup2D.execute(bpy.context, bpy.context)
-			if "Wireframe Object" in str:
-				myaddon.wireframe_obj_string = str.split(":",1)[1]
-			if "Wireframe Depth" in str:
-				myaddon.wf_bevel_depth = float(str.split(":",1)[1])
-			if "Wireframe Resolution" in str:
-				myaddon.wf_bevel_resolution = float(str.split(":",1)[1])
-			if "Wireframe Offset" in str:
-				myaddon.wf_offset = float(str.split(":",1)[1])
-			if "Wireframe Extrude" in str:
-				myaddon.wf_extrude = float(str.split(":",1)[1])
-			# create wireframe
-			if myaddon.wireframe_obj_string != "":
-				WireframeOverlay.apply_wireframe(myaddon.wireframe_obj_string)
-			if "Object Material" in str:
-				parts = str.split(":")
-				objname = parts[1]
-				mat = parts[2]
-				applyMatDefaults(objname,mat)
-
-		else:
-			print(str)
 
 	return {'FINISHED'}
 
@@ -679,11 +569,6 @@ def read_settings_data(context, filepath, myaddon):
 
 # ExportHelper is a helper class, defines filename and
 # invoke() function which calls the file selector.
-# from bpy_extras.io_utils import ExportHelper
-# from bpy.props import StringProperty, BoolProperty, EnumProperty
-# from bpy.types import Operator
-
-
 class ExportBrenderSettings(Operator, ExportHelper):
 	"""This appears in the tooltip of the operator and in the generated docs"""
 	bl_idname = "export_brend.settings_data"  # important since its how bpy.ops.import_test.settings_data is constructed
@@ -705,12 +590,8 @@ class ExportBrenderSettings(Operator, ExportHelper):
 		return write_settings_data_json(context, self.filepath, myaddon)
 
 
-
-
 # ImportHelper is a helper class, defines filename and
 # invoke() function which calls the file selector.
-# from bpy_extras.io_utils import ImportHelper
-
 class ImportBrenderSettings(Operator, ImportHelper):
 	"""This appears in the tooltip of the operator and in the generated docs"""
 	bl_idname = "import_brend.settings_data"  # important since its how bpy.ops.import_brend.settings_data is constructed
@@ -912,9 +793,6 @@ class AnimationObjectResize(bpy.types.Operator):
 
 
 	def execute(self, context):
-		#scene = context.scene
-		#cursor = scene.cursor_location
-		#obj = scene.objects.active
 		scene = context.scene
 		myaddon = scene.my_addon
 		brenderObjname = context.active_object.name
@@ -999,9 +877,8 @@ class WireframeOverlay(bpy.types.Operator):
 		return False
 
 	def execute(self, context):
-
-		scn = context.scene #----------------------
-		myaddon = scn.my_addon #----------------------
+		scn = context.scene 
+		myaddon = scn.my_addon 
 		objectname = myaddon.wireframe_obj_string
 		# Check if name is typed in, if not, use selected object 
 		if myaddon.wireframe_obj_string is not "":
@@ -1021,11 +898,9 @@ class WireframeOverlay(bpy.types.Operator):
 
 
 	def apply_wireframe(objname): 
-
 		scn = bpy.context.scene
 		myaddon = scn.my_addon
 		dupobjects = []
-
 
 		objectname = GetCommonName(objname)
 		# is selected object the wireframe overlay or base object
@@ -1033,13 +908,10 @@ class WireframeOverlay(bpy.types.Operator):
 			copynames = objectname
 		else:
 			copynames = objectname + ".wireframe"
-#-------------------------------------------------------------------------------------------------------------------------------==
-		# Brender_object_names.append("000000_" + copynames)
 
 		if WireframeOverlay.DoesObjExist(copynames):
 			# object copies exist. dont copy
 			# update parameters
-			# context.scene.frame_set(0)
 			scn.frame_set(0)
 
 			for obj in bpy.data.objects:
@@ -1074,7 +946,6 @@ class WireframeOverlay(bpy.types.Operator):
 					mesh.name = new_obj.name
 
 			
-			# context.scene.frame_set(0)
 			scn.frame_set(0)
 			# hide for keyframes
 			for i, obj in enumerate(dupobjects):
@@ -1088,7 +959,6 @@ class WireframeOverlay(bpy.types.Operator):
 				if f == 0:
 					continue
 				# increment current frame to insert keyframe
-				# context.scene.frame_set(f) 
 				scn.frame_set(f)
 		
 				obj_prev = dupobjects[f-1]
@@ -1102,7 +972,6 @@ class WireframeOverlay(bpy.types.Operator):
 				obj.keyframe_insert(data_path='hide_render')
 
 			# end of duplicating opjects
-			# context.scene.frame_set(0)
 			scn.frame_set(0)
 			# make mesh
 			
@@ -1138,14 +1007,9 @@ class WireframeOverlay(bpy.types.Operator):
 			# 	if obj.name.endswith(copynames):
 			# 		BRENDER_object_names.append(obj.name)
 			BRENDER_wf_names.append(copynames)
-			#################################################################################################***************************************************************
-			print("Brender WF names: ", copynames)
 
-		
 
 		return {'FINISHED'}
-
-
 
 
 class wireframePreview(bpy.types.Operator):
@@ -1181,10 +1045,6 @@ class cameraSetup2D(bpy.types.Operator):
 		scene = context.scene
 		myaddon = scene.my_addon
 		
-		# if myaddon.cam_name is not "":
-		# 	cam = bpy.data.objects[myaddon.cam_name]
-		# else:
-		# 	cam = context.object
 		cam = bpy.data.objects['Camera']
 
 		# default naming for export
@@ -1268,8 +1128,6 @@ class createBlackBackground(bpy.types.Operator):
 
 
 		return {'FINISHED'}
-
-
 
 
 
@@ -1489,8 +1347,8 @@ class BrenderScenePanel(View3DPanel, Panel):
 		layout.operator("object.create_default_wf_mat")
 		layout.operator("object.create_clear_mat")
 
-		layout.label(text="2D Lighting defaults")
-		layout.label(text="under construction")
+		# layout.label(text="2D Lighting defaults")
+		# layout.label(text="under construction")
 
 
 # ------------------------------------------------------------------------
