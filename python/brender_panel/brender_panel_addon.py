@@ -424,6 +424,8 @@ def CreateImportedMatDefaults(mat):
 			CreateDefaultMaterials.execute(dummyvar, dummyvar)
 		elif mat in "Wireframe2DMaterial":
 			CreateWireframeMaterial.execute(dummyvar,dummyvar)
+		elif mat in "BlackMaterial":
+			createBlackBackground.execute(bpy.context, bpy.context)
 		else:
 			# Clear2DMaterial
 			CreateClearClothMaterial.execute(dummyvar,dummyvar)
@@ -568,28 +570,37 @@ def read_settings_data_json(context, filepath, myaddon):
 		CreateImportedMatDefaults(mats['Name'])
 
 	for obj in data['Objects']:
-		# print(obj['Name'])
 		if obj['Type'] in 'MESH':
-			continue
+			if obj['Name'] in bpy.data.objects: # will work with brender objects ('000000_name')
+				ApplyMaterialToAll.general(obj['Name'],obj['Material'])
+			
 		if obj['Type'] in 'CURVE' and obj['Name'].endswith('.wireframe'):
 			# does the wireframe exist yet?
 			# only do wireframe creation once
-			if GetCommonName(obj.['Parent'].split("_",1)[1]) not in BRENDER_wf_names:
+			if GetCommonName(obj['Parent'].split("_",1)[1]) not in BRENDER_wf_names:
 				# wireframes havent been documented, create
 				# assuming only one wireframed object
-				myaddon.wireframe_obj_string = GetCommonName(obj.['Parent'].split("_",1)[1])
+				myaddon.wireframe_obj_string = GetCommonName(obj['Parent'].split("_",1)[1])
 				myaddon.wf_bevel_depth = obj['Wireframe Depth']
 				myaddon.wf_bevel_resolution = obj['Wireframe Resolution']
 				myaddon.wf_offset = obj['Wireframe Offset']
 				myaddon.wf_extrude = obj['Wireframe Extrude']
 				WireframeOverlay.apply_wireframe(myaddon.wireframe_obj_string)
+				BRENDER_wf_names.append(myaddon.wireframe_obj_string)
+				# apply material
+				ApplyMaterialToAll.general(obj['Name'],obj['Material'])
 			else:
 				# already created
 				continue
+			# bpy.data.objects[obj['Name']].active_material = obj['Material']
+		if obj['Type'] in 'LAMP':
+			if obj['Name'] in 'brenderDefaults.Lamp':
+				lightSetup2D.execute(bpy.context, bpy.context)
 
-				# SETUP MATERIAL CREATION BEFORE ANYTHING ELSE------------------------------------
-	# do some loop that checks if wireframes dont exist, create them
-	# maybe based on getcommon name of wireframe parent value....
+		if obj['Type'] in 'CAMERA':
+			if obj['Name'] in 'brenderDefaults.Camera':
+				cameraSetup2D.execute(bpy.context, bpy.context)
+				
 
 	return {'FINISHED'}
 
@@ -673,7 +684,7 @@ class ExportBrenderSettings(Operator, ExportHelper):
 	def execute(self, context):
 		scene = context.scene
 		myaddon = scene.my_addon
-		return write_settings_data(context, self.filepath, myaddon)
+		return write_settings_data_json(context, self.filepath, myaddon)
 
 
 
@@ -700,7 +711,7 @@ class ImportBrenderSettings(Operator, ImportHelper):
 	def execute(self, context):
 		scene = context.scene
 		myaddon = scene.my_addon
-		return read_settings_data(context, self.filepath, myaddon)
+		return read_settings_data_json(context, self.filepath, myaddon)
 
 
 
