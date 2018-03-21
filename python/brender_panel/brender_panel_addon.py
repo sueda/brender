@@ -19,21 +19,42 @@ bl_info = {
 ####################################################
 ####################################################
 
-import bpy
+import bpy, os
 import mathutils
+import fnmatch
 
-from bpy.props import (StringProperty,
-					   BoolProperty,
-					   IntProperty,
-					   FloatProperty,
-					   EnumProperty,
-					   PointerProperty,
-					   )
+from bpy.props import *
+# from bpy.props import (StringProperty,
+# 					   BoolProperty,
+# 					   IntProperty,
+# 					   FloatProperty,
+# 					   EnumProperty,
+# 					   PointerProperty,
+# 					   )
 
 from bpy.types import (Panel,
 					   Operator,
 					   PropertyGroup,
 					   )
+
+
+
+import bpy, os
+
+
+
+from bpy_extras.io_utils import ExportHelper
+from bpy.props import StringProperty, BoolProperty, EnumProperty
+from bpy.types import Operator
+
+import bpy
+import json
+
+from bpy_extras.io_utils import ExportHelper
+from bpy.props import StringProperty, BoolProperty, EnumProperty
+from bpy.types import Operator
+
+from bpy_extras.io_utils import ImportHelper
 
 class View3DPanel:
 	bl_space_type = 'VIEW_3D'
@@ -250,14 +271,13 @@ default_material_names = [
 ]
 
 BRENDER_wf_names = []
-BRENDER_object_names = []
+# Uncomment following to keep track of brend objects 
+# 		(uncomment labeled lines below as well)
+# BRENDER_object_names = []
 
 ####################################################
 # Run on Import
 ####################################################
-import bpy
-
-
 
 
 ###############################################################################
@@ -266,13 +286,13 @@ import bpy
 
 
 # The following Function is a modification of 'cmomoney's blender_import_obj_anim method
-import bpy, os
-from bpy.props import *
-import fnmatch
+# import bpy, os
+# from bpy.props import *
+# import fnmatch
 
-from bpy_extras.io_utils import ExportHelper
-from bpy.props import StringProperty, BoolProperty, EnumProperty
-from bpy.types import Operator
+# from bpy_extras.io_utils import ExportHelper
+# from bpy.props import StringProperty, BoolProperty, EnumProperty
+# from bpy.types import Operator
 
 class LoadObjAsAnimationAdvanced(bpy.types.Operator):
 	bl_idname = 'load.obj_as_anim_advanced'
@@ -340,14 +360,12 @@ class LoadObjAsAnimationAdvanced(bpy.types.Operator):
 			ob.keyframe_insert(data_path='hide')
 			ob.keyframe_insert(data_path='hide_render')
 
-		# numOfFrames = len(self.objects)
-		# bpy.context.scene.frame_end = numOfFrames
-		# print(files)
-		# to keep track of brender objects
 		
-		for name in files:
-			BRENDER_object_names.append(name.split('.', 1)[0]) # takes off .obj
-		#print(Brender_object_names)
+		# Uncomment Following to keep track of Brender Objects
+		#################################################################################
+		# for name in files:
+		# 	BRENDER_object_names.append(name.split('.', 1)[0]) # takes off .obj
+		
 				
 		return{'FINISHED'}
 
@@ -414,8 +432,8 @@ class ProcessObjects(bpy.types.Operator):
 ##################################################################################################################################
 
 
-import bpy
-import json
+# import bpy
+# import json
 
 def CreateImportedMatDefaults(mat):
 	dummyvar = 0
@@ -661,9 +679,9 @@ def read_settings_data(context, filepath, myaddon):
 
 # ExportHelper is a helper class, defines filename and
 # invoke() function which calls the file selector.
-from bpy_extras.io_utils import ExportHelper
-from bpy.props import StringProperty, BoolProperty, EnumProperty
-from bpy.types import Operator
+# from bpy_extras.io_utils import ExportHelper
+# from bpy.props import StringProperty, BoolProperty, EnumProperty
+# from bpy.types import Operator
 
 
 class ExportBrenderSettings(Operator, ExportHelper):
@@ -691,7 +709,7 @@ class ExportBrenderSettings(Operator, ExportHelper):
 
 # ImportHelper is a helper class, defines filename and
 # invoke() function which calls the file selector.
-from bpy_extras.io_utils import ImportHelper
+# from bpy_extras.io_utils import ImportHelper
 
 class ImportBrenderSettings(Operator, ImportHelper):
 	"""This appears in the tooltip of the operator and in the generated docs"""
@@ -1017,8 +1035,6 @@ class WireframeOverlay(bpy.types.Operator):
 			copynames = objectname + ".wireframe"
 #-------------------------------------------------------------------------------------------------------------------------------==
 		# Brender_object_names.append("000000_" + copynames)
-		# print(Brender_object_names)
-		# print(len(Brender_object_names))
 
 		if WireframeOverlay.DoesObjExist(copynames):
 			# object copies exist. dont copy
@@ -1116,13 +1132,16 @@ class WireframeOverlay(bpy.types.Operator):
 					#deselect object
 					obj.select=False
 
-
-			for obj in bpy.data.objects:
-				if obj.name.endswith(copynames):
-					BRENDER_object_names.append(obj.name)
+			# Uncomment Following to keep track of Brender objects
+			#######################################################################
+			# for obj in bpy.data.objects:
+			# 	if obj.name.endswith(copynames):
+			# 		BRENDER_object_names.append(obj.name)
 			BRENDER_wf_names.append(copynames)
+			#################################################################################################***************************************************************
+			print("Brender WF names: ", copynames)
 
-		print(BRENDER_object_names)
+		
 
 		return {'FINISHED'}
 
