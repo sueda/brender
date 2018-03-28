@@ -6,12 +6,10 @@
 
 #pragma once
 
-#include <fstream>
-#include <chrono>
 #include <vector>
 #include <memory>
 #include <string>
-#include <iostream>
+#include <ostream>
 
 class Brenderable;
 
@@ -21,7 +19,7 @@ private:
 	static bool instanceFlag;
 	static BrenderManager *manager;
 	int frame;
-	const char* EXPORT_DIR;
+    std::string EXPORT_DIR;
 	std::vector<std::shared_ptr<Brenderable> > brenderables;
 	BrenderManager()
 	{
@@ -33,12 +31,10 @@ public:
 	static BrenderManager* getInstance();
 	void setExportDir(std::string export_dir);
 	int getFrame() const;
-	void exportBrender();									//does not require/use timestamp
-	void exportBrender(double time);
+	void exportBrender(double time = 0.0);
 	void add(std::shared_ptr<Brenderable> brenderable);
 	~BrenderManager()
 	{
 		instanceFlag = false;
 	}
 };
-

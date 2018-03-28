@@ -31,89 +31,53 @@ int BrenderManager::getFrame() const
 	return frame;
 }
 
-void BrenderManager::exportBrender()
-{
-	int objNum = 1;
-	for (auto brenderable : brenderables) {
-		ofstream outfile;
-
-		char filename[50];
-		const char* checkname = brenderable->getName().c_str();
-		//if object has not been given name
-		if (strcmp(checkname, "") == 0) {
-			sprintf(filename, "%s/%06d_Object%d.obj", EXPORT_DIR, frame, objNum);
-		}
-		//if object has been given specific name
-		else {
-			std::string objname_str = brenderable->getName();
-			char* objname_char = new char[objname_str.length() + 1];
-			strcpy(objname_char, objname_str.c_str());
-			sprintf(filename, "%s/%06d_%s.obj", EXPORT_DIR, frame, objname_char);
-		}
-		//open file
-		outfile.open(filename);
-		//frame string
-		char framestring[50];
-		sprintf(framestring, "# frame %06d \n", frame);
-		outfile << framestring;
-		//obj name
-		//if object has not been given name
-		if (strcmp(checkname, "") == 0) {
-			outfile << "# name Object " + to_string(objNum) + " \n";
-		}
-		//if object has been given specific name
-		else {
-			outfile << "# name " + brenderable->getName() + " \n";
-		}
-		brenderable->exportBrender(outfile);
-		outfile.close();
-		objNum++;
-	}
-	//Only time frame should be changed/modified
-	frame++;
-}
-
 void BrenderManager::exportBrender(double time)
 {
 	int objNum = 1;
 	for (auto brenderable : brenderables) {
-		ofstream outfile;
+		vector<string> names = brenderable->getBrenderNames();
+		vector< shared_ptr< ofstream > > outfiles;
+		// Initialize files
+		for (int i = 0; i < brenderable->getBrenderCount(); ++i) {
+			auto outfile = make_shared<ofstream>();
+			outfiles.push_back(outfile);
 
-		char filename[100];
+			char filename[512];
 
-		std::string objname_str = brenderable->getName(); 
-		const char* checkname = objname_str.c_str(); 
-		//if object has not been given name
-		if (strcmp(checkname, "") == 0) {
-			sprintf(filename, "%s/%06d_Object%d.obj", EXPORT_DIR, frame, objNum);
-		}
-		//if object has been given specific name
-		else {
-			char* objname_char = new char[objname_str.length() + 1];
-			strcpy(objname_char, objname_str.c_str());
-			sprintf(filename, "%s/%06d_%s.obj", EXPORT_DIR, frame, objname_char);
+			//if object has not been given name
+			if (names[i].compare("") == 0) {
+				sprintf(filename, "%s/%06d_Object%d.obj", EXPORT_DIR.c_str(), frame, objNum);
 			}
-		//open file
-		outfile.open(filename);
-		//frame string
-		char framestring[50];
-		sprintf(framestring, "# frame %06d \n", frame);
-		outfile << framestring;
-		//frame time
-		char timeval[50];
-		sprintf(timeval, "# time %f \n", time);
-		outfile << timeval;
-		//obj name
-		//if object has not been given name
-		if (strcmp(checkname, "") == 0) {
-			outfile << "# name Object" + to_string(objNum) + " \n";
+			//if object has been given specific name
+			else {
+				sprintf(filename, "%s/%06d_%s.obj", EXPORT_DIR.c_str(), frame, names[i].c_str());
+			}
+			//open file
+			outfile->open(filename);
+			//frame string
+			char framestring[50];
+			sprintf(framestring, "# frame %06d \n", frame);
+			*outfile << framestring;
+			//frame time
+			char timeval[50];
+			sprintf(timeval, "# time %f \n", time);
+			*outfile << timeval;
+			//obj name
+			//if object has not been given name
+			if (names[i].compare("") == 0) {
+				*outfile << "# name Object" + to_string(objNum) + " \n";
+			}
+			//if object has been given specific name
+			else {
+				*outfile << "# name " + names[i] + " \n";
+			}
 		}
-		//if object has been given specific name
-		else {
-			outfile << "# name " + brenderable->getName() + " \n";
+		// Write to files
+		brenderable->exportBrender(outfiles);
+		// Close files
+		for (int i = 0; i < brenderable->getBrenderCount(); ++i) {
+			outfiles[i]->close();
 		}
-		brenderable->exportBrender(outfile);
-		outfile.close();
 		objNum++;
 	}
 	//Only time frame should be changed/modified
@@ -125,11 +89,9 @@ void BrenderManager::add(shared_ptr<Brenderable> brenderable)
 	brenderables.push_back(brenderable);
 }
 
-void BrenderManager::setExportDir(std::string export_dir) 
+void BrenderManager::setExportDir(string export_dir) 
 {	
-	char* export_char = new char[export_dir.length() + 1];
-	strcpy(export_char, export_dir.c_str());
-	EXPORT_DIR = export_char;
+	EXPORT_DIR = export_dir;
 }
 
 

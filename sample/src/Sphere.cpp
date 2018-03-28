@@ -53,7 +53,21 @@ void Sphere::draw(shared_ptr<MatrixStack> MV, const shared_ptr<Program> prog)
 	particle->draw(MV, prog);
 }
 
-void Sphere::exportBrender(std::ofstream& outfile) const{
+int Sphere::getBrenderCount() const
+{
+	return 1;
+}
+
+vector<string> Sphere::getBrenderNames() const
+{
+	vector<string> names;
+	names.push_back("Sphere1");
+	return names;
+}
+
+void Sphere::exportBrender(vector< shared_ptr< ofstream > > outfiles) const
+{
+	ofstream &outfile = *outfiles[0];
 	Eigen::Matrix4d T, S;
 	S.setIdentity();
 	S(0,0) = particle->r;
@@ -63,9 +77,4 @@ void Sphere::exportBrender(std::ofstream& outfile) const{
 	T.block<3,1>(0,3) = particle->x;
 
 	shape->exportBrender( T*S , outfile);
-}
-
-std::string Sphere::getName() const
-{
-	return "Sphere";
 }
