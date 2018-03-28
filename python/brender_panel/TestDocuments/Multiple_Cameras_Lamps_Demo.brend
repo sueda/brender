@@ -1,0 +1,85 @@
+{
+  "Objects": [
+    {
+      "Material": "Clear2DMaterial",
+      "Type": "MESH",
+      "Parent": null,
+      "Name": "000000_Cloth2D"
+    },
+    {
+      "Wireframe Offset": 0.0,
+      "Parent": "000000_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Wireframe Resolution": 2,
+      "Wireframe Depth": 0.003000000026077032,
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Name": "000000_Cloth2D.wireframe"
+    },
+    {
+      "Material": "BlackMaterial",
+      "Type": "MESH",
+      "Parent": null,
+      "Name": "brenderDefaults.background"
+    },
+    {
+      "Euler 1": -0.0,
+      "Euler Order": "XYZ",
+      "Sub Type": "ORTHO",
+      "Loc Y": 0.5,
+      "Loc Z": 2.1500000953674316,
+      "Loc X": 0.5,
+      "Euler 0": 0.0,
+      "Type": "CAMERA",
+      "Euler 2": 0.0,
+      "Name": "brenderDefaults.Camera"
+    },
+    {
+      "Euler 1": 0.0,
+      "Euler Order": "XYZ",
+      "Sub Type": "SUN",
+      "Loc Y": 1.0054539442062378,
+      "Loc Z": 5.903861999511719,
+      "Loc X": 4.076245307922363,
+      "Euler 0": 0.0,
+      "Type": "LAMP",
+      "Euler 2": 1.5779999494552612,
+      "Name": "brenderDefaults.Lamp"
+    },
+    {
+      "Euler 1": -0.0446259006857872,
+      "Euler Order": "XYZ",
+      "Sub Type": "PERSP",
+      "Loc Y": -3.087522506713867,
+      "Loc Z": 2.2614076137542725,
+      "Loc X": -1.2400429248809814,
+      "Euler 0": 1.1361451148986816,
+      "Type": "CAMERA",
+      "Euler 2": -0.46425560116767883,
+      "Name": "Camera"
+    },
+    {
+      "Euler 1": -0.2648829519748688,
+      "Euler Order": "XYZ",
+      "Sub Type": "SPOT",
+      "Loc Y": -0.22310686111450195,
+      "Loc Z": 7.255348205566406,
+      "Loc X": -2.9482359886169434,
+      "Euler 0": -0.13399678468704224,
+      "Type": "LAMP",
+      "Euler 2": 0.331149697303772,
+      "Name": "Spot"
+    }
+  ],
+  "Materials": [
+    {
+      "Name": "BlackMaterial"
+    },
+    {
+      "Name": "Clear2DMaterial"
+    },
+    {
+      "Name": "Wireframe2DMaterial"
+    }
+  ]
+}

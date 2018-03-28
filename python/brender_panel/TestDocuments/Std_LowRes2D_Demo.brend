@@ -1,0 +1,61 @@
+{
+  "Objects": [
+    {
+      "Material": "Clear2DMaterial",
+      "Type": "MESH",
+      "Parent": null,
+      "Name": "000000_Cloth2D"
+    },
+    {
+      "Wireframe Offset": 0.0,
+      "Parent": "000000_Cloth2D",
+      "Material": "Wireframe2DMaterial",
+      "Wireframe Resolution": 2,
+      "Wireframe Depth": 0.003000000026077032,
+      "Type": "CURVE",
+      "Wireframe Extrude": 0.0,
+      "Name": "000000_Cloth2D.wireframe"
+    },
+    {
+      "Material": "BlackMaterial",
+      "Type": "MESH",
+      "Parent": null,
+      "Name": "brenderDefaults.background"
+    },
+    {
+      "Euler 1": -0.0,
+      "Euler Order": "XYZ",
+      "Sub Type": "ORTHO",
+      "Loc Y": 0.5,
+      "Loc Z": 2.1500000953674316,
+      "Loc X": 0.5,
+      "Euler 0": 0.0,
+      "Type": "CAMERA",
+      "Euler 2": 0.0,
+      "Name": "brenderDefaults.Camera"
+    },
+    {
+      "Euler 1": 0.0,
+      "Euler Order": "XYZ",
+      "Sub Type": "SUN",
+      "Loc Y": 1.0054539442062378,
+      "Loc Z": 5.903861999511719,
+      "Loc X": 4.076245307922363,
+      "Euler 0": 0.0,
+      "Type": "LAMP",
+      "Euler 2": 1.5779999494552612,
+      "Name": "brenderDefaults.Lamp"
+    }
+  ],
+  "Materials": [
+    {
+      "Name": "BlackMaterial"
+    },
+    {
+      "Name": "Clear2DMaterial"
+    },
+    {
+      "Name": "Wireframe2DMaterial"
+    }
+  ]
+}
