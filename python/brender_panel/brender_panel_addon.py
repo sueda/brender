@@ -403,7 +403,6 @@ def CreateImportedMatDefaults(mat):
 			CreateClearClothMaterial.execute(dummyvar,dummyvar)
 
 
-##-----------------------------------------------------------------------------------------------------------------------NOTE: Maybe create apply_material_function(objname,mat)
 def applyMatDefaults(objname,mat):
 	dummyvar = 0
 	if mat not in bpy.data.materials:
@@ -418,7 +417,7 @@ def applyMatDefaults(objname,mat):
 	ApplyMaterialToAll.general(objname,mat)
 		
 
-# ------------------------------------------------------------------------------------------------------------------------NOTE: get unique name (1 copy)
+
 def Material_array():
 	unique_objs = []
 	# get name of 1 copy of each unique object
