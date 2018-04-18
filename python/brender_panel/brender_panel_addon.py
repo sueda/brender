@@ -392,12 +392,14 @@ class ProcessObjects(bpy.types.Operator):
 def CreateImportedMatDefaults(mat):
 	dummyvar = 0
 	if mat not in bpy.data.materials:
-		if mat in "ClothMaterial" or mat in "CubeMaterial":
+		if mat in "ClothMaterial" or mat in "CubeMaterial" or mat in "CheckerGreyscale":
 			CreateDefaultMaterials.execute(dummyvar, dummyvar)
 		elif mat in "Wireframe2DMaterial":
 			CreateWireframeMaterial.execute(dummyvar,dummyvar)
 		elif mat in "BlackMaterial":
 			createBlackBackground.execute(bpy.context, bpy.context)
+		elif mat in "GreyMaterial":
+			createGreyBackground.execute(bpy.context, bpy.context)
 		else:
 			# Clear2DMaterial
 			CreateClearClothMaterial.execute(dummyvar,dummyvar)
@@ -665,6 +667,28 @@ class CreateDefaultMaterials(bpy.types.Operator):
 			# apply checker primary and secondary colors
 			checkernode.inputs[1].default_value = (0.456, 0.386, 0.150, 1)
 			checkernode.inputs[2].default_value = (0.080, 0, 0, 1)
+			# link nodes
+			links = mat.node_tree.links
+			links.new(checkernode.outputs[0], diffnode.inputs[0]) 
+			links.new(uvmapnode.outputs[0], checkernode.inputs[0])
+
+		if bpy.data.materials.get("CheckerGreyscale") is None:
+			# create cloth material
+			mat_name = "CheckerGreyscale"
+			mat = bpy.data.materials.new(mat_name)
+			mat.use_nodes = True 
+			nodes = mat.node_tree.nodes
+			# diffuse node is made by default
+			diffnode = nodes["Diffuse BSDF"]
+			checkernode = nodes.new('ShaderNodeTexChecker')
+			uvmapnode = nodes.new('ShaderNodeUVMap')
+			# organize nodes
+			diffnode.location = (100,300)
+			checkernode.location = (-100,300)
+			uvmapnode.location = (-300,300)
+			# apply checker primary and secondary colors
+			checkernode.inputs[1].default_value = (0.141, 0.133, 0.13, 1)
+			checkernode.inputs[2].default_value = (0.238, 0.222, 0.219, 1)
 			# link nodes
 			links = mat.node_tree.links
 			links.new(checkernode.outputs[0], diffnode.inputs[0]) 
@@ -1129,6 +1153,47 @@ class createBlackBackground(bpy.types.Operator):
 		return {'FINISHED'}
 
 
+class createGreyBackground(bpy.types.Operator):
+	"""Wireframe Overlay Preview"""
+	bl_idname = "object.create_grey_bg"
+	bl_label = "Create Grey BG (3D Default)"
+	bl_options = {'REGISTER', 'UNDO'}
+
+	def execute(self, context):
+		scene = context.scene
+		myaddon = scene.my_addon
+		
+		bpy.ops.mesh.primitive_plane_add()
+		pln = bpy.context.active_object
+		# default naming for export
+		pln.name = "brenderDefaults3d.background"
+		pln.location = mathutils.Vector((0.0, 0.0, -0.025))
+		pln.scale =  mathutils.Vector((10.0, 10.0, 1.0))
+
+		if bpy.data.materials.get("GreyMaterial") is None:
+			# create cube material
+			mat_name = "GreyMaterial"
+			mat = bpy.data.materials.new(mat_name)
+			mat.use_nodes = True 
+			nodes = mat.node_tree.nodes
+			diffnode = nodes["Diffuse BSDF"]
+			# apply checker primary and secondary colors
+			diffnode.inputs[0].default_value = (0.161, 0.151, 0.156, 1)
+			diffnode.inputs[1].default_value = (0.0)
+
+		pln = bpy.data.objects['brenderDefaults3d.background']
+		mat = bpy.data.materials.get("GreyMaterial")
+		pln.select = True
+
+		if pln.data.materials:
+			pln.data.materials[0] = mat
+		else:
+			pln.data.materials.append(mat)
+		pln.select = False	
+
+
+		return {'FINISHED'}
+
 
 ###############################################################################
 #		Brender in Object mode UI Panels
@@ -1345,6 +1410,9 @@ class BrenderScenePanel(View3DPanel, Panel):
 		layout.label(text="2D Material Defaults")
 		layout.operator("object.create_default_wf_mat")
 		layout.operator("object.create_clear_mat")
+
+		layout.label(text="3D Material Defaults")
+		layout.operator("object.create_grey_bg")
 
 		# layout.label(text="2D Lighting defaults")
 		# layout.label(text="under construction")
