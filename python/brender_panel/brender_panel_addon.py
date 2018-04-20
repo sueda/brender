@@ -233,6 +233,13 @@ class BrenderSettings(PropertyGroup):
 		maxlen=1024,
 		)
 
+	angle_thresh = IntProperty(
+		name = "Angle Threshold",
+		description = "A int property",
+		default = 30,
+		step = 1,
+		)
+
 # for exporting values
 default_material_names = [
 	"BlackMaterial",
@@ -354,38 +361,38 @@ def GetCommonName(brenderObjname):
 
 
 
-class ProcessObjects(bpy.types.Operator):
-	"""Animation Object Resizing"""
-	bl_idname = "object.process_objects"
-	bl_label = "UnderConstruction"
-	bl_options = {'REGISTER', 'UNDO'}
+# class ProcessObjects(bpy.types.Operator):
+# 	"""Animation Object Resizing"""
+# 	bl_idname = "object.process_objects"
+# 	bl_label = "UnderConstruction"
+# 	bl_options = {'REGISTER', 'UNDO'}
 
 
-	def execute(self, context):
-		# Find all objects in the scene by name (e.g., foo* would match foo0001, etc.).
-		scene = bpy.context.scene
-		myaddon = scene.my_addon
-		cloth_objs = [obj for obj in scene.objects if fnmatch.fnmatchcase(obj.name, myaddon.process_obj_name)]
-		# Material to be applied. This material must already exist in the blender scene.
-		mat = bpy.data.materials.get(myaddon.process_mat)
-		# Any edge angle below this will be rendered with smooth normals
-		angle_thresh = 30*3.14159/180.0
-		# Go through the objects
-		for ob in cloth_objs:
-			for poly in ob.data.polygons:
-				poly.use_smooth = True
-			# see if there is already a modifier named "EdgeSplit" and use it
-			mod = ob.modifiers.get("EdgeSplit")
-			if mod is None:
-				# otherwise add a modifier to selected object
-				mod = ob.modifiers.new("EdgeSplit", 'EDGE_SPLIT')
-			mod.split_angle = angle_thresh
-			if ob.data.materials:
-				ob.data.materials[0] = mat
-			else:
-				ob.data.materials.append(mat)
+# 	def execute(self, context):
+# 		# Find all objects in the scene by name (e.g., foo* would match foo0001, etc.).
+# 		scene = bpy.context.scene
+# 		myaddon = scene.my_addon
+# 		cloth_objs = [obj for obj in scene.objects if fnmatch.fnmatchcase(obj.name, myaddon.process_obj_name)]
+# 		# Material to be applied. This material must already exist in the blender scene.
+# 		mat = bpy.data.materials.get(myaddon.process_mat)
+# 		# Any edge angle below this will be rendered with smooth normals
+# 		angle_thresh = 30*3.14159/180.0
+# 		# Go through the objects
+# 		for ob in cloth_objs:
+# 			for poly in ob.data.polygons:
+# 				poly.use_smooth = True
+# 			# see if there is already a modifier named "EdgeSplit" and use it
+# 			mod = ob.modifiers.get("EdgeSplit")
+# 			if mod is None:
+# 				# otherwise add a modifier to selected object
+# 				mod = ob.modifiers.new("EdgeSplit", 'EDGE_SPLIT')
+# 			mod.split_angle = angle_thresh
+# 			if ob.data.materials:
+# 				ob.data.materials[0] = mat
+# 			else:
+# 				ob.data.materials.append(mat)
 
-		return {'FINISHED'}
+# 		return {'FINISHED'}
 
 
 
@@ -1195,6 +1202,43 @@ class createGreyBackground(bpy.types.Operator):
 		return {'FINISHED'}
 
 
+class CLothEdgesplit(bpy.types.Operator):
+	"""Edgesplit for cloth normals"""
+	bl_idname = "object.edgesplit"
+	bl_label = "Apply Edgesplit value to cloth objects/materials"
+	bl_options = {'REGISTER', 'UNDO'}
+
+	def execute(self, context):
+		scene = bpy.context.scene
+		myaddon = scene.my_addon
+
+		# Find all objects in the scene by name (e.g., foo* would match foo0001, etc.).
+		cloth_objs = [obj for obj in scene.objects if fnmatch.fnmatchcase(obj.name, "*_Cloth3D")]
+
+		# Material to be applied. This material must already exist in the blender scene.
+		mat = bpy.data.materials.get("ClothMaterial")
+
+		# Any edge angle below this will be rendered with smooth normals
+		angle_thresh = myaddon.angle_thresh*3.14159/180.0
+
+		# Go through the objects
+		for ob in cloth_objs:
+			for poly in ob.data.polygons:
+				poly.use_smooth = True
+			# see if there is already a modifier named "EdgeSplit" and use it
+			mod = ob.modifiers.get("EdgeSplit")
+			if mod is None:
+				# otherwise add a modifier to selected object
+				mod = ob.modifiers.new("EdgeSplit", 'EDGE_SPLIT')
+			mod.split_angle = angle_thresh
+			if ob.data.materials:
+				ob.data.materials[0] = mat
+			else:
+				ob.data.materials.append(mat)
+
+		return {'FINISHED'}
+
+
 ###############################################################################
 #		Brender in Object mode UI Panels
 ###############################################################################
@@ -1373,12 +1417,12 @@ class BrenderProcessingPanel(View3DPanel, Panel):
 		myaddon = scene.my_addon
 
 		row = layout.row()
-		row.prop(myaddon, "process_obj_name")
+		row.prop(myaddon, "angle_thresh")
 
-		row = layout.row()
-		row.prop(myaddon, "process_mat")
+		# row = layout.row()
+		# row.prop(myaddon, "process_mat")
 
-		layout.operator("object.process_objects")
+		layout.operator("object.edgesplit")
 
 		
 class BrenderScenePanel(View3DPanel, Panel):
