@@ -243,6 +243,7 @@ class BrenderSettings(PropertyGroup):
 # for exporting values
 default_material_names = [
 	"BlackMaterial",
+	"GreenMaterial",
 	"Clear2DMaterial",
 	"Wireframe2DMaterial",
 	"ClothMaterial",
@@ -407,6 +408,8 @@ def CreateImportedMatDefaults(mat):
 			createBlackBackground.execute(bpy.context, bpy.context)
 		elif mat in "GreyMaterial":
 			createGreyBackground.execute(bpy.context, bpy.context)
+		elif mat in "GreenMaterial":
+			createGreenBackground.execute(bpy.context, bpy.context)
 		else:
 			# Clear2DMaterial
 			CreateClearClothMaterial.execute(dummyvar,dummyvar)
@@ -694,8 +697,11 @@ class CreateDefaultMaterials(bpy.types.Operator):
 			checkernode.location = (-100,300)
 			uvmapnode.location = (-300,300)
 			# apply checker primary and secondary colors
-			checkernode.inputs[1].default_value = (0.141, 0.133, 0.13, 1)
-			checkernode.inputs[2].default_value = (0.238, 0.222, 0.219, 1)
+			# Black
+			checkernode.inputs[1].default_value = (0.0, 0.0, 0.0, 1)
+			# Dark Grey
+			checkernode.inputs[2].default_value = (0.141, 0.133, 0.13, 1)
+
 			# link nodes
 			links = mat.node_tree.links
 			links.new(checkernode.outputs[0], diffnode.inputs[0]) 
@@ -1159,6 +1165,47 @@ class createBlackBackground(bpy.types.Operator):
 
 		return {'FINISHED'}
 
+class createGreenBackground(bpy.types.Operator):
+	"""Wireframe Overlay Preview"""
+	bl_idname = "object.create_green_bg"
+	bl_label = "Create Green BG (2D Default)"
+	bl_options = {'REGISTER', 'UNDO'}
+
+	def execute(self, context):
+		scene = context.scene
+		myaddon = scene.my_addon
+		
+		bpy.ops.mesh.primitive_plane_add()
+		pln = bpy.context.active_object
+		# default naming for export
+		pln.name = "brenderDefaultsGreen.background"
+		pln.location = mathutils.Vector((0.0, 0.0, -0.025))
+		pln.scale =  mathutils.Vector((5.0, 5.0, 5.0))
+
+		if bpy.data.materials.get("GreenkMaterial") is None:
+			# create cube material
+			mat_name = "GreenMaterial"
+			mat = bpy.data.materials.new(mat_name)
+			mat.use_nodes = True 
+			nodes = mat.node_tree.nodes
+			diffnode = nodes["Diffuse BSDF"]
+			# apply checker primary and secondary colors
+			diffnode.inputs[0].default_value = (0.0, 1.0, 0.0, 1)
+			diffnode.inputs[1].default_value = (0.0)
+
+		pln = bpy.data.objects['brenderDefaultsGreen.background']
+		mat = bpy.data.materials.get("GreenMaterial")
+		pln.select = True
+
+		if pln.data.materials:
+			pln.data.materials[0] = mat
+		else:
+			pln.data.materials.append(mat)
+		pln.select = False	
+
+
+		return {'FINISHED'}
+
 
 class createGreyBackground(bpy.types.Operator):
 	"""Wireframe Overlay Preview"""
@@ -1448,8 +1495,11 @@ class BrenderScenePanel(View3DPanel, Panel):
 		layout.label(text="Light Options")
 		layout.operator("object.light_setup_2d")
 
-		layout.label(text="Default BG")
+		layout.label(text="Default BG (Black)")
 		layout.operator("object.create_black_bg")
+
+		layout.label(text="Default BG (Green)")
+		layout.operator("object.create_green_bg")
 
 		layout.label(text="2D Material Defaults")
 		layout.operator("object.create_default_wf_mat")
