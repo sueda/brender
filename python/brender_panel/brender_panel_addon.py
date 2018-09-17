@@ -361,42 +361,6 @@ def GetCommonName(brenderObjname):
 	return returnBrenderName
 
 
-
-# class ProcessObjects(bpy.types.Operator):
-# 	"""Animation Object Resizing"""
-# 	bl_idname = "object.process_objects"
-# 	bl_label = "UnderConstruction"
-# 	bl_options = {'REGISTER', 'UNDO'}
-
-
-# 	def execute(self, context):
-# 		# Find all objects in the scene by name (e.g., foo* would match foo0001, etc.).
-# 		scene = bpy.context.scene
-# 		myaddon = scene.my_addon
-# 		cloth_objs = [obj for obj in scene.objects if fnmatch.fnmatchcase(obj.name, myaddon.process_obj_name)]
-# 		# Material to be applied. This material must already exist in the blender scene.
-# 		mat = bpy.data.materials.get(myaddon.process_mat)
-# 		# Any edge angle below this will be rendered with smooth normals
-# 		angle_thresh = 30*3.14159/180.0
-# 		# Go through the objects
-# 		for ob in cloth_objs:
-# 			for poly in ob.data.polygons:
-# 				poly.use_smooth = True
-# 			# see if there is already a modifier named "EdgeSplit" and use it
-# 			mod = ob.modifiers.get("EdgeSplit")
-# 			if mod is None:
-# 				# otherwise add a modifier to selected object
-# 				mod = ob.modifiers.new("EdgeSplit", 'EDGE_SPLIT')
-# 			mod.split_angle = angle_thresh
-# 			if ob.data.materials:
-# 				ob.data.materials[0] = mat
-# 			else:
-# 				ob.data.materials.append(mat)
-
-# 		return {'FINISHED'}
-
-
-
 def CreateImportedMatDefaults(mat):
 	dummyvar = 0
 	if mat not in bpy.data.materials:
@@ -1316,9 +1280,6 @@ class BrenderImportPanel(View3DPanel, Panel):
 		split.prop(myaddon, "frameskip")
 		split.label("frames")
 		split.operator("load.obj_as_anim_advanced", text="Import")
-		## split = box.split(percentage=0.25)
-		## split.alignment = 'CENTER'
-		## split.operator("load.obj_as_anim_advanced", text="Import")
 
 class BrenderEditPanel(View3DPanel, Panel):
 	bl_idname = "SCENE_PT_Brender_edit_panel"
@@ -1437,7 +1398,8 @@ class BrenderRenderPanel(View3DPanel, Panel):
 		col.prop(myaddon, "wf_bevel_resolution")
 
 		col = split.column()
-		col.label(text="Modification: (Under Construction)")
+		# The following is in "beta" since the modifications do not always produce ideal wireframes
+		col.label(text="Modification: beta")
 		col.prop(myaddon, "wf_offset")
 		col.prop(myaddon, "wf_extrude")
 
@@ -1465,10 +1427,6 @@ class BrenderProcessingPanel(View3DPanel, Panel):
 
 		row = layout.row()
 		row.prop(myaddon, "angle_thresh")
-
-		# row = layout.row()
-		# row.prop(myaddon, "process_mat")
-
 		layout.operator("object.edgesplit")
 
 		
@@ -1508,6 +1466,7 @@ class BrenderScenePanel(View3DPanel, Panel):
 		layout.label(text="3D Material Defaults")
 		layout.operator("object.create_grey_bg")
 
+		# possible future addons
 		# layout.label(text="2D Lighting defaults")
 		# layout.label(text="under construction")
 
