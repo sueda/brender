@@ -1,9 +1,4 @@
 # Project Brender
-```
-Author: Gustavo Lopez 
-Date:	10-22-2017
-Version: 2.2.0
-```
 
 **Brender** is a c++ and python package. The goal is to provide a simple library to export animations as .obj files and then import this set into Blender(an open source 3D creation suite) as an editable animation.
 
