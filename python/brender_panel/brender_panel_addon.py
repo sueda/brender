@@ -1,7 +1,7 @@
 bl_info = {
 	"name": "Brender Panel Addon",
 	"description": "Creates a panel to edit Brender Animations.",
-	"author": "Lopez, Gustavo",
+	"author": "Lopez, Gustavo", # and Feras Khemakhem!
 	'version': (1, 5, 5),
 	'blender': (2, 6, 7),
 	"location": "3D View > Tools",
@@ -1280,6 +1280,34 @@ class BrenderImportPanel(View3DPanel, Panel):
 		split.prop(myaddon, "frameskip")
 		split.label("frames")
 		split.operator("load.obj_as_anim_advanced", text="Import")
+    	
+
+
+# # Rigid implementation starts
+class BrenderRigidImportPanel(View3DPanel, Panel):
+	bl_idname = "SCENE_PT_Brender_rigid_import_panel"
+	bl_label = "Import Rigid Files as Animation"
+	bl_category = "Brender"
+	bl_context = "objectmode"
+
+	def draw(self, context):
+		layout = self.layout
+		scene = context.scene
+		myaddon = scene.my_addon
+
+		layout.label("Base Frame Import (obj)")
+		layout.operator("load.obj_as_anim")
+		layout.label("Advanced Transformation Import (rigid)")
+		row = layout.row()
+		box = row.box()
+		split = box.split()
+		split.label("Skip every ")
+		split.prop(myaddon, "frameskip")
+		split.label("frames")
+		split.operator("load.obj_as_anim_advanced", text="Import")
+
+		
+
 
 class BrenderEditPanel(View3DPanel, Panel):
 	bl_idname = "SCENE_PT_Brender_edit_panel"
