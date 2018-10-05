@@ -2,7 +2,7 @@ bl_info = {
 	"name": "Brender Panel Addon",
 	"description": "Creates a panel to edit Brender Animations.",
 	"author": "Lopez, Gustavo", # and Feras Khemakhem!
-	'version': (1, 5, 5),
+	'version': (2, 0, 0),
 	'blender': (2, 6, 7),
 	"location": "3D View > Tools",
 	"warning": "", # used for warning icon and text in addons panel
