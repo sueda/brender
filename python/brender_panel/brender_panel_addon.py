@@ -264,6 +264,7 @@ BRENDER_wf_names = []
 #		Operators
 ###############################################################################
 
+
 # The following Function is a modification of 'cmomoney's blender_import_obj_anim method
 class LoadObjAsAnimationAdvanced(bpy.types.Operator):
 	bl_idname = 'load.obj_as_anim_advanced'
@@ -1258,7 +1259,7 @@ class CLothEdgesplit(bpy.types.Operator):
 # creating BrenderPanel inherited from Panel class
 class BrenderImportPanel(View3DPanel, Panel):
 	bl_idname = "SCENE_PT_Brender_import_panel"
-	bl_label = "Import Obj as Animation"
+	bl_label = "Import Obj Files as Animation"
 	bl_category = "Brender"
 	bl_context = "objectmode"
 	# Removed poll classmethod so that this 
@@ -1295,18 +1296,17 @@ class BrenderRigidImportPanel(View3DPanel, Panel):
 		scene = context.scene
 		myaddon = scene.my_addon
 
-		layout.label("Base Frame Import (obj)")
-		layout.operator("load.obj_as_anim")
-		layout.label("Advanced Transformation Import (rigid)")
+		layout.label("Base Obj Frame Import")
+		layout.operator("load.obj_as_base") # make import for this
+		layout.label("Rigid Transformation Import")
 		row = layout.row()
 		box = row.box()
 		split = box.split()
 		split.label("Skip every ")
 		split.prop(myaddon, "frameskip")
 		split.label("frames")
-		split.operator("load.obj_as_anim_advanced", text="Import")
+		split.operator("load.rigid_as_anim", text="Import")
 
-		
 
 
 class BrenderEditPanel(View3DPanel, Panel):
