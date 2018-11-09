@@ -27,13 +27,64 @@ bl_info = {
 
 import bpy, os
 from bpy.props import *
+import json
+from pprint import pprint
 
 # # The following function imports rigid files
-# class LoadRigidAsAnimation(bpy.types.Operator):
-# 	bl_idname = 'load.rigid_as_anim'
-# 	bl_label = 'Import RIGID as Aniamtion'
-# 	bl_options = {'REGISTER', 'UNDO'}
-# 	bl_description = 'Import Rigids for each frame of animation'
+class LoadRigidAsAnimation(bpy.types.Operator):
+	bl_idname = 'load.rigid_as_anim'
+	bl_label = 'Import RIGID as Aniamtion'
+	bl_options = {'REGISTER', 'UNDO'}
+	bl_description = 'Import Rigids for each frame of animation'
+	filepath = StringProperty(name="File path", description="Filepath of Obj", maxlen=4096, default="")
+	filter_folder = BoolProperty(name="Filter folders", description="", default=True, options={'HIDDEN'})
+	filter_glob = StringProperty(default="*.json", options={'HIDDEN'})
+	files = CollectionProperty(name='File path', type=bpy.types.OperatorFileListElement)
+	filename_ext = '.json'
+	frames = []
+	@classmethod
+	def poll(cls, context):
+    	return True
+
+	def execute (self, context):
+		self.frames = []
+		# get the first transformation file given
+		spath = os.path.spilt(self.filepath)
+		# file = [file.name for file in self.files[]]
+		file = self.files[0].name
+		fp = spath[0] + "/" + file
+		self.load_rigid(fp, file)
+
+	def load_rigid(self, fp,fname):
+		with open(fp) as f:
+			transformations = json.load(f)
+
+		# determine the scaling factor from time to frame
+		if (len(transformations[fname]) > 1)
+			scale = 1/(transformations[fname][1]["time"] - transformations[fname][0]["time"])
+		else
+			scale = 1
+		
+		for trans in transformations:
+			frame = trans["time"] * scale
+
+			bpy.context.scene.frame_set(frame)
+			# iterate through all objects on screen
+			for obj in bpy.context.scene.objects:
+				if (trans[obj.name]) # if this object exists
+					obj = bpy.data.objects[obj.name]
+					obj.rotation_mode('QUATERNION')
+					obj.location(trans[obj.name][3], trans[obj.name][7], trans[obj.name][11], trans[obj.name][15])
+					obj.rotation_quaternion(trans[obj.name][0], trans[obj.name][1], trans[obj.name][4], trans[obj.name][5])
+					obj.keyframe_insert(data_path='location')
+					obj.keyframe_insert(data_path='rotation_quaternion')
+
+
+
+
+		
+		
+
 
 
 
@@ -42,7 +93,6 @@ class LoadObjAsBase(bpy.types.Operator):
 	bl_idname = 'load.obj_as_base'
 	bl_label = 'Import OBJ as Base Frame'
 	bl_options = {'REGISTER', 'UNDO'}
-	cFrame = 0
 	bl_description = 'Import single Obj as base frame'
 	filepath = StringProperty(name='File path', description='Filepath of Obj', maxlen=4096, default='')
 	filter_folder = BoolProperty(name='Filter folders', description='', default=True, options={'HIDDEN'})
@@ -73,7 +123,7 @@ class LoadObjAsBase(bpy.types.Operator):
 		return {'RUNNING_MODAL'}
 
 	def load_obj(self, fp, fname):
-		bpy.ops.object.select_all(action='DSELECT')
+		bpy.ops.object.select_all(action='DESELECT')
 		bpy.ops.import_scene.obj(filepath=fp, filter_glob='*.obj;*.mtl', use_edges=True, 
 			use_smooth_groups=True, use_split_objects=True, use_split_groups=True, 
 			use_groups_as_vgroups=False, use_image_search=True, split_mode='ON', 
