@@ -33,51 +33,133 @@ from pprint import pprint
 # # The following function imports rigid files
 class LoadRigidAsAnimation(bpy.types.Operator):
 	bl_idname = 'load.rigid_as_anim'
-	bl_label = 'Import RIGID as Aniamtion'
+	bl_label = 'Import Json as Aniamtion'
 	bl_options = {'REGISTER', 'UNDO'}
 	bl_description = 'Import Rigids for each frame of animation'
-	filepath = StringProperty(name="File path", description="Filepath of Obj", maxlen=4096, default="")
+	filepath = StringProperty(name="File path", description="Filepath of Json", maxlen=4096, default="")
+	cFrame = 0
 	filter_folder = BoolProperty(name="Filter folders", description="", default=True, options={'HIDDEN'})
 	filter_glob = StringProperty(default="*.json", options={'HIDDEN'})
 	files = CollectionProperty(name='File path', type=bpy.types.OperatorFileListElement)
 	filename_ext = '.json'
-	frames = []
+	frames = 0
+	objects = dict()
+	states = dict()
 	@classmethod
 	def poll(cls, context):
-    	return True
+		return True
 
 	def execute (self, context):
-		self.frames = []
+		# gather list of items of interest.
+		candidate_list = [item.name for item in bpy.data.objects if item.type == "MESH"]
+
+		# select them only.
+		for object_name in candidate_list:
+			bpy.data.objects[object_name].select = True
+
+		# remove all selected.
+		bpy.ops.object.delete()
+
+		# remove the meshes, they have no users anymore.
+		for item in bpy.data.meshes:
+  			bpy.data.meshes.remove(item)
+		self.objects.clear()
+		self.states.clear()
+		self.frames = 0
 		# get the first transformation file given
-		spath = os.path.spilt(self.filepath)
+		spath = os.path.split(self.filepath)
 		# file = [file.name for file in self.files[]]
 		file = self.files[0].name
 		fp = spath[0] + "/" + file
-		self.load_rigid(fp, file)
-
-	def load_rigid(self, fp,fname):
 		with open(fp) as f:
 			transformations = json.load(f)
+		fname = os.path.splitext(file)[0]
+		self.load_states(transformations, fname)
+
+		for frame in transformations["body"]:
+			self.load_frame(frame)
+
+		bpy.context.scene.frame_set(0)
+
+		# sets last frame to the last transformation
+		if self.frames > 0:
+			bpy.context.scene.frame_end = self.frames - 1
+		else:
+			bpy.context.scene.frame_end = 0
+
+		return {'FINISHED'}
+
+	def invoke(self, context, event):
+		wm = context.window_manager.fileselect_add(self)
+		return {'RUNNING_MODAL'}
+
+	def load_states(self, transformations, fname):
 
 		# determine the scaling factor from time to frame
-		if (len(transformations[fname]) > 1)
-			scale = 1/(transformations[fname][1]["time"] - transformations[fname][0]["time"])
-		else
-			scale = 1
+		# if len(transformations[fname]) > 1:
+		# 	scale = 1/(transformations[fname][1]["time"] - transformations[fname][0]["time"])
+		# else:
+		# scale = 1
 		
-		for trans in transformations:
-			frame = trans["time"] * scale
+		for state in transformations["header"]["states"]:
+			# we receive the corresponding object index and name
+			# then, we add that name to a dictionary, with the file path as key
+			index = state["obj"]
+			name = state["name"]
+			# spath = os.path.split(name)
+			# commented code is for relative filepath... current implementation using absolute filepath
+			# file = [file.name for file in self.files[]]
+			# file = self.files[0].name
+			# fp = spath[0] + "/" + file
+			self.states[name] = transformations["header"]["objs"][index]
+			self.load_obj(self.states[name], name)
+		
+		return
+	
+	def load_obj(self, fp, name):
+		# this implementation can let multiple objects be imported, but let's assume it is just one...
+		bpy.ops.object.select_all(action='DESELECT')
+		bpy.ops.import_scene.obj(filepath=fp, filter_glob="*.obj;*.mtl",  use_edges=True, use_smooth_groups=True, use_split_objects=True, use_split_groups=True, use_groups_as_vgroups=False, use_image_search=True, split_mode='ON', global_clamp_size=0, axis_forward='Y', axis_up='Z')
+		# take the first element of the newly created objects (ideally there's just one) and 
+		bpy.context.selected_objects[0].name = name
+		return 
 
-			bpy.context.scene.frame_set(frame)
-			# iterate through all objects on screen
-			for obj in bpy.context.scene.objects:
-				if (trans[obj.name]) # if this object exists
-					obj = bpy.data.objects[obj.name]
-					obj.rotation_mode('QUATERNION')
-					obj.location(trans[obj.name][3], trans[obj.name][7], trans[obj.name][11], trans[obj.name][15])
-					obj.rotation_quaternion(trans[obj.name][0], trans[obj.name][1], trans[obj.name][4], trans[obj.name][5])
-					obj.keyframe_insert(data_path='location')
-					obj.keyframe_insert(data_path='rotation_quaternion')
+	def load_frame(self, frame):
+		bpy.context.scene.frame_set(frame["frame"])
+		for obj_to_load in frame:
+			if obj_to_load == "frame": # we do not process anything with "frame"
+				continue
+			# obj = self.objects[obj_to_load] # gets the object from the name
+			self.report({'INFO'}, obj_to_load)
+			obj = bpy.data.objects[obj_to_load]
+			self.report({'INFO'}, obj.name)
+			# SRT
+			obj.rotation_mode = 'QUATERNION'
+			obj.scale = (frame[obj_to_load]["scale"][0],frame[obj_to_load]["scale"][1],frame[obj_to_load]["scale"][2])
+			obj.rotation_quaternion = (frame[obj_to_load]["quat"][0],frame[obj_to_load]["quat"][1],frame[obj_to_load]["quat"][2],frame[obj_to_load]["quat"][3])
+			obj.location = (frame[obj_to_load]["location"][0],frame[obj_to_load]["location"][1],frame[obj_to_load]["location"][2])
+			obj.keyframe_insert(data_path='scale')
+			obj.keyframe_insert(data_path='rotation_quaternion')
+			obj.keyframe_insert(data_path='location')
+
+		return
+
+	
+		# for trans in transformations[fname]:
+		# 	self.frames = self.frames + 1
+		# 	frame = trans["time"] * scale
+
+		# 	bpy.context.scene.frame_set(frame)
+		# 	# iterate through all objects on screen
+		# 	for obj in bpy.context.scene.objects:
+		# 		# self.report({'INFO'}, obj.show_name)
+		# 		if trans[obj.name]: # if this object exists
+		# 			obj = bpy.data.objects[obj.name]
+		# 			obj.rotation_mode('QUATERNION')
+		# 			obj.location(trans[obj.name][3], trans[obj.name][7], trans[obj.name][11], trans[obj.name][15])
+		# 			obj.rotation_quaternion(trans[obj.name][0], trans[obj.name][1], trans[obj.name][4], trans[obj.name][5])
+		# 			obj.keyframe_insert(data_path='location')
+		# 			obj.keyframe_insert(data_path='rotation_quaternion')
 
 
 
@@ -133,6 +215,7 @@ class LoadObjAsBase(bpy.types.Operator):
 
 def menu_func_import(self, context):
 	self.layout.operator(LoadObjAsBase.bl_idname, text='Obj As Base Frame')
+	self.layout.operator(LoadRigidAsAnimation.bl_idname, text='Json as Animation Frame')
 
 def register():
 	bpy.utils.register_module(__name__)

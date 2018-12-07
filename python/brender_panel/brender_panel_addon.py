@@ -1287,7 +1287,7 @@ class BrenderImportPanel(View3DPanel, Panel):
 # # Rigid implementation starts
 class BrenderRigidImportPanel(View3DPanel, Panel):
 	bl_idname = "SCENE_PT_Brender_rigid_import_panel"
-	bl_label = "Import Rigid Files as Animation"
+	bl_label = "Import Json File as Animation"
 	bl_category = "Brender"
 	bl_context = "objectmode"
 
