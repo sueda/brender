@@ -125,7 +125,7 @@ class LoadRigidAsAnimation(bpy.types.Operator):
 		return 
 
 	def load_frame(self, frame):
-		bpy.context.scene.frame_set(frame["frame"])
+		bpy.context.scene.frame_set(frame["frame"]-1)
 		for obj_to_load in frame:
 			if obj_to_load == "frame": # we do not process anything with "frame"
 				continue
@@ -136,7 +136,7 @@ class LoadRigidAsAnimation(bpy.types.Operator):
 			# SRT
 			obj.rotation_mode = 'QUATERNION'
 			obj.scale = (frame[obj_to_load]["scale"][0],frame[obj_to_load]["scale"][1],frame[obj_to_load]["scale"][2])
-			obj.rotation_quaternion = (frame[obj_to_load]["quat"][0],frame[obj_to_load]["quat"][1],frame[obj_to_load]["quat"][2],frame[obj_to_load]["quat"][3])
+			obj.rotation_quaternion = (frame[obj_to_load]["quat"][3],frame[obj_to_load]["quat"][0],frame[obj_to_load]["quat"][1],frame[obj_to_load]["quat"][2])
 			obj.location = (frame[obj_to_load]["location"][0],frame[obj_to_load]["location"][1],frame[obj_to_load]["location"][2])
 			obj.keyframe_insert(data_path='scale')
 			obj.keyframe_insert(data_path='rotation_quaternion')
