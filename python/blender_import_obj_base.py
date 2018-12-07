@@ -50,22 +50,24 @@ class LoadRigidAsAnimation(bpy.types.Operator):
 		return True
 
 	def execute (self, context):
-		# gather list of items of interest.
-		candidate_list = [item.name for item in bpy.data.objects if item.type == "MESH"]
+    	###### this is for deleting old frames #####
+		# # gather list of items of interest.
+		# candidate_list = [item.name for item in bpy.data.objects if item.type == "MESH"]
 
-		# select them only.
-		for object_name in candidate_list:
-			bpy.data.objects[object_name].select = True
+		# # select them only.
+		# for object_name in candidate_list:
+		# 	bpy.data.objects[object_name].select = True
 
-		# remove all selected.
-		bpy.ops.object.delete()
+		# # remove all selected.
+		# bpy.ops.object.delete()
 
-		# remove the meshes, they have no users anymore.
-		for item in bpy.data.meshes:
-  			bpy.data.meshes.remove(item)
-		self.objects.clear()
-		self.states.clear()
-		self.frames = 0
+		# # remove the meshes, they have no users anymore.
+		# for item in bpy.data.meshes:
+  		# 	bpy.data.meshes.remove(item)
+		# self.objects.clear()
+		# self.states.clear()
+		# self.frames = 0
+		######## end of deleting frames #######
 		# get the first transformation file given
 		spath = os.path.split(self.filepath)
 		# file = [file.name for file in self.files[]]
@@ -125,6 +127,7 @@ class LoadRigidAsAnimation(bpy.types.Operator):
 		return 
 
 	def load_frame(self, frame):
+    	# make frame-1 to frame in order to fix the indexing problem
 		bpy.context.scene.frame_set(frame["frame"]-1)
 		for obj_to_load in frame:
 			if obj_to_load == "frame": # we do not process anything with "frame"
