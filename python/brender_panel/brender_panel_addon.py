@@ -1296,16 +1296,16 @@ class BrenderRigidImportPanel(View3DPanel, Panel):
 		scene = context.scene
 		myaddon = scene.my_addon
 
-		layout.label("Base Obj Frame Import")
-		layout.operator("load.obj_as_base") # make import for this
+		# layout.label("Base Obj Frame Import")
+		# layout.operator("load.obj_as_base") # make import for this
 		layout.label("Rigid Transformation Import")
 		row = layout.row()
 		box = row.box()
 		split = box.split()
-		split.label("Skip every ")
-		split.prop(myaddon, "frameskip")
-		split.label("frames")
-		split.operator("load.rigid_as_anim", text="Import")
+		# split.label("Skip every ")
+		# split.prop(myaddon, "frameskip")
+		# split.label("frames")
+		split.operator("load.rigid_as_anim", text="Import Json")
 
 
 
