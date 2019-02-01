@@ -216,17 +216,17 @@ class LoadRigidAsAnimation(bpy.types.Operator):
 # 		self.object = bpy.context.selected_objects[0]
 # 		return
 
-# def menu_func_import(self, context):
-# 	self.layout.operator(LoadObjAsBase.bl_idname, text='Obj As Base Frame')
-# 	self.layout.operator(LoadRigidAsAnimation.bl_idname, text='Json as Animation Frame')
+def menu_func_import(self, context):
+	self.layout.operator(LoadObjAsBase.bl_idname, text='Obj As Base Frame')
+	self.layout.operator(LoadRigidAsAnimation.bl_idname, text='Json as Animation Frame')
 
-# def register():
-# 	bpy.utils.register_module(__name__)
-# 	bpy.types.INFO_MT_file_import.append(menu_func_import)
+def register():
+	bpy.utils.register_module(__name__)
+	bpy.types.INFO_MT_file_import.append(menu_func_import)
 
-# def unregister():
-# 	bpy.utils.unregister_module(__name__)
-# 	bpy.types.INFO_MT_file_import.remove(menu_func_import)
+def unregister():
+	bpy.utils.unregister_module(__name__)
+	bpy.types.INFO_MT_file_import.remove(menu_func_import)
 
-# if __name__ == "__main__":
-# 	register()
+if __name__ == "__main__":
+	register()
