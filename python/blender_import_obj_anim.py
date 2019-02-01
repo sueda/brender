@@ -29,14 +29,13 @@ import bpy, os
 from bpy.props import *
 
 
-
 class LoadObjAsAnimation(bpy.types.Operator):
 	bl_idname = 'load.obj_as_anim'
 	bl_label = 'Import OBJ as Animation'
 	bl_options = {'REGISTER', 'UNDO'}
 	bl_description = "Import Obj sequence as animation(s)"
 	cFrame = 0
-	filepath = StringProperty(name="File path", description="File filepath of Obj", maxlen=4096, default="")
+	filepath = StringProperty(name="File path", description="Filepath of Obj", maxlen=4096, default="")
 	filter_folder = BoolProperty(name="Filter folders", description="", default=True, options={'HIDDEN'})
 	filter_glob = StringProperty(default="*.obj", options={'HIDDEN'})
 	files = CollectionProperty(name='File path', type=bpy.types.OperatorFileListElement)
@@ -98,7 +97,7 @@ class LoadObjAsAnimation(bpy.types.Operator):
 		self.objects.append(bpy.context.selected_objects[0])
 		return 
 def menu_func_import(self, context):
-	self.layout.operator(LoadObjAsAnimation.bl_idname, text="Obj As Animation(.obj)")
+	self.layout.operator(LoadObjAsAnimation.bl_idname, text="Obj As Animation")
 
 def register():
 	bpy.utils.register_class(LoadObjAsAnimation)

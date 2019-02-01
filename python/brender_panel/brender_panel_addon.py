@@ -2,7 +2,7 @@ bl_info = {
 	"name": "Brender Panel Addon",
 	"description": "Creates a panel to edit Brender Animations.",
 	"author": "Lopez, Gustavo", # and Feras Khemakhem!
-	'version': (2, 0, 0),
+	'version': (1, 6, 0),
 	'blender': (2, 6, 7),
 	"location": "3D View > Tools",
 	"warning": "", # used for warning icon and text in addons panel
@@ -263,6 +263,7 @@ BRENDER_wf_names = []
 ###############################################################################
 #		Operators
 ###############################################################################
+
 
 # The following Function is a modification of 'cmomoney's blender_import_obj_anim method
 class LoadObjAsAnimationAdvanced(bpy.types.Operator):
@@ -1258,7 +1259,7 @@ class CLothEdgesplit(bpy.types.Operator):
 # creating BrenderPanel inherited from Panel class
 class BrenderImportPanel(View3DPanel, Panel):
 	bl_idname = "SCENE_PT_Brender_import_panel"
-	bl_label = "Import Obj as Animation"
+	bl_label = "Import Obj Files as Animation"
 	bl_category = "Brender"
 	bl_context = "objectmode"
 	# Removed poll classmethod so that this 
@@ -1286,7 +1287,7 @@ class BrenderImportPanel(View3DPanel, Panel):
 # # Rigid implementation starts
 class BrenderRigidImportPanel(View3DPanel, Panel):
 	bl_idname = "SCENE_PT_Brender_rigid_import_panel"
-	bl_label = "Import Rigid Files as Animation"
+	bl_label = "Import Json File as Animation"
 	bl_category = "Brender"
 	bl_context = "objectmode"
 
@@ -1295,18 +1296,17 @@ class BrenderRigidImportPanel(View3DPanel, Panel):
 		scene = context.scene
 		myaddon = scene.my_addon
 
-		layout.label("Base Frame Import (obj)")
-		layout.operator("load.obj_as_anim")
-		layout.label("Advanced Transformation Import (rigid)")
+		# layout.label("Base Obj Frame Import")
+		# layout.operator("load.obj_as_base") # make import for this
+		layout.label("Rigid Transformation Import")
 		row = layout.row()
 		box = row.box()
 		split = box.split()
-		split.label("Skip every ")
-		split.prop(myaddon, "frameskip")
-		split.label("frames")
-		split.operator("load.obj_as_anim_advanced", text="Import")
+		# split.label("Skip every ")
+		# split.prop(myaddon, "frameskip")
+		# split.label("frames")
+		split.operator("load.rigid_as_anim", text="Import Json")
 
-		
 
 
 class BrenderEditPanel(View3DPanel, Panel):
