@@ -2,6 +2,13 @@
 
 **Brender** is a c++ and python package. The goal is to provide a simple library to export animations as .obj files and then import this set into Blender(an open source 3D creation suite) as an editable animation.
 
+**Authors**
+  * Kyle Piddington (2016-2017)
+  * Gustavo Lopez (2017-2018)
+  * Feras Khemakhem (2018-2019)
+  * Nicholas Weidner (2017-)
+  * Shinjiro Sueda (2016-)
+
 ## Getting Started
 
 These instructions will help you get a copy of the Brender package on your machine for developing and testing your OpenGL animations.
