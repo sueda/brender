@@ -1,8 +1,8 @@
 # Project Brender: Blender Brender Panel
 ```
-Author: Gustavo Lopez 
-Date:	10-22-2017
-Version: 2.2.0
+Author: Gustavo Lopez and Feras Khemakhem
+Date:	3-13-2019
+Version: 3.1.0
 ```
 
 The **Brender Panel** is a simple Panel addon to Blender to allow the user to apply materials, transformations, and wireframe overlays systematically to the animations exported/imported using Brender.
