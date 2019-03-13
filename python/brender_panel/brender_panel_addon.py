@@ -47,6 +47,19 @@ class CyclesButtonsPanel:
 #		Properties will be stored in active scene
 ###############################################################################
 
+
+def WireFrameUpdateFunction(self, context):
+	bpy.ops.console.clear()
+	#print("send noods")
+	self.wireframe_toggle = True
+	self.report({'INFO'}, 'hi')
+	print("In update func...")
+	context.scene.render.use_freestyle = True
+	context.scene.select_edge_mark = True
+	#context.scene.render.layers["RenderLayer"].use_freestyle = self.wireframe_toggle
+	return
+
+
 class BrenderSettings(PropertyGroup):
 
 	testvar = FloatProperty(
@@ -238,6 +251,13 @@ class BrenderSettings(PropertyGroup):
 		description = "A int property",
 		default = 30,
 		step = 1,
+		)
+
+	wireframe_toggle = BoolProperty(
+		name = "Wireframe Toggle",
+		description = "tells if wireframe setting on or off",
+		update = WireFrameUpdateFunction
+		#set = WireFrameUpdateFunction,
 		)
 
 # for exporting values
@@ -1282,7 +1302,32 @@ class BrenderImportPanel(View3DPanel, Panel):
 		split.label("frames")
 		split.operator("load.obj_as_anim_advanced", text="Import")
     	
+###########################  WIPWIP  ###########################
 
+# Toggle for if they want wireframe to be on or off
+class BrenderWireframeTogglePanel(View3DPanel, Panel):
+	bl_idname = "SCENE_PT_Brender_wireframe_toggle"
+	bl_label = "ToggleWireframe"
+	bl_category = "Brender"
+	bl_context = "objectmode"
+
+	def draw(self, context):
+		layout = self.layout
+		scene = context.scene
+		myaddon = scene.my_addon
+
+		# layout.label("Base Obj Frame Import")
+		# layout.operator("load.obj_as_base") # make import for this
+		layout.label("Rigid Transformation Import")
+		row = layout.row()
+		box = row.box()
+		split = box.split()
+		split.label("Toggle Wireframe")
+		split.prop(myaddon, "wireframe_toggle")
+		#split.operator("load.wireframe", text="Wiretextoperator")
+
+
+########################### wipwipwipwipIWPIPWIP ###########################
 
 # # Rigid implementation starts
 class BrenderRigidImportPanel(View3DPanel, Panel):
@@ -1298,7 +1343,7 @@ class BrenderRigidImportPanel(View3DPanel, Panel):
 
 		# layout.label("Base Obj Frame Import")
 		# layout.operator("load.obj_as_base") # make import for this
-		layout.label("Rigid Transformation Import")
+		layout.label("Toggle Wireframe Rendering")
 		row = layout.row()
 		box = row.box()
 		split = box.split()
@@ -1306,6 +1351,9 @@ class BrenderRigidImportPanel(View3DPanel, Panel):
 		# split.prop(myaddon, "frameskip")
 		# split.label("frames")
 		split.operator("load.rigid_as_anim", text="Import Json")
+		split2 = box.split()
+		split2.prop(myaddon, "wireframe_toggle")
+
 
 
 

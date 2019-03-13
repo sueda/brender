@@ -30,10 +30,22 @@ from bpy.props import *
 import json
 from pprint import pprint
 
+class ToggleWireframe(bpy.types.Operator):
+	bl_idname = 'load.wireframe'
+	bl_label = 'Toggle wireframe'
+	bl_description = 'Toggle wireframe checkboxes'
+	wireframe_toggle = BoolProperty(name="toggle", description="", default=True)
+
+
+	def execute (self, context):
+		context.scene.render.layers["RenderLayer"].use_freestyle = wireframe_toggle
+
+		return {'FINISHED'}
+
 # # The following function imports rigid files
 class LoadRigidAsAnimation(bpy.types.Operator):
 	bl_idname = 'load.rigid_as_anim'
-	bl_label = 'Import Json as Aniamtion'
+	bl_label = 'Import Json as Animation'
 	bl_options = {'REGISTER', 'UNDO'}
 	bl_description = 'Import Rigids for each frame of animation'
 	filepath = StringProperty(name="File path", description="Filepath of Json", maxlen=4096, default="")
@@ -68,6 +80,7 @@ class LoadRigidAsAnimation(bpy.types.Operator):
 		# self.states.clear()
 		# self.frames = 0
 		######## end of deleting frames #######
+		
 		# get the first transformation file given
 		spath = os.path.split(self.filepath)
 		# file = [file.name for file in self.files[]]
@@ -124,6 +137,10 @@ class LoadRigidAsAnimation(bpy.types.Operator):
 		bpy.ops.import_scene.obj(filepath=fp, filter_glob="*.obj;*.mtl",  use_edges=True, use_smooth_groups=True, use_split_objects=True, use_split_groups=True, use_groups_as_vgroups=False, use_image_search=True, split_mode='ON', global_clamp_size=0, axis_forward='Y', axis_up='Z')
 		# take the first element of the newly created objects (ideally there's just one) and 
 		bpy.context.selected_objects[0].name = name
+
+		# mark freestyle edge (only works if object is type mesh)
+		for edge in bpy.context.selected_objects[0].data.edges:
+			edge.use_freestyle_mark = True
 		return 
 
 	def load_frame(self, frame):
