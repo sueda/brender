@@ -768,22 +768,39 @@ class ApplyMaterialToAll(bpy.types.Operator):
 	bl_label = "Apply Selected Material"
 	bl_options = {'REGISTER', 'UNDO'}
 
+	# implementation now requires selection rather than active
 	def execute(self, context):
 		mat = bpy.context.object.active_material
 		scene = context.scene
 		myaddon = scene.my_addon
-		brenderObjname = context.active_object.name
-		brenderObjname = GetCommonName(brenderObjname)
+
+		bndrname = [obj.name for obj in context.selected_objects if not (obj.name.startswith('Camera') or obj.name.startswith('Lamp'))]
+			
+		# brenderObjname = context.active_object.name
+		# brenderObjname = GetCommonName(brenderObjname)
 
 		for obj in bpy.data.objects:
-			if obj.name.endswith(brenderObjname): # same last letters as brenderobj
-				obj.select = True
-				# append Material
-				if obj.data.materials:
-					obj.data.materials[0] = mat
-				else:
-					obj.data.materials.append(mat)
-				obj.select = False			
+			for name in bndrname:
+				if obj.name.startswith(name):
+					obj.select = True
+					# append Material
+					if obj.data.materials:
+						obj.data.materials[0] = mat
+					else:
+						obj.data.materials.append(mat)
+					obj.select = False
+					break
+
+		# for obj in bpy.data.objects:
+		# 	if obj.name.endswith(brenderObjname): # same last letters as brenderobj
+		# 		obj.select = True
+		# 		# append Material
+		# 		if obj.data.materials:
+		# 			obj.data.materials[0] = mat
+		# 		else:
+		# 			obj.data.materials.append(mat)
+		# 		obj.select = False			
+
 
 		return {'FINISHED'}
 
@@ -794,7 +811,7 @@ class ApplyMaterialToAll(bpy.types.Operator):
 		brenderObjname = GetCommonName(objname)
 
 		for obj in bpy.data.objects:
-			if obj.name.endswith(brenderObjname): # same last letters as brenderobj
+			if obj.name.endswith(brenderObjname) or obj.name.startswith(objname): # same last letters as brenderobj
 				obj.select = True
 				# append Material
 				if obj.data.materials:
@@ -816,11 +833,11 @@ class AnimationObjectResize(bpy.types.Operator):
 	def execute(self, context):
 		scene = context.scene
 		myaddon = scene.my_addon
-		brenderObjname = context.active_object.name
-		brenderObjname = GetCommonName(brenderObjname)
+		bndrname = context.active_object.name
+		brenderObjname = GetCommonName(bndrname)
 
 		for obj in bpy.data.objects:
-			if obj.name.endswith(brenderObjname): # same last letters as brenderobj
+			if obj.name.endswith(brenderObjname) or obj.name.startswith(bndrname): # same last letters as brenderobj
 				theobj = bpy.data.objects[obj.name]
 				theobj.select = True
 				theobj.scale=(myaddon.x_scale_float,myaddon.y_scale_float,myaddon.z_scale_float)
@@ -840,11 +857,11 @@ class AnimationObjectRotate(bpy.types.Operator):
 	def execute(self, context):
 		scene = context.scene
 		myaddon = scene.my_addon
-		brenderObjname = context.active_object.name
-		brenderObjname = GetCommonName(brenderObjname)
+		bndrname = context.active_object.name
+		brenderObjname = GetCommonName(bndrname)
 
 		for obj in bpy.data.objects:
-			if obj.name.endswith(brenderObjname): # same last letters as brenderobj
+			if obj.name.endswith(brenderObjname) or obj.name.endswith(bndrname): # same last letters as brenderobj
 				theobj = bpy.data.objects[obj.name]
 				theobj.select = True
 				theobj.rotation_euler = (myaddon.x_rot_float,myaddon.y_rot_float,myaddon.z_rot_float)
@@ -864,15 +881,15 @@ class AnimationObjectTranslate(bpy.types.Operator):
 	def execute(self, context):
 		scene = context.scene
 		myaddon = scene.my_addon
-		brenderObjname = context.active_object.name
-		brenderObjname = GetCommonName(brenderObjname)
+		bndrname = context.active_object.name
+		brenderObjname = GetCommonName(bndrname)
 
 		xTrans = myaddon.x_trans_float
 		yTrans = myaddon.y_trans_float
 		zTrans = myaddon.z_trans_float
 		
 		for obj in bpy.data.objects:
-			if obj.name.endswith(brenderObjname): # same last letters as brenderobj
+			if obj.name.endswith(brenderObjname) or obj.name.endswith(bndrname): # same last letters as brenderobj
 				theobj = bpy.data.objects[obj.name]
 				theobj.select = True
 				vec = mathutils.Vector((xTrans,yTrans,zTrans))
