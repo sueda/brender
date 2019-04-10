@@ -1,4 +1,4 @@
-bl_info = {
+	bl_info = {
 	'name': 'Load Strand obj',
 	'author': 'Nick Weidner',
 	'version': (0, 1),

@@ -31,17 +31,17 @@ import json
 import time
 from pprint import pprint
 
-class ToggleWireframe(bpy.types.Operator):
-	bl_idname = 'load.wireframe'
-	bl_label = 'Toggle wireframe'
-	bl_description = 'Toggle wireframe checkboxes'
-	wireframe_toggle = BoolProperty(name="toggle", description="", default=True)
+# class ToggleWireframe(bpy.types.Operator):
+# 	bl_idname = 'load.wireframe'
+# 	bl_label = 'Toggle wireframe'
+# 	bl_description = 'Toggle wireframe checkboxes'
+# 	wireframe_toggle = BoolProperty(name="toggle", description="", default=True)
 
 
-	def execute (self, context):
-		context.scene.render.layers["RenderLayer"].use_freestyle = wireframe_toggle
+# 	def execute (self, context):
+# 		context.scene.render.layers["RenderLayer"].use_freestyle = wireframe_toggle
 
-		return {'FINISHED'}
+# 		return {'FINISHED'}
 
 # # The following function imports rigid files
 class LoadRigidAsAnimation(bpy.types.Operator):

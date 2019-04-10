@@ -253,12 +253,12 @@ class BrenderSettings(PropertyGroup):
 		step = 1,
 		)
 
-	wireframe_toggle = BoolProperty(
-		name = "Wireframe Toggle",
-		description = "tells if wireframe setting on or off",
-		update = WireFrameUpdateFunction
-		#set = WireFrameUpdateFunction,
-		)
+	# wireframe_toggle = BoolProperty(
+	# 	name = "Wireframe Toggle",
+	# 	description = "tells if wireframe setting on or off",
+	# 	update = WireFrameUpdateFunction
+	# 	#set = WireFrameUpdateFunction,
+	# 	)
 
 # for exporting values
 default_material_names = [
@@ -1322,26 +1322,26 @@ class BrenderImportPanel(View3DPanel, Panel):
 ###########################  WIPWIP  ###########################
 
 # Toggle for if they want wireframe to be on or off
-class BrenderWireframeTogglePanel(View3DPanel, Panel):
-	bl_idname = "SCENE_PT_Brender_wireframe_toggle"
-	bl_label = "ToggleWireframe"
-	bl_category = "Brender"
-	bl_context = "objectmode"
+# class BrenderWireframeTogglePanel(View3DPanel, Panel):
+# 	bl_idname = "SCENE_PT_Brender_wireframe_toggle"
+# 	bl_label = "ToggleWireframe"
+# 	bl_category = "Brender"
+# 	bl_context = "objectmode"
 
-	def draw(self, context):
-		layout = self.layout
-		scene = context.scene
-		myaddon = scene.my_addon
+# 	def draw(self, context):
+# 		layout = self.layout
+# 		scene = context.scene
+# 		myaddon = scene.my_addon
 
-		# layout.label("Base Obj Frame Import")
-		# layout.operator("load.obj_as_base") # make import for this
-		layout.label("Rigid Transformation Import")
-		row = layout.row()
-		box = row.box()
-		split = box.split()
-		split.label("Toggle Wireframe")
-		split.prop(myaddon, "wireframe_toggle")
-		#split.operator("load.wireframe", text="Wiretextoperator")
+# 		# layout.label("Base Obj Frame Import")
+# 		# layout.operator("load.obj_as_base") # make import for this
+# 		layout.label("Rigid Transformation Import")
+# 		row = layout.row()
+# 		box = row.box()
+# 		split = box.split()
+# 		split.label("Toggle Wireframe")
+# 		split.prop(myaddon, "wireframe_toggle")
+# 		#split.operator("load.wireframe", text="Wiretextoperator")
 
 
 ########################### wipwipwipwipIWPIPWIP ###########################
