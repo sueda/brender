@@ -833,17 +833,50 @@ class AnimationObjectResize(bpy.types.Operator):
 	def execute(self, context):
 		scene = context.scene
 		myaddon = scene.my_addon
-		bndrname = context.active_object.name
-		brenderObjname = GetCommonName(bndrname)
+		# bndrname = context.active_object.name
+		# brenderObjname = GetCommonName(bndrname)
+		curr = bpy.data.scenes["Scene"].frame_current
+		# scale_vals = []
+		# objects = []
+		# for obj in bpy.context.selected_objects:
+			# scene.frame_set(curr)
+			# objects.append(bpy.data.objects[obj.name])
+			# scale_vals.append(obj.scale[0]) # x
+			# scale_vals.append(obj.scale[1]) # y
+			# scale_vals.append(obj.scale[2]) # z
+		scale_vals = [bpy.context.selected_objects[0].scale[0], bpy.context.selected_objects[0].scale[1], bpy.context.selected_objects[0].scale[2]]
 
-		for obj in bpy.data.objects:
-			if obj.name.endswith(brenderObjname) or obj.name.startswith(bndrname): # same last letters as brenderobj
-				theobj = bpy.data.objects[obj.name]
-				theobj.select = True
-				theobj.scale=(myaddon.x_scale_float,myaddon.y_scale_float,myaddon.z_scale_float)
-				theobj.select = False
+			# based on https://blenderartists.org/t/scale-selected-objects/633637/4
 
+		for frame in range(scene.frame_start, scene.frame_end+1):
+			# if obj.name.endswith(brenderObjname) or obj.name.startswith(bndrname): # same last letters as brenderobj
+			scene.frame_set(frame)
+		# bpy.ops.object.mode_set(mode='EDIT')
+			# for index, obj in enumerate(objects):
+			# 	obj.scale=(scale_vals[3*index], scale_vals[3*index+1], scale_vals[3*index+2])
+			# 	# obj.rotation_mode = 'QUATERNION'
+			# bpy.ops.anim.keyframe_insert_menu(type='Scaling')
+			# bpy.ops.anim.keyframe_insert_menu(type='Rotation')
+			# bpy.ops.anim.keyframe_insert_menu(type='Location')
+			bpy.ops.transform.resize(
+				value=(scale_vals[0]/bpy.context.selected_objects[0].scale[0], scale_vals[1]/bpy.context.selected_objects[0].scale[1], scale_vals[2]/bpy.context.selected_objects[0].scale[2]), # this is the transformation X,Y,Z
+				constraint_axis=(False, False, False), 
+				constraint_orientation='GLOBAL', 
+				mirror=False, proportional='DISABLED', 
+				proportional_edit_falloff='SMOOTH', 
+				proportional_size=1)
+			bpy.ops.anim.keyframe_insert_menu(type='Scaling')
+			bpy.ops.anim.keyframe_insert_menu(type='Rotation')
+			bpy.ops.anim.keyframe_insert_menu(type='Location')
+		# bpy.ops.object.mode_set(mode='OBJECT')
 
+			# theobj.keyframe_insert(data_path='scale')
+			# theobj.keyframe_insert(data_path='rotation_quaternion')
+			# theobj.keyframe_insert(data_path='location')
+
+			# theobj.select = False
+
+		scene.frame_set(curr)
 		return {'FINISHED'}
 
 
@@ -1368,8 +1401,8 @@ class BrenderRigidImportPanel(View3DPanel, Panel):
 		# split.prop(myaddon, "frameskip")
 		# split.label("frames")
 		split.operator("load.rigid_as_anim", text="Import Json")
-		split2 = box.split()
-		split2.prop(myaddon, "wireframe_toggle")
+		# split2 = box.split()
+		# split2.prop(myaddon, "wireframe_toggle")
 
 
 
@@ -1413,30 +1446,42 @@ class BrenderTransformPanel(View3DPanel, Panel):
 		scene = context.scene
 		myaddon = scene.my_addon
 
-		split = layout.split()
+		####### For Tuesday #######
+		# recently added
+		# row = layout.row()
+		# box = row.box()
+		# split = box.split()
+		# split.label("Skip every ")
+		# split.prop(myaddon, "frameskip")
+		# split.label("frames")
+		# split.operator("object.resize_animation_objects", text="Scale All Frames")
+		layout.operator("object.resize_animation_objects", text="Scale All Frames")
+		####### Done With For Tuesday #######
+		
+		# split = layout.split()
 		# Scale Column
-		col = split.column(align=True)
-		col.label(text="Scale:")
-		col.prop(myaddon, "x_scale_float")
-		col.prop(myaddon, "y_scale_float")
-		col.prop(myaddon, "z_scale_float")
-		col.operator("object.resize_animation_objects")
+		# col = split.column(align=True)
+		# col.label(text="Scale:")
+		# col.prop(myaddon, "x_scale_float")
+		# col.prop(myaddon, "y_scale_float")
+		# col.prop(myaddon, "z_scale_float")
+		# col.operator("object.resize_animation_objects")
 
-		# Location Column
-		col = split.column(align=True)
-		col.label(text="Location:")
-		col.prop(myaddon, "x_trans_float")
-		col.prop(myaddon, "y_trans_float")
-		col.prop(myaddon, "z_trans_float")
-		col.operator("object.translate_animation_objects")
+		# # Location Column
+		# col = split.column(align=True)
+		# col.label(text="Location:")
+		# col.prop(myaddon, "x_trans_float")
+		# col.prop(myaddon, "y_trans_float")
+		# col.prop(myaddon, "z_trans_float")
+		# col.operator("object.translate_animation_objects")
 
-		# Rotation Column
-		col = split.column(align=True)
-		col.label(text="Rotation:")
-		col.prop(myaddon, "x_rot_float")
-		col.prop(myaddon, "y_rot_float")
-		col.prop(myaddon, "z_rot_float")
-		col.operator("object.rotate_animation_objects")
+		# # Rotation Column
+		# col = split.column(align=True)
+		# col.label(text="Rotation:")
+		# col.prop(myaddon, "x_rot_float")
+		# col.prop(myaddon, "y_rot_float")
+		# col.prop(myaddon, "z_rot_float")
+		# col.operator("object.rotate_animation_objects")
 
 
 class BrenderMaterialPanel(View3DPanel, Panel):

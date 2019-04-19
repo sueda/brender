@@ -43,7 +43,7 @@ from pprint import pprint
 
 # 		return {'FINISHED'}
 
-# # The following function imports rigid files
+# The following function imports rigid files
 class LoadRigidAsAnimation(bpy.types.Operator):
 	bl_idname = 'load.rigid_as_anim'
 	bl_label = 'Import Json as Animation'
