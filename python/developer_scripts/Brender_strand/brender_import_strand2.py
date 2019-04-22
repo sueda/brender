@@ -53,6 +53,10 @@ class LoadStrandAsAnimation(bpy.types.Operator):
 		self.states.clear()
 		######## end of deleting frames #######
 
+		bpy.ops.group.create(name="strand_group")
+		grp = bpy.data.groups.get("strand_group")
+
+
 		spath = os.path.split(self.filepath)
 		files = [file.name for file in self.files]
 		files.sort()
@@ -147,6 +151,7 @@ class LoadStrandAsAnimation(bpy.types.Operator):
 
 				# create Object
 				curveOB = bpy.data.objects.new('myCurve', curveData)
+				grp.objects.link(curveOB)
 				curveData.fill_mode = "FULL"
 				curveData.bevel_depth = curve_depth
 				curveData.bevel_resolution = curve_res
@@ -198,10 +203,13 @@ class LoadStrandAsAnimation(bpy.types.Operator):
 				# Use frame+1 so our name matches our frame
 				#print(os.path.splitext(file)[0])
 				#obj_name = os.path.splitext(file)[0]
-				cmo = bpy.data.objects.new(obj_name,cm)            
-
+				cmo = bpy.data.objects.new(obj_name,cm)
+				# bpy.context.scene.objects.active = bpy.data.objects[obj_name]
+				# bpy.ops.object.group_link(group="strand_group")
 				scn = bpy.context.scene
 				scn.objects.link(cmo)
+				grp.objects.link(cmo)
+				# cmo.select = True
 
 				# Set material
 				# cmo.data.materials.append(mat)
