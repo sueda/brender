@@ -66,7 +66,6 @@ class LoadStrandAsAnimation(bpy.types.Operator):
 		curve_res = 3 # Curve resolution
 
 		startt = time.time()
-		help = 0
 		for file in files:
 
 			strand_file = spath[0] + "/" + file
@@ -147,7 +146,7 @@ class LoadStrandAsAnimation(bpy.types.Operator):
 				polyline.points.add(len(xn)-1)
 				for i, coord in enumerate(xn):
 					x,y,z = coord
-					polyline.points[i].co = (x, y-20+ help, z, 1)
+					polyline.points[i].co = (x, y, z, 1)
 
 				# create Object
 				curveOB = bpy.data.objects.new('myCurve', curveData)
@@ -238,7 +237,6 @@ class LoadStrandAsAnimation(bpy.types.Operator):
 				# self.report({'INFO'}, "first frame takes " + str(second_frame_time - first_frame_time))
 				# self.report({'INFO'}, "displaying frame+1 takes " + str(end - uv_time))
 
-			help += 1.0
 
 			
 		bpy.context.scene.frame_end = frame - 1

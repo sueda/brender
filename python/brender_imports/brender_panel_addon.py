@@ -784,10 +784,10 @@ class ApplyMaterialToAll(bpy.types.Operator):
 				if obj.name.startswith(name):
 					obj.select = True
 					# append Material
-					if obj.data.materials:
-						obj.data.materials[0] = mat
-					else:
-						obj.data.materials.append(mat)
+					# if obj.data.materials:
+					obj.data.materials[0] = mat
+					# else:
+					# 	obj.data.materials.append(mat)
 					obj.select = False
 					break
 
