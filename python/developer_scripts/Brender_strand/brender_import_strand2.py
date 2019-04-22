@@ -35,23 +35,23 @@ class LoadStrandAsAnimation(bpy.types.Operator):
 		keyframe_time = 0
 		iteration_count = 0
 
-		###### this is for deleting old frames #####
-		# gather list of items of interest.
-		candidate_list = [item.name for item in bpy.data.objects if item.type == "MESH"]
+		# ###### this is for deleting old frames #####
+		# # gather list of items of interest.
+		# candidate_list = [item.name for item in bpy.data.objects if item.type == "MESH"]
 
-		# select them only.
-		for object_name in candidate_list:
-			bpy.data.objects[object_name].select = True
+		# # select them only.
+		# for object_name in candidate_list:
+		# 	bpy.data.objects[object_name].select = True
 
-		# remove all selected.
-		bpy.ops.object.delete()
+		# # remove all selected.
+		# bpy.ops.object.delete()
 
-		# remove the meshes, they have no users anymore.
-		for item in bpy.data.meshes:
-  			bpy.data.meshes.remove(item)
-		self.objects.clear()
-		self.states.clear()
-		######## end of deleting frames #######
+		# # remove the meshes, they have no users anymore.
+		# for item in bpy.data.meshes:
+  		# 	bpy.data.meshes.remove(item)
+		# self.objects.clear()
+		# self.states.clear()
+		# ######## end of deleting frames #######
 
 		bpy.ops.group.create(name="strand_group")
 		grp = bpy.data.groups.get("strand_group")
