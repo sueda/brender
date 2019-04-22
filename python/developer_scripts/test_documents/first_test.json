@@ -18,7 +18,8 @@
 
 			{
 				"obj": 1,
-				"name": "composite_system0_Joint_Hinge_0"
+				"name": "composite_system0_Joint_Hinge_0",
+				"group": "g1"
 			},
 			{
 				"obj": 0,

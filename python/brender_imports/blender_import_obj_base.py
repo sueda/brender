@@ -58,6 +58,8 @@ class LoadRigidAsAnimation(bpy.types.Operator):
 	frames = 0
 	objects = dict()
 	states = dict()
+	groupnames = []
+	
 	@classmethod
 	def poll(cls, context):
 		return True
@@ -80,8 +82,13 @@ class LoadRigidAsAnimation(bpy.types.Operator):
   			bpy.data.meshes.remove(item)
 		self.objects.clear()
 		self.states.clear()
+		self.groupnames = []
 		self.frames = 0
 		######## end of deleting frames #######
+
+		# since there is no way to get a list of group names, we check if any group name matches this one
+		for group in bpy.data.groups:
+			self.groupnames.append(group.name)
 
 		# get the first transformation file given
 		spath = os.path.split(self.filepath)
@@ -125,25 +132,43 @@ class LoadRigidAsAnimation(bpy.types.Operator):
 			# then, we add that name to a dictionary, with the file path as key
 			index = state["obj"]
 			name = state["name"]
+			group = ""
+			if "group" in state:
+				group = state["group"]
+
 			# spath = os.path.split(name)
 			# commented code is for relative filepath... current implementation using absolute filepath
 			# file = [file.name for file in self.files[]]
 			# file = self.files[0].name
 			# fp = spath[0] + "/" + file
+
 			self.states[name] = transformations["header"]["objs"][index]
-			self.load_obj(self.states[name], name)
+			self.load_obj(self.states[name], name, group)
 		
 		return
 	
-	def load_obj(self, fp, name):
+	def load_obj(self, fp, name, group):
 		# this implementation can let multiple objects be imported, but let's assume it is just one...
 		bpy.ops.import_scene.obj(filepath=fp, filter_glob="*.obj;*.mtl",  use_edges=True, use_smooth_groups=True, use_split_objects=True, use_split_groups=True, use_groups_as_vgroups=False, use_image_search=True, split_mode='ON', global_clamp_size=0, axis_forward='Y', axis_up='Z')
 		# take the first element of the newly created objects (ideally there's just one) and 
 		bpy.context.selected_objects[0].name = name
 
+		# check if group and add to group - https://docs.blender.org/api/blender_python_api_2_77_release/bpy.ops.object.html
+		if group is not "": # if object needs to be added to a group
+			if group in self.groupnames: # if already in a group
+				bpy.ops.object.group_link(group=group)
+			else:
+				self.groupnames.append(group)
+				bpy.ops.group.create(name=group)
+
+
 		# mark freestyle edge (only works if object is type mesh)
 		for edge in bpy.context.selected_objects[0].data.edges:
 			edge.use_freestyle_mark = True
+
+		# mark as not selected
+		bpy.context.selected_objects[0].select = False
+
 		return 
 
 	def load_frame(self, frame):
