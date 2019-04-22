@@ -859,7 +859,7 @@ class AnimationObjectResize(bpy.types.Operator):
 			# bpy.ops.anim.keyframe_insert_menu(type='Rotation')
 			# bpy.ops.anim.keyframe_insert_menu(type='Location')
 			bpy.ops.transform.resize(
-				value=(scale_vals[0]/bpy.context.selected_objects[0].scale[0], scale_vals[1]/bpy.context.selected_objects[0].scale[1], scale_vals[2]/bpy.context.selected_objects[0].scale[2]), # this is the transformation X,Y,Z
+				value=(scale_vals[0], scale_vals[1], scale_vals[2]), # this is the transformation X,Y,Z
 				constraint_axis=(False, False, False), 
 				constraint_orientation='GLOBAL', 
 				mirror=False, proportional='DISABLED', 
@@ -868,6 +868,23 @@ class AnimationObjectResize(bpy.types.Operator):
 			bpy.ops.anim.keyframe_insert_menu(type='Scaling')
 			bpy.ops.anim.keyframe_insert_menu(type='Rotation')
 			bpy.ops.anim.keyframe_insert_menu(type='Location')
+
+		# for fc in bpy.context.selected_objects[0].animation_data.action.fcurves:
+		# 	if fc.data_path.endswith(('scale')):
+		# 		for key in fc.keyframe_points:
+		# 			scene.frame_set(int(key.co[0]))
+		# 			bpy.ops.transform.resize(
+		# 				value=(scale_vals[0], scale_vals[1], scale_vals[2]), # this is the transformation X,Y,Z
+		# 				constraint_axis=(False, False, False), 
+		# 				constraint_orientation='GLOBAL', 
+		# 				mirror=False, proportional='DISABLED', 
+		# 				proportional_edit_falloff='SMOOTH', 
+		# 				proportional_size=1)
+		# 			bpy.ops.anim.keyframe_insert_menu(type='Scaling')
+		# 			bpy.ops.anim.keyframe_insert_menu(type='Rotation')
+		# 			bpy.ops.anim.keyframe_insert_menu(type='Location')
+		# 			if key.co[0] == 1.0:
+		# 				self.report({'INFO'}, 'frame: ' + str(key.co[0]) + ' value: ' + str(key.co[1]))
 		# bpy.ops.object.mode_set(mode='OBJECT')
 
 			# theobj.keyframe_insert(data_path='scale')
