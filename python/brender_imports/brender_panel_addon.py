@@ -782,12 +782,13 @@ class ApplyMaterialToAll(bpy.types.Operator):
 		for obj in bpy.data.objects:
 			for name in bndrname:
 				if obj.name.startswith(name):
+					self.report({'INFO'}, obj.name)
 					obj.select = True
 					# append Material
-					# if obj.data.materials:
-					obj.data.materials[0] = mat
-					# else:
-					# 	obj.data.materials.append(mat)
+					if obj.data.materials:
+						obj.data.materials[0] = mat
+					else:
+						obj.data.materials.append(mat)
 					obj.select = False
 					break
 
