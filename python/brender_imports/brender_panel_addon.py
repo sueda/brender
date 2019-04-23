@@ -780,6 +780,8 @@ class ApplyMaterialToAll(bpy.types.Operator):
 			if frame_location is not -1:
 				bndrname[i] = bndr[:(-1 * frame_location)]
 
+		for name in bndrname:
+			self.report({'INFO'}, name)
 
 		for obj in bpy.data.objects:
 			for name in bndrname:
