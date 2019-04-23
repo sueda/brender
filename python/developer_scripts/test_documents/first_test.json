@@ -23,7 +23,8 @@
 			},
 			{
 				"obj": 0,
-				"name": "composite_system0_Body_Composite_0_Body_Cuboid_0"
+				"name": "composite_system0_Body_Composite_0_Body_Cuboid_0",
+				"group": "g2"
 			},
 			{
 				"obj": 1,

@@ -156,10 +156,12 @@ class LoadRigidAsAnimation(bpy.types.Operator):
 		# check if group and add to group - https://docs.blender.org/api/blender_python_api_2_77_release/bpy.ops.object.html
 		if group is not "": # if object needs to be added to a group
 			if group in self.groupnames: # if already in a group
-				bpy.ops.object.group_link(group=group)
+				grp = bpy.data.groups.get(group)
+				grp.objects.link(bpy.context.selected_objects[0])
 			else:
 				self.groupnames.append(group)
 				bpy.ops.group.create(name=group)
+
 
 
 		# mark freestyle edge (only works if object is type mesh)
