@@ -775,14 +775,16 @@ class ApplyMaterialToAll(bpy.types.Operator):
 		myaddon = scene.my_addon
 
 		bndrname = [obj.name for obj in context.selected_objects if not (obj.name.startswith('Camera') or obj.name.startswith('Lamp'))]
-			
-		# brenderObjname = context.active_object.name
-		# brenderObjname = GetCommonName(brenderObjname)
+		for i,bndr in enumerate(bndrname):
+			frame_location = bndr.find('.')
+			if frame_location is not -1:
+				bndrname[i] = bndr[:(-1 * frame_location)]
+
 
 		for obj in bpy.data.objects:
 			for name in bndrname:
 				if obj.name.startswith(name):
-					self.report({'INFO'}, obj.name)
+					# self.report({'INFO'}, obj.name)
 					obj.select = True
 					# append Material
 					if obj.data.materials:
