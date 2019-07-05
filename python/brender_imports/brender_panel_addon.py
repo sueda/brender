@@ -1,8 +1,8 @@
 bl_info = {
 	"name": "Brender Panel Addon",
 	"description": "Creates a panel to edit Brender Animations.",
-	"author": "Lopez, Gustavo", # and Feras Khemakhem!
-	'version': (1, 6, 0),
+	"author": "Lopez, Gustavo", "Khemakhem, Feras"
+	'version': (2, 0, 0),
 	'blender': (2, 6, 7),
 	"location": "3D View > Tools",
 	"warning": "", # used for warning icon and text in addons panel
@@ -56,7 +56,6 @@ def WireFrameUpdateFunction(self, context):
 	print("In update func...")
 	context.scene.render.use_freestyle = True
 	context.scene.select_edge_mark = True
-	#context.scene.render.layers["RenderLayer"].use_freestyle = self.wireframe_toggle
 	return
 
 
@@ -253,13 +252,6 @@ class BrenderSettings(PropertyGroup):
 		step = 1,
 		)
 
-	# wireframe_toggle = BoolProperty(
-	# 	name = "Wireframe Toggle",
-	# 	description = "tells if wireframe setting on or off",
-	# 	update = WireFrameUpdateFunction
-	# 	#set = WireFrameUpdateFunction,
-	# 	)
-
 # for exporting values
 default_material_names = [
 	"BlackMaterial",
@@ -324,7 +316,6 @@ class LoadObjAsAnimationAdvanced(bpy.types.Operator):
 
 			count+=1
 		bpy.context.scene.frame_end = lastframe - 1
-		# bpy.ops.time.view_all() # should view all, but needs to apply to timeline
 		
 		bpy.context.scene.frame_set(0)
 		for i, ob in enumerate(self.objects):
@@ -454,10 +445,6 @@ def write_settings_data_json(context, filepath, myaddon):
 		# Take this If statement out to export all object info (ex: 000000_Cloth2D-999999_Cloth2D)
 		if common_name not in unique_names:
 			unique_names.append(common_name)
-			# if obj.name in BRENDER_object_names and not obj.name.startswith("000000"):
-			# 	# skip it
-			# 	continue
-			# else:
 			new_obj = {}
 			new_obj['Name'] = obj.name
 			new_obj['Type'] = obj.type
@@ -528,7 +515,6 @@ def read_settings_data_json(context, filepath, myaddon):
 			else:
 				# already created
 				continue
-			# bpy.data.objects[obj['Name']].active_material = obj['Material']
 		if obj['Type'] in 'LAMP':
 			if obj['Name'] == 'brenderDefaults.Lamp':
 				lightSetup2D.execute(bpy.context, bpy.context)
@@ -794,18 +780,6 @@ class ApplyMaterialToAll(bpy.types.Operator):
 					else:
 						obj.data.materials.append(mat)
 					obj.select = False
-
-		# for obj in bpy.data.objects:
-		# 	if obj.name.endswith(brenderObjname): # same last letters as brenderobj
-		# 		obj.select = True
-		# 		# append Material
-		# 		if obj.data.materials:
-		# 			obj.data.materials[0] = mat
-		# 		else:
-		# 			obj.data.materials.append(mat)
-		# 		obj.select = False			
-
-
 		return {'FINISHED'}
 
 	def general(objname,matname):
@@ -837,31 +811,13 @@ class AnimationObjectResize(bpy.types.Operator):
 	def execute(self, context):
 		scene = context.scene
 		myaddon = scene.my_addon
-		# bndrname = context.active_object.name
-		# brenderObjname = GetCommonName(bndrname)
 		curr = bpy.data.scenes["Scene"].frame_current
-		# scale_vals = []
-		# objects = []
-		# for obj in bpy.context.selected_objects:
-			# scene.frame_set(curr)
-			# objects.append(bpy.data.objects[obj.name])
-			# scale_vals.append(obj.scale[0]) # x
-			# scale_vals.append(obj.scale[1]) # y
-			# scale_vals.append(obj.scale[2]) # z
 		scale_vals = [bpy.context.selected_objects[0].scale[0], bpy.context.selected_objects[0].scale[1], bpy.context.selected_objects[0].scale[2]]
 
 			# based on https://blenderartists.org/t/scale-selected-objects/633637/4
 
 		for frame in range(scene.frame_start, scene.frame_end+1):
-			# if obj.name.endswith(brenderObjname) or obj.name.startswith(bndrname): # same last letters as brenderobj
 			scene.frame_set(frame)
-		# bpy.ops.object.mode_set(mode='EDIT')
-			# for index, obj in enumerate(objects):
-			# 	obj.scale=(scale_vals[3*index], scale_vals[3*index+1], scale_vals[3*index+2])
-			# 	# obj.rotation_mode = 'QUATERNION'
-			# bpy.ops.anim.keyframe_insert_menu(type='Scaling')
-			# bpy.ops.anim.keyframe_insert_menu(type='Rotation')
-			# bpy.ops.anim.keyframe_insert_menu(type='Location')
 			bpy.ops.transform.resize(
 				value=(scale_vals[0], scale_vals[1], scale_vals[2]), # this is the transformation X,Y,Z
 				constraint_axis=(False, False, False), 
@@ -872,31 +828,6 @@ class AnimationObjectResize(bpy.types.Operator):
 			bpy.ops.anim.keyframe_insert_menu(type='Scaling')
 			bpy.ops.anim.keyframe_insert_menu(type='Rotation')
 			bpy.ops.anim.keyframe_insert_menu(type='Location')
-
-		# for fc in bpy.context.selected_objects[0].animation_data.action.fcurves:
-		# 	if fc.data_path.endswith(('scale')):
-		# 		for key in fc.keyframe_points:
-		# 			scene.frame_set(int(key.co[0]))
-		# 			bpy.ops.transform.resize(
-		# 				value=(scale_vals[0], scale_vals[1], scale_vals[2]), # this is the transformation X,Y,Z
-		# 				constraint_axis=(False, False, False), 
-		# 				constraint_orientation='GLOBAL', 
-		# 				mirror=False, proportional='DISABLED', 
-		# 				proportional_edit_falloff='SMOOTH', 
-		# 				proportional_size=1)
-		# 			bpy.ops.anim.keyframe_insert_menu(type='Scaling')
-		# 			bpy.ops.anim.keyframe_insert_menu(type='Rotation')
-		# 			bpy.ops.anim.keyframe_insert_menu(type='Location')
-		# 			if key.co[0] == 1.0:
-		# 				self.report({'INFO'}, 'frame: ' + str(key.co[0]) + ' value: ' + str(key.co[1]))
-		# bpy.ops.object.mode_set(mode='OBJECT')
-
-			# theobj.keyframe_insert(data_path='scale')
-			# theobj.keyframe_insert(data_path='rotation_quaternion')
-			# theobj.keyframe_insert(data_path='location')
-
-			# theobj.select = False
-
 		scene.frame_set(curr)
 		return {'FINISHED'}
 
@@ -1372,33 +1303,6 @@ class BrenderImportPanel(View3DPanel, Panel):
 		split.prop(myaddon, "frameskip")
 		split.label("frames")
 		split.operator("load.obj_as_anim_advanced", text="Import")
-    	
-###########################  WIPWIP  ###########################
-
-# Toggle for if they want wireframe to be on or off
-# class BrenderWireframeTogglePanel(View3DPanel, Panel):
-# 	bl_idname = "SCENE_PT_Brender_wireframe_toggle"
-# 	bl_label = "ToggleWireframe"
-# 	bl_category = "Brender"
-# 	bl_context = "objectmode"
-
-# 	def draw(self, context):
-# 		layout = self.layout
-# 		scene = context.scene
-# 		myaddon = scene.my_addon
-
-# 		# layout.label("Base Obj Frame Import")
-# 		# layout.operator("load.obj_as_base") # make import for this
-# 		layout.label("Rigid Transformation Import")
-# 		row = layout.row()
-# 		box = row.box()
-# 		split = box.split()
-# 		split.label("Toggle Wireframe")
-# 		split.prop(myaddon, "wireframe_toggle")
-# 		#split.operator("load.wireframe", text="Wiretextoperator")
-
-
-########################### wipwipwipwipIWPIPWIP ###########################
 
 # # Rigid implementation starts
 class BrenderRigidImportPanel(View3DPanel, Panel):
@@ -1411,21 +1315,11 @@ class BrenderRigidImportPanel(View3DPanel, Panel):
 		layout = self.layout
 		scene = context.scene
 		myaddon = scene.my_addon
-
-		# layout.label("Base Obj Frame Import")
-		# layout.operator("load.obj_as_base") # make import for this
 		layout.label("Toggle Wireframe Rendering")
 		row = layout.row()
 		box = row.box()
 		split = box.split()
-		# split.label("Skip every ")
-		# split.prop(myaddon, "frameskip")
-		# split.label("frames")
 		split.operator("load.rigid_as_anim", text="Import Json")
-		# split2 = box.split()
-		# split2.prop(myaddon, "wireframe_toggle")
-
-
 
 
 class BrenderEditPanel(View3DPanel, Panel):
@@ -1448,7 +1342,6 @@ class BrenderEditPanel(View3DPanel, Panel):
 		layout.operator(ImportBrenderSettings.bl_idname, text="Import Brender Settings")
 
 
-
 class BrenderTransformPanel(View3DPanel, Panel):
 	bl_idname = "OBJECT_PT_Brender_transform_panel"
 	bl_label = "Transform"
@@ -1466,43 +1359,7 @@ class BrenderTransformPanel(View3DPanel, Panel):
 		layout = self.layout
 		scene = context.scene
 		myaddon = scene.my_addon
-
-		####### For Tuesday #######
-		# recently added
-		# row = layout.row()
-		# box = row.box()
-		# split = box.split()
-		# split.label("Skip every ")
-		# split.prop(myaddon, "frameskip")
-		# split.label("frames")
-		# split.operator("object.resize_animation_objects", text="Scale All Frames")
 		layout.operator("object.resize_animation_objects", text="Scale All Frames")
-		####### Done With For Tuesday #######
-		
-		# split = layout.split()
-		# Scale Column
-		# col = split.column(align=True)
-		# col.label(text="Scale:")
-		# col.prop(myaddon, "x_scale_float")
-		# col.prop(myaddon, "y_scale_float")
-		# col.prop(myaddon, "z_scale_float")
-		# col.operator("object.resize_animation_objects")
-
-		# # Location Column
-		# col = split.column(align=True)
-		# col.label(text="Location:")
-		# col.prop(myaddon, "x_trans_float")
-		# col.prop(myaddon, "y_trans_float")
-		# col.prop(myaddon, "z_trans_float")
-		# col.operator("object.translate_animation_objects")
-
-		# # Rotation Column
-		# col = split.column(align=True)
-		# col.label(text="Rotation:")
-		# col.prop(myaddon, "x_rot_float")
-		# col.prop(myaddon, "y_rot_float")
-		# col.prop(myaddon, "z_rot_float")
-		# col.operator("object.rotate_animation_objects")
 
 
 class BrenderMaterialPanel(View3DPanel, Panel):
@@ -1644,5 +1501,3 @@ def unregister():
 
 if __name__ == "__main__":
 	register()
-
-	# exportBrenderSettings('INVOKE_DEFAULT')

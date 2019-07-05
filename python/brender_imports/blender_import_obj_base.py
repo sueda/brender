@@ -31,18 +31,6 @@ import json
 import time
 from pprint import pprint
 
-# class ToggleWireframe(bpy.types.Operator):
-# 	bl_idname = 'load.wireframe'
-# 	bl_label = 'Toggle wireframe'
-# 	bl_description = 'Toggle wireframe checkboxes'
-# 	wireframe_toggle = BoolProperty(name="toggle", description="", default=True)
-
-
-# 	def execute (self, context):
-# 		context.scene.render.layers["RenderLayer"].use_freestyle = wireframe_toggle
-
-# 		return {'FINISHED'}
-
 # The following function imports rigid files
 class LoadRigidAsAnimation(bpy.types.Operator):
 	bl_idname = 'load.rigid_as_anim'
@@ -120,12 +108,6 @@ class LoadRigidAsAnimation(bpy.types.Operator):
 		return {'RUNNING_MODAL'}
 
 	def load_states(self, transformations, fname):
-
-		# determine the scaling factor from time to frame
-		# if len(transformations[fname]) > 1:
-		# 	scale = 1/(transformations[fname][1]["time"] - transformations[fname][0]["time"])
-		# else:
-		# scale = 1
 		
 		for state in transformations["header"]["states"]:
 			# we receive the corresponding object index and name
@@ -135,12 +117,6 @@ class LoadRigidAsAnimation(bpy.types.Operator):
 			group = ""
 			if "group" in state:
 				group = state["group"]
-
-			# spath = os.path.split(name)
-			# commented code is for relative filepath... current implementation using absolute filepath
-			# file = [file.name for file in self.files[]]
-			# file = self.files[0].name
-			# fp = spath[0] + "/" + file
 
 			self.states[name] = transformations["header"]["objs"][index]
 			self.load_obj(self.states[name], name, group)
@@ -179,10 +155,7 @@ class LoadRigidAsAnimation(bpy.types.Operator):
 		for obj_to_load in frame:
 			if obj_to_load == "frame": # we do not process anything with "frame"
 				continue
-			# obj = self.objects[obj_to_load] # gets the object from the name
-			#self.report({'INFO'}, obj_to_load)
 			obj = bpy.data.objects[obj_to_load]
-			#self.report({'INFO'}, obj.name)
 			# SRT
 			obj.rotation_mode = 'QUATERNION'
 			obj.scale = (frame[obj_to_load]["scale"][0],frame[obj_to_load]["scale"][1],frame[obj_to_load]["scale"][2])

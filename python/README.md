@@ -30,19 +30,13 @@ How to setup the Brender panel in Blender to be used with the sample.
 
 1. Open the necessary addon scripts
 
-   Once your animation/objects are imported to the scene, open the scripting view in Blender. Click the "Open" button in the scripting panel to open all scripts in the `brender/python/brenderpanel/panelscripts` directory (one at a time). 
+   Once your animation/objects are imported to the scene, open the scripting view in Blender. Click the "Open" button in the scripting panel to open all scripts in the `brender/python/brender_imports` directory (one at a time). 
 
 2. Run each of the scripts that you have opened. 
 
-	Note: nothing will happen to your animation or objects just yet.
+	Note: nothing will happen to your animation or objects just yet. `brender_panel_addon.py` will create a Brender Toolset Panel in Blender, though.
 
-3. Now open the `CreateBrenderPanel.py` script located in the `brender/python/brenderpanel` directory.
-
-4. Run this script.
-	
-	This will create a Brender Toolset Panel in Blender.
-
-5. Access the panel by navigating to the 3D view Panel in Blender and click the "+" sign in the upper left corner.
+3. Access the panel by navigating to the 3D view Panel in Blender and click the "+" sign in the upper left corner.
 
 	You will see a tab titled "Brender". Click this tab.
 
@@ -60,4 +54,9 @@ How to setup the Brender panel in Blender to be used with the sample.
 		
 	* Apply Predefined Cube Material
 		** same usage as above.
+
+7. In addition to `.obj` file support, `.json` files and `.strand` files of certain structures are supported.
+
+	* `.json` files of a very specific format are supported for importing animations. Json files come with object files, which are given transformations to create specific objects. In addition, different transformations may be applied to different frames, essentially formating an animation. An example of such a file can be found under `brender/python/developer_scripts/test_documents/first_test.json`. Note: the example file has no `.obj` files with it. In order to test run it, object files with these names must be added. This file is supported under "Import Json as Animation" of the panel. Json files support object transforming by frame (animating), grouping, and naming.
+	* The `.strand` file type is unique to the implementers.
 

@@ -1,6 +1,6 @@
 # Project Brender
 
-**Brender** is a c++ and python package. The goal is to provide a simple library to export animations as .obj files and then import this set into Blender(an open source 3D creation suite) as an editable animation.
+**Brender** is a C++ and Python package. Brender is a simple library to export animations as .obj files and then import this set into Blender(an open source 3D creation suite) as an editable animation, along with additional features and functionalities.
 
 **Authors**
   * Kyle Piddington (2016-2017)
@@ -140,12 +140,12 @@ The following gives simple instructions on how to import the exported files from
 
 1. Open Blender. (Delete default cube)
 2. Change environment (at the top) from **Default** to **Scripting**.
-3. In the Scripting window, Select **Open** and navigate to /path/to/brender/`python/blender_import_obj_anim.py` and hit the `enter` key or click **Open Text Block**.
+3. In the Scripting window, Select **Open** and navigate to /path/to/brender/`python/brender_imports/blender_import_obj_anim.py` and hit the `enter` key or click **Open Text Block**.
 4. Once the code is open in the scripting panel, click **Run Script**.
 
    Note: This added a new option to the import menu.
-5. Navigate to select `File->Import->Obj As Animation(.obj)`.
-6. With the file browser open, select all the .obj files that were previously exported from the Sample code. Note: If all the files in your directory are to be imported, simply select one file and press the `a` key twice.
-7. With all the desired files selected, click **Import OBJ As Animation**
-8. By default, all obj files are selected and in view. Return to the **Default** Environment at the top of the window. Press the `h` key twice to hide all frames except the current frame.
-9. You now have your animation imported. You can scrub through the timeline to view each frame, or simply hit the **Play** button at the bottom of the animation timeline.
+
+5. With the file browser open, select all the .obj files that were previously exported from the Sample code. Note: If all the files in your directory are to be imported, simply select one file and press the `a` key twice.
+6. With all the desired files selected, click **Import OBJ As Animation**
+7. By default, all obj files are selected and in view. Return to the **Default** Environment at the top of the window. Press the `h` key twice to hide all frames except the current frame.
+8. You now have your animation imported. You can scrub through the timeline to view each frame, or simply hit the **Play** button at the bottom of the animation timeline.

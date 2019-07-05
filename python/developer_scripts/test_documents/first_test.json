@@ -3,12 +3,6 @@
 	{
         "objs":
 		[
-			"/Users/feraskhemakhem/Desktop/Research/brender/python/developer_scripts/test_documents/Objs/box.obj",
-			"/Users/feraskhemakhem/Desktop/Research/brender/python/developer_scripts/test_documents/Objs/cylinder.obj",
-			"/Users/feraskhemakhem/Desktop/Research/brender/python/developer_scripts/test_documents/Objs/sphere.obj"
-		],
-		"objs22":
-		[
 			"D:/Git/rigid-system/resources/box.obj",
 			"D:/Git/rigid-system/resources/cylinder.obj",
 			"D:/Git/rigid-system/resources/sphere.obj"
