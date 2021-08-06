@@ -6,7 +6,7 @@
   * Kyle Piddington (2016-2017)
   * Gustavo Lopez (2017-2018)
   * Feras Khemakhem (2018-2019)
-  * Nicholas Weidner (2017-)
+  * Nicholas Weidner (2017-2021)
   * Shinjiro Sueda (2016-)
 
 ## Getting Started
@@ -32,6 +32,19 @@ What you will need installed on your system before using Brender and its sample 
   * Set `EIGEN3_INCLUDE_DIR` to `/path/to/EIGEN`
 
 3. **Cmake** (https://cmake.org/download/) is used to build the projects using the included `CMakeLists.txt` file.
+
+### How-to Videos
+
+These links require TAMU access.
+
+  * [Set up brender](https://drive.google.com/file/d/1uSpye6BvVed5ccGZGErH23BjtkYGqC0O/view?usp=sharing)
+  * [Import obj as anim](https://drive.google.com/file/d/1-64uqbk60m526nzMDgW4CjbkAMU5OVsx/view?usp=sharing)
+  * [Scene backdrop](https://drive.google.com/file/d/1UAbzINyDLnSoIOKwEG2ax-Ey3sD4aq61/view?usp=sharing)
+  * [Setup light](https://drive.google.com/file/d/17up8yyenXgDr1Fvd9RubHPnRbeRupuDk/view?usp=sharing)
+  * [Custom Material](https://drive.google.com/file/d/1wSoHs16hZJIIhM3jK4KqRSZy8M4hEt3Q/view?usp=sharing)
+  * [Setup camera](https://drive.google.com/file/d/1QxFkF1ylOs2pvOnOIi3iwFch8RYQ-87X/view?usp=sharing)
+  * [Render scene](https://drive.google.com/file/d/1Fz7ytx2OzpgmYTDVVSTRA_X7Hr6XzB8p/view?usp=sharing)
+  * [Video editor](https://drive.google.com/file/d/1eZzOgehqCjMzauzfVkC8oFAUxr_pSal8/view?usp=sharing)
 
 ### Brender Setup and Sample Run
 
